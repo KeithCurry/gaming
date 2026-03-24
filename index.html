@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEVELUP — Game Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0f13;
+    --surface: #16181f;
+    --surface2: #1e2029;
+    --surface3: #252733;
+    --accent: #e8ff47;
+    --accent2: #5b8dee;
+    --border: #2e3040;
+    --text: #f0f2f8;
+    --text2: #8b90a8;
+    --text3: #5a5f75;
+    --warn: #fbbf24;
+    --pass: #4ade80;
+    --fail: #f87171;
+    --rp: #ff6b6b;
+    --ps: #4fa3f7;
+    --sw: #e4000f;
+    --sx: #4ade80;
+  }
+
+  html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* ── Layout ── */
+  .app { display: flex; flex-direction: column; min-height: 100vh; }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px 14px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--bg); z-index: 10;
+  }
+  .topbar-left { display: flex; align-items: baseline; gap: 12px; }
+  .logo { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
+  .tagline { font-size: 12px; color: var(--text3); letter-spacing: 0.5px; }
+  .topbar-right { display: flex; gap: 8px; }
+  .tab-btn {
+    font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
+    letter-spacing: 0.5px; padding: 8px 20px; border-radius: 8px; cursor: pointer;
+    transition: all .15s; background: var(--surface2); color: var(--text2); border: 1px solid var(--border);
+  }
+  .tab-btn:hover { color: var(--text); background: var(--surface3); }
+  .tab-btn.active { background: var(--accent); color: #0e0f13; border-color: var(--accent); }
+  .main { flex: 1; padding: 24px 28px; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+  /* ── Stats row ── */
+  .stats-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .stat-num { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; color: var(--accent); }
+  .stat-lbl { font-size: 12px; color: var(--text3); margin-top: 3px; letter-spacing: 0.3px; }
+
+  /* ── Platform pills ── */
+  .platform-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .plat-pill {
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.5px; padding: 5px 12px; border-radius: 20px;
+    border: 1px solid var(--border); cursor: pointer; transition: all .15s; color: var(--text2); background: transparent;
+  }
+  .plat-pill:hover { border-color: var(--text3); color: var(--text); }
+  .plat-pill.active { color: #fff; }
+  .plat-pill.all.active  { background: var(--accent2); border-color: var(--accent2); }
+  .plat-pill.rp.active   { background: var(--rp); border-color: var(--rp); }
+  .plat-pill.ps.active   { background: var(--ps); border-color: var(--ps); }
+  .plat-pill.sw.active   { background: var(--sw); border-color: var(--sw); }
+  .plat-pill.sx.active   { background: var(--sx); border-color: var(--sx); color: #0e0f13; }
+
+  /* ── Toolbar ── */
+  .toolbar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .search-wrap { flex: 1; min-width: 180px; position: relative; }
+  .search-wrap input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 14px 9px 38px; color: var(--text);
+    font-size: 14px; font-family: 'DM Sans', sans-serif;
+  }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .search-wrap input:focus { outline: none; border-color: var(--accent2); }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 16px; pointer-events: none; }
+  .filter-sel {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 9px 12px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer;
+  }
+  .filter-sel:focus { outline: none; }
+  .filter-sel option { background: var(--surface2); }
+  .add-btn {
+    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.5px; padding: 9px 20px; background: var(--accent);
+    color: #0e0f13; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap;
+  }
+  .add-btn:hover { opacity: .88; }
+
+  /* ── Game grid ── */
+  .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+  .game-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; transition: all .18s; }
+  .game-card:hover { border-color: var(--accent2); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+  .game-art { height: 130px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .game-art img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s; }
+  .game-card:hover .game-art img { transform: scale(1.07); }
+  .game-art-emoji { font-size: 42px; }
+  .art-loading-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--border); overflow: hidden; }
+  .art-loading-bar::after { content: ''; position: absolute; inset: 0; background: var(--accent2); animation: bar-slide 1.4s ease-in-out infinite; }
+  @keyframes bar-slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+  .game-badge {
+    position: absolute; top: 8px; right: 8px; font-size: 10px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.5px;
+    padding: 3px 8px; border-radius: 5px; z-index: 2;
+  }
+  .badge-completed      { background: rgba(74,222,128,.85); color: #052e16; }
+  .badge-playing        { background: rgba(251,191,36,.85); color: #451a03; }
+  .badge-backlog        { background: rgba(30,32,41,.9); color: #8b90a8; border: 1px solid rgba(139,144,168,.3); }
+  .badge-wishlist       { background: rgba(91,141,238,.85); color: #0f172a; }
+  .badge-did-not-finish { background: rgba(248,113,113,.85); color: #450a0a; }
+  .plat-dot { position: absolute; top: 8px; left: 8px; width: 9px; height: 9px; border-radius: 50%; z-index: 2; }
+  .dot-rp { background: var(--rp); } .dot-ps { background: var(--ps); }
+  .dot-sw { background: var(--sw); } .dot-sx { background: var(--sx); }
+  .game-info { padding: 10px 13px 13px; }
+  .game-title { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.3px; margin-bottom: 4px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .game-meta { display: flex; align-items: center; justify-content: space-between; }
+  .game-genre { font-size: 11px; color: var(--text3); }
+
+  /* ── Detail Panel ── */
+  .detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+  .detail-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; width: 100%; max-width: 540px; max-height: 92vh; overflow-y: auto; }
+  .detail-art-hero { width: 100%; height: 220px; overflow: hidden; position: relative; background: var(--surface2); display: flex; align-items: center; justify-content: center; }
+  .detail-art-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .detail-art-hero .emoji-hero { font-size: 64px; }
+  .detail-art-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(22,24,31,1) 0%, rgba(22,24,31,0) 55%); }
+  .detail-close { position: absolute; top: 12px; right: 12px; z-index: 3; background: rgba(14,15,19,.7); border: 1px solid var(--border); color: var(--text2); font-size: 16px; cursor: pointer; padding: 5px 10px; line-height: 1; border-radius: 7px; }
+  .detail-body { padding: 18px 24px 24px; }
+  .detail-title { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 10px; line-height: 1.15; }
+  .detail-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .detail-chip { font-size: 11px; font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); color: var(--text2); background: var(--surface2); }
+  .detail-stars { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .detail-stars-label { font-size: 13px; color: var(--warn); font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.5px; }
+  .detail-desc { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; white-space: pre-wrap; }
+  .detail-footer { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ── Modal (edit/add) ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; width: 100%; max-width: 480px; max-height: 92vh; overflow-y: auto; }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 2; }
+  .modal-head h2 { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+  .close-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-size: 16px; cursor: pointer; padding: 5px 10px; line-height: 1; border-radius: 7px; }
+  .close-btn:hover { color: var(--text); }
+  .modal-body { padding: 18px 24px; }
+  .modal-art-preview { width: 100%; height: 150px; background: var(--surface2); border-radius: 10px; overflow: hidden; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .modal-art-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-art-preview .no-art-label { font-size: 13px; color: var(--text3); }
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 6px; font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent2); }
+  .form-group textarea { resize: vertical; min-height: 72px; }
+  .form-group select option { background: var(--surface2); }
+  .art-results-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-top: 8px; }
+  .art-thumb { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; }
+  .art-thumb:hover, .art-thumb.selected { border-color: var(--accent2); }
+  .search-results { margin-top: 8px; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
+  .search-result-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; transition: background .12s; }
+  .search-result-item:last-child { border-bottom: none; }
+  .search-result-item:hover { background: var(--surface3); }
+  .res-title { font-size: 13px; color: var(--text); font-weight: 500; }
+  .res-meta  { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .res-thumb { width: 38px; height: 38px; object-fit: cover; border-radius: 5px; flex-shrink: 0; }
+  .star-label { font-size: 12px; color: var(--warn); font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; height: 16px; margin-bottom: 4px; }
+  .star-picker { display: flex; gap: 6px; }
+  .star-pick { font-size: 26px; cursor: pointer; color: var(--border); transition: color .1s; background: none; border: none; padding: 0; }
+  .star-pick.lit { color: var(--warn); }
+  .star-pick:hover { color: var(--warn); }
+  .plat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .plat-option { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 9px; cursor: pointer; background: var(--surface2); transition: all .15s; }
+  .plat-option:hover { border-color: var(--text3); }
+  .plat-option.selected { border-color: var(--accent2); background: rgba(91,141,238,.12); }
+  .plat-option .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .plat-option .name { font-size: 13px; color: var(--text); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .modal-foot { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
+  .btn-ghost { background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 9px 18px; color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; }
+  .btn-ghost:hover { color: var(--text); border-color: var(--text3); }
+  .btn-primary { background: var(--accent); border: none; border-radius: 9px; padding: 9px 22px; color: #0e0f13; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.5px; cursor: pointer; }
+  .btn-primary:hover { opacity: .88; }
+  .btn-danger { background: #7f1d1d; border: 1px solid #f87171; border-radius: 9px; padding: 9px 16px; color: #fca5a5; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; margin-right: auto; }
+  .btn-danger:hover { background: #991b1b; }
+  .btn-secondary { background: var(--surface3); border: 1px solid var(--border); border-radius: 9px; padding: 8px 14px; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px; letter-spacing: 0.3px; }
+  .btn-secondary:hover { color: var(--text); border-color: var(--text3); }
+  .btn-secondary:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* ── Recommend ── */
+  .rec-wrap { max-width: 600px; margin: 0 auto; }
+  .rec-hero { text-align: center; padding: 28px 0 16px; }
+  .rec-hero h2 { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; }
+  .rec-hero p { font-size: 14px; color: var(--text3); }
+  .rec-filters { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .rec-filter-sel { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; width: 100%; }
+  .rec-filter-sel:focus { outline: none; }
+  .rec-filter-sel option { background: var(--surface2); }
+  .spin-btn { width: 100%; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 1px; padding: 15px; background: var(--accent); color: #0e0f13; border: none; border-radius: 12px; cursor: pointer; }
+  .spin-btn:hover { opacity: .88; }
+  .spin-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .rec-result { background: var(--surface); border: 1px solid var(--accent2); border-radius: 16px; overflow: hidden; margin-top: 18px; animation: fadeSlide .3s ease; }
+  @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .rec-result-art { height: 160px; overflow: hidden; background: var(--surface2); display: flex; align-items: center; justify-content: center; }
+  .rec-result-art img { width: 100%; height: 100%; object-fit: cover; }
+  .rec-result-art .emoji-fallback { font-size: 48px; }
+  .rec-result-body { padding: 18px 20px; }
+  .rec-title { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 4px; color: var(--accent); }
+  .rec-sub { font-size: 12px; color: var(--text3); margin-bottom: 12px; }
+  .rec-reason { font-size: 14px; color: var(--text2); line-height: 1.65; }
+  .rec-tag { display: inline-block; font-size: 11px; font-family: 'Rajdhani', sans-serif; font-weight: 600; padding: 3px 9px; border-radius: 5px; margin-right: 6px; margin-bottom: 9px; background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+  .mark-played-btn { display: block; width: 100%; margin-top: 14px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; padding: 10px 18px; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 9px; cursor: pointer; }
+  .mark-played-btn:hover { background: rgba(232,255,71,.08); }
+  .rec-no-match { text-align: center; padding: 20px; margin-top: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: var(--text3); font-size: 14px; }
+
+  /* ── Stats Dashboard ── */
+  .dash-section-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 1px; color: var(--text); margin-bottom: 18px; }
+  .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .dash-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .dash-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .bar-label { font-size: 12px; color: var(--text2); width: 100px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { flex: 1; height: 7px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+  .bar-count { font-size: 12px; color: var(--text3); width: 22px; text-align: right; flex-shrink: 0; }
+
+  /* ── Empty state ── */
+  .empty-state { text-align: center; padding: 80px 20px; color: var(--text3); }
+  .empty-state .e-icon { font-size: 48px; margin-bottom: 14px; }
+  .empty-state p { font-size: 15px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .topbar { padding: 14px 16px; }
+    .main { padding: 18px 16px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .game-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .form-row { grid-template-columns: 1fr; }
+    .dash-grid { grid-template-columns: 1fr; }
+    .rec-filters { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="logo">LEVELUP</div>
+      <div class="tagline">game library</div>
+    </div>
+    <div class="topbar-right">
+      <button class="tab-btn active" id="tab-library" onclick="switchTab('library')">Library</button>
+      <button class="tab-btn" id="tab-stats"   onclick="switchTab('stats')">Stats</button>
+      <button class="tab-btn" id="tab-rec"     onclick="switchTab('rec')">Recommend</button>
+    </div>
+  </div>
+  <div class="main" id="main-content"></div>
+</div>
+
+<div id="modal-layer"></div>
+
+<script>
+// ── Config ───────────────────────────────────────────────────────────────────
+const RAWG_KEY = 'eb0f0c121ec349c6b57e2daca6b0c177';
+
+const PLATFORMS = [
+  { id: 'rp', name: 'Retroid Pocket 5', short: 'RP5',      color: '#ff6b6b' },
+  { id: 'ps', name: 'PlayStation 5',    short: 'PS5',      color: '#4fa3f7' },
+  { id: 'sw', name: 'Nintendo Switch',  short: 'Switch',   color: '#e4000f' },
+  { id: 'sx', name: 'Xbox Series X',    short: 'Series X', color: '#4ade80' },
+];
+const STATUSES    = ['Playing', 'Completed', 'Did Not Finish', 'Backlog', 'Wishlist'];
+const STAR_LABELS = { 1:'Terrible', 2:'Alright', 3:'Good', 4:'Great', 5:'Amazing' };
+const GENRES      = ['Action','RPG','Adventure','Strategy','Platformer','Shooter','Sports','Racing','Puzzle','Horror','Fighting','Simulation','Other'];
+const GENRE_EMOJI = { Action:'⚔️', RPG:'🧙', Adventure:'🏰', Strategy:'♟️', Platformer:'🎮', Shooter:'🔫', Sports:'⚽', Racing:'🏎️', Puzzle:'🧩', Horror:'💀', Fighting:'🥊', Simulation:'🌿', Other:'🎮' };
+
+// ── State ────────────────────────────────────────────────────────────────────
+let games = [];
+let artCache   = {};
+let fetchingArt = new Set();
+
+let tab            = 'library';
+let filterPlatform = 'all';
+let filterStatus   = 'all';
+let filterGenre    = 'all';
+let filterRating   = 'all';
+let sortBy         = 'added';
+let searchQ        = '';
+
+let recFilterPlatform = 'all';
+let recFilterGenre    = 'all';
+let recFilterSource   = 'both';
+let recResult         = null;
+let recNoMatch        = false;
+
+let modalMode          = null;
+let editId             = null;
+let pendingGame        = {};
+let pendingStars       = 0;
+let pendingArtUrl      = '';
+let pendingArtOpts     = [];
+let pendingSearchResults = [];
+
+// ── Persistence ──────────────────────────────────────────────────────────────
+function saveGames() { localStorage.setItem('lu_games', JSON.stringify(games)); }
+function saveArt()   { localStorage.setItem('lu_art',   JSON.stringify(artCache)); }
+
+function loadData() {
+  try { const g = localStorage.getItem('lu_games'); if (g) games = JSON.parse(g); } catch(e){}
+  try { const a = localStorage.getItem('lu_art');   if (a) artCache = JSON.parse(a); } catch(e){}
+
+  if (games.length === 0) {
+    games = [
+      { id:'g1', title:'Elden Ring',                   platform:'sx', genre:'RPG',        status:'Completed',      stars:5, releaseYear:'2022', notes:'Absolute masterpiece. 150+ hours.' },
+      { id:'g2', title:'Zelda: Tears of the Kingdom',  platform:'sw', genre:'Adventure',  status:'Playing',        stars:5, releaseYear:'2023', notes:'Still going...' },
+      { id:'g3', title:'God of War Ragnarök',          platform:'ps', genre:'Action',     status:'Completed',      stars:4, releaseYear:'2022', notes:'' },
+      { id:'g4', title:'Hades',                        platform:'sx', genre:'Action',     status:'Completed',      stars:5, releaseYear:'2020', notes:'Perfect roguelite' },
+      { id:'g5', title:"Baldur's Gate 3",              platform:'ps', genre:'RPG',        status:'Backlog',        stars:0, releaseYear:'2023', notes:'' },
+      { id:'g6', title:'Super Mario Odyssey',          platform:'sw', genre:'Platformer', status:'Completed',      stars:4, releaseYear:'2017', notes:'' },
+      { id:'g7', title:'Starfield',                    platform:'sx', genre:'RPG',        status:'Did Not Finish', stars:2, releaseYear:'2023', notes:'Lost interest after 20 hours.' },
+      { id:'g8', title:'Sonic Mania',                  platform:'rp', genre:'Platformer', status:'Completed',      stars:4, releaseYear:'2017', notes:'Great on RP5' },
+      { id:'g9', title:'Hollow Knight',                platform:'rp', genre:'Adventure',  status:'Playing',        stars:4, releaseYear:'2017', notes:'Challenging but beautiful' },
+    ];
+    saveGames();
+  }
+}
+
+// ── RAWG ─────────────────────────────────────────────────────────────────────
+async function fetchArt(title) {
+  if (artCache[title] || fetchingArt.has(title)) return;
+  fetchingArt.add(title);
+  render();
+  try {
+    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=1&search_precise=true`);
+    const data = await res.json();
+    const img  = data.results?.[0]?.background_image;
+    if (img) { artCache[title] = img; saveArt(); }
+  } catch(e) {}
+  fetchingArt.delete(title);
+  render();
+}
+
+async function fetchArtOptions(title) {
+  try {
+    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=8`);
+    const data = await res.json();
+    return (data.results || []).filter(g => g.background_image).map(g => ({ name: g.name, url: g.background_image }));
+  } catch(e) { return []; }
+}
+
+async function fetchAllMissingArt() {
+  for (const g of games) { if (!artCache[g.title]) await fetchArt(g.title); }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function uid()         { return Math.random().toString(36).slice(2, 10); }
+function escH(s)       { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function platShort(id) { return PLATFORMS.find(p => p.id === id)?.short || id; }
+function platName(id)  { return PLATFORMS.find(p => p.id === id)?.name  || id; }
+function artBg(p)      { return { rp:'#1a0f0f', ps:'#0a0e1a', sw:'#1a0a0a', sx:'#0a1a0a' }[p] || '#141418'; }
+function starsHtml(n, size=11) {
+  return [1,2,3,4,5].map(i => `<span style="color:${i<=n?'#fbbf24':'#2e3040'};font-size:${size}px">★</span>`).join('');
+}
+function statusSlug(s) { return s.toLowerCase().replace(/\s+/g,'-'); }
+
+function filteredGames() {
+  let result = games.filter(g => {
+    if (filterPlatform !== 'all' && g.platform !== filterPlatform) return false;
+    if (filterStatus   !== 'all' && g.status   !== filterStatus)   return false;
+    if (filterGenre    !== 'all' && g.genre     !== filterGenre)   return false;
+    if (filterRating   !== 'all' && g.stars     !== parseInt(filterRating)) return false;
+    if (searchQ && !g.title.toLowerCase().includes(searchQ.toLowerCase())) return false;
+    return true;
+  });
+  if (sortBy === 'name')   result = [...result].sort((a,b) => a.title.localeCompare(b.title));
+  if (sortBy === 'rating') result = [...result].sort((a,b) => b.stars - a.stars || a.title.localeCompare(b.title));
+  if (sortBy === 'year')   result = [...result].sort((a,b) => (b.releaseYear||'0').localeCompare(a.releaseYear||'0'));
+  return result;
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(t) {
+  tab = t;
+  ['library','stats','rec'].forEach(id => {
+    const el = document.getElementById('tab-' + id);
+    if (el) el.className = 'tab-btn' + (t === id ? ' active' : '');
+  });
+  render();
+}
+
+function setFilter(type, val) {
+  if (type === 'platform') filterPlatform = val;
+  else if (type === 'status') filterStatus = val;
+  else if (type === 'genre')  filterGenre  = val;
+  else if (type === 'rating') filterRating = val;
+  else if (type === 'sort')   sortBy       = val;
+  render();
+}
+function setSearch(v) { searchQ = v; render(); }
+
+// ── Library render ────────────────────────────────────────────────────────────
+function renderLibrary() {
+  const fg        = filteredGames();
+  const total     = games.length;
+  const completed = games.filter(g => g.status === 'Completed').length;
+  const playing   = games.filter(g => g.status === 'Playing').length;
+  const rated     = games.filter(g => g.stars > 0);
+  const avg       = rated.length ? Math.round(rated.reduce((a,g) => a + g.stars, 0) / rated.length * 10) / 10 : 0;
+
+  const statsHtml = `
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
+      <div class="stat-card"><div class="stat-num">${completed}</div><div class="stat-lbl">Completed</div></div>
+      <div class="stat-card"><div class="stat-num">${playing}</div><div class="stat-lbl">In progress</div></div>
+      <div class="stat-card"><div class="stat-num">${avg || '—'}</div><div class="stat-lbl">Avg rating</div></div>
+    </div>`;
+
+  const pillsHtml = `
+    <div class="platform-pills">
+      <span class="plat-pill all${filterPlatform==='all'?' active':''}" onclick="setFilter('platform','all')">All</span>
+      ${PLATFORMS.map(p => `<span class="plat-pill ${p.id}${filterPlatform===p.id?' active':''}" onclick="setFilter('platform','${p.id}')">${p.short}</span>`).join('')}
+    </div>`;
+
+  const toolbarHtml = `
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" placeholder="Search your library..." value="${escH(searchQ)}" oninput="setSearch(this.value)">
+      </div>
+      <select class="filter-sel" onchange="setFilter('status',this.value)">
+        <option value="all"${filterStatus==='all'?' selected':''}>All statuses</option>
+        ${STATUSES.map(s => `<option value="${s}"${filterStatus===s?' selected':''}>${s}</option>`).join('')}
+      </select>
+      <select class="filter-sel" onchange="setFilter('genre',this.value)">
+        <option value="all"${filterGenre==='all'?' selected':''}>All genres</option>
+        ${GENRES.map(g => `<option value="${g}"${filterGenre===g?' selected':''}>${g}</option>`).join('')}
+      </select>
+      <select class="filter-sel" onchange="setFilter('rating',this.value)">
+        <option value="all"${filterRating==='all'?' selected':''}>All ratings</option>
+        ${[1,2,3,4,5].map(n => `<option value="${n}"${filterRating==n?' selected':''}>★ ${n} — ${STAR_LABELS[n]}</option>`).join('')}
+      </select>
+      <select class="filter-sel" onchange="setFilter('sort',this.value)">
+        <option value="added"${sortBy==='added'?' selected':''}>Recently added</option>
+        <option value="name"${sortBy==='name'?' selected':''}>Name A–Z</option>
+        <option value="rating"${sortBy==='rating'?' selected':''}>Highest rated</option>
+        <option value="year"${sortBy==='year'?' selected':''}>Newest release</option>
+      </select>
+      <button class="add-btn" onclick="openAddModal()">+ Add game</button>
+    </div>`;
+
+  let gridHtml = '';
+  if (fg.length === 0) {
+    gridHtml = `<div class="empty-state"><div class="e-icon">🎮</div><p>No games match your filters</p></div>`;
+  } else {
+    gridHtml = `<div class="game-grid">${fg.map(g => {
+      const art      = artCache[g.title];
+      const fetching = fetchingArt.has(g.title);
+      const emoji    = GENRE_EMOJI[g.genre] || '🎮';
+      return `
+        <div class="game-card" onclick="openDetailPanel('${g.id}')">
+          <div class="game-art" style="background:${artBg(g.platform)}">
+            <span class="plat-dot dot-${g.platform}"></span>
+            ${art ? `<img src="${escH(art)}" alt="${escH(g.title)}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">` : ''}
+            <div class="game-art-emoji" style="${art?'display:none':''}">${emoji}</div>
+            ${fetching ? `<div class="art-loading-bar"></div>` : ''}
+            <span class="game-badge badge-${statusSlug(g.status)}">${g.status}</span>
+          </div>
+          <div class="game-info">
+            <div class="game-title">${escH(g.title)}</div>
+            <div class="game-meta">
+              <span class="game-genre">${[g.genre, g.releaseYear].filter(Boolean).join(' · ')}</span>
+              <span>${g.stars > 0 ? starsHtml(g.stars) : ''}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('')}</div>`;
+  }
+
+  return statsHtml + pillsHtml + toolbarHtml + gridHtml;
+}
+
+// ── Stats Dashboard ───────────────────────────────────────────────────────────
+function renderStats() {
+  if (games.length === 0) {
+    return `<div class="empty-state"><div class="e-icon">📊</div><p>Add some games to see your stats!</p></div>`;
+  }
+
+  const total     = games.length;
+  const completed = games.filter(g => g.status === 'Completed').length;
+  const dnf       = games.filter(g => g.status === 'Did Not Finish').length;
+  const playing   = games.filter(g => g.status === 'Playing').length;
+  const backlog   = games.filter(g => g.status === 'Backlog').length;
+  const wishlist  = games.filter(g => g.status === 'Wishlist').length;
+  const rated     = games.filter(g => g.stars > 0);
+  const avg       = rated.length ? (rated.reduce((a,g) => a + g.stars, 0) / rated.length).toFixed(1) : 0;
+  const compRate  = total > 0 ? Math.round(completed / total * 100) : 0;
+
+  const statuses = [
+    { label:'Completed',      count: completed, color:'#4ade80' },
+    { label:'Playing',        count: playing,   color:'#fbbf24' },
+    { label:'Backlog',        count: backlog,   color:'#8b90a8' },
+    { label:'Wishlist',       count: wishlist,  color:'#5b8dee' },
+    { label:'Did Not Finish', count: dnf,       color:'#f87171' },
+  ];
+
+  const genreCounts = {};
+  games.forEach(g => { genreCounts[g.genre] = (genreCounts[g.genre]||0)+1; });
+  const topGenres = Object.entries(genreCounts).sort((a,b)=>b[1]-a[1]).slice(0,7);
+  const maxGenre  = Math.max(...topGenres.map(([,c])=>c), 1);
+
+  const platCounts = {};
+  PLATFORMS.forEach(p => { platCounts[p.id] = games.filter(g => g.platform===p.id).length; });
+
+  const ratingCounts = {1:0,2:0,3:0,4:0,5:0};
+  rated.forEach(g => { ratingCounts[g.stars]++; });
+  const maxRating = Math.max(...Object.values(ratingCounts), 1);
+
+  function barRow(label, count, max, color) {
+    const pct = max > 0 ? Math.round(count/max*100) : 0;
+    return `<div class="bar-row">
+      <div class="bar-label">${escH(label)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="bar-count">${count}</div>
+    </div>`;
+  }
+
+  return `
+    <div style="max-width:900px">
+      <div class="stats-row" style="margin-bottom:20px">
+        <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
+        <div class="stat-card"><div class="stat-num">${compRate}%</div><div class="stat-lbl">Completion rate</div></div>
+        <div class="stat-card"><div class="stat-num">${backlog+wishlist}</div><div class="stat-lbl">Backlog size</div></div>
+        <div class="stat-card"><div class="stat-num">${avg||'—'}</div><div class="stat-lbl">Avg rating</div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-card">
+          <h3>Status breakdown</h3>
+          ${statuses.map(s => barRow(s.label, s.count, total, s.color)).join('')}
+        </div>
+        <div class="dash-card">
+          <h3>By platform</h3>
+          ${PLATFORMS.map(p => barRow(p.name, platCounts[p.id]||0, total, p.color)).join('')}
+        </div>
+        <div class="dash-card">
+          <h3>Top genres</h3>
+          ${topGenres.length ? topGenres.map(([name,count]) => barRow(name, count, maxGenre, '#5b8dee')).join('') : '<span style="font-size:13px;color:var(--text3)">No data yet</span>'}
+        </div>
+        <div class="dash-card">
+          <h3>Rating distribution</h3>
+          ${[5,4,3,2,1].map(n => barRow(`★${n} ${STAR_LABELS[n]}`, ratingCounts[n], maxRating, '#fbbf24')).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── Recommend render ──────────────────────────────────────────────────────────
+function renderRecommend() {
+  const anyInPool = games.some(g => g.status === 'Backlog' || g.status === 'Wishlist');
+  if (!anyInPool) {
+    return `<div class="empty-state"><div class="e-icon">🎮</div><p>Add some games to your backlog first!</p></div>`;
+  }
+
+  let resultHtml = '';
+  if (recNoMatch) {
+    resultHtml = `<div class="rec-no-match">No games match those filters. Try loosening them!</div>`;
+  } else if (recResult) {
+    const art   = artCache[recResult.title];
+    const emoji = GENRE_EMOJI[recResult.genre] || '🎮';
+    resultHtml = `
+      <div class="rec-result">
+        <div class="rec-result-art">
+          ${art ? `<img src="${escH(art)}" alt="">` : `<div class="emoji-fallback">${emoji}</div>`}
+        </div>
+        <div class="rec-result-body">
+          <div class="rec-title">${escH(recResult.title)}</div>
+          <div class="rec-sub">${escH(platName(recResult.platform))}${recResult.genre ? ' · ' + recResult.genre : ''}${recResult.releaseYear ? ' · ' + recResult.releaseYear : ''}${recResult.stars > 0 ? ' · ' + recResult.stars + '/5 ★' : ''}</div>
+          ${(recResult.tags || []).map(t => `<span class="rec-tag">${escH(t)}</span>`).join('')}
+          <div class="rec-reason">${escH(recResult.reason)}</div>
+          <button class="mark-played-btn" onclick="startPlaying('${recResult.id}')">▶ Start playing this</button>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="rec-wrap">
+      <div class="rec-hero">
+        <h2>WHAT'S NEXT?</h2>
+        <p>Filter your backlog, then let me pick something for you.</p>
+      </div>
+      <div class="rec-filters">
+        <select class="rec-filter-sel" onchange="recFilter('platform',this.value)">
+          <option value="all"${recFilterPlatform==='all'?' selected':''}>Any platform</option>
+          ${PLATFORMS.map(p => `<option value="${p.id}"${recFilterPlatform===p.id?' selected':''}>${p.name}</option>`).join('')}
+        </select>
+        <select class="rec-filter-sel" onchange="recFilter('genre',this.value)">
+          <option value="all"${recFilterGenre==='all'?' selected':''}>Any genre</option>
+          ${GENRES.map(g => `<option value="${g}"${recFilterGenre===g?' selected':''}>${g}</option>`).join('')}
+        </select>
+        <select class="rec-filter-sel" onchange="recFilter('source',this.value)">
+          <option value="both"${recFilterSource==='both'?' selected':''}>Backlog + Wishlist</option>
+          <option value="backlog"${recFilterSource==='backlog'?' selected':''}>Backlog only</option>
+          <option value="wishlist"${recFilterSource==='wishlist'?' selected':''}>Wishlist only</option>
+        </select>
+      </div>
+      <button class="spin-btn" onclick="getRecommendation()">🎲 PICK SOMETHING FOR ME</button>
+      ${resultHtml}
+    </div>`;
+}
+
+// ── Recommendation logic ──────────────────────────────────────────────────────
+function recFilter(type, val) {
+  if (type === 'platform') recFilterPlatform = val;
+  else if (type === 'genre') recFilterGenre  = val;
+  else recFilterSource = val;
+  recResult  = null;
+  recNoMatch = false;
+  render();
+}
+
+function getRecommendation() {
+  let pool = games.filter(g => {
+    if (recFilterSource === 'backlog')  return g.status === 'Backlog';
+    if (recFilterSource === 'wishlist') return g.status === 'Wishlist';
+    return g.status === 'Backlog' || g.status === 'Wishlist';
+  });
+  if (recFilterPlatform !== 'all') pool = pool.filter(g => g.platform === recFilterPlatform);
+  if (recFilterGenre    !== 'all') pool = pool.filter(g => g.genre    === recFilterGenre);
+
+  if (pool.length === 0) { recResult = null; recNoMatch = true; render(); return; }
+  recNoMatch = false;
+
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  const filters = [
+    recFilterPlatform !== 'all' ? platName(recFilterPlatform) : null,
+    recFilterGenre    !== 'all' ? recFilterGenre : null,
+  ].filter(Boolean);
+
+  recResult = {
+    ...pick,
+    reason: `Picked from ${pool.length} game${pool.length>1?'s':''} in your backlog${filters.length ? ' filtered by ' + filters.join(' + ') : ''}.${pick.notes ? ' Your note: "' + pick.notes + '"' : ''}`,
+    tags: [pick.genre, platShort(pick.platform), pick.releaseYear || null].filter(Boolean),
+  };
+  render();
+}
+
+function startPlaying(id) {
+  const g = games.find(g => g.id === id);
+  if (g) { g.status = 'Playing'; saveGames(); }
+  recResult = null; recNoMatch = false;
+  closeModal();
+  render();
+}
+
+// ── Detail Panel ──────────────────────────────────────────────────────────────
+function openDetailPanel(id) {
+  const g = games.find(g => g.id === id);
+  if (!g) return;
+  const art   = artCache[g.title];
+  const emoji = GENRE_EMOJI[g.genre] || '🎮';
+  const plat  = PLATFORMS.find(p => p.id === g.platform);
+  const ml    = document.getElementById('modal-layer');
+
+  ml.innerHTML = `
+    <div class="detail-overlay" onclick="closeDetailOverlay(event)">
+      <div class="detail-modal">
+        <div class="detail-art-hero" style="background:${artBg(g.platform)}">
+          ${art ? `<img src="${escH(art)}" alt="${escH(g.title)}">` : `<div class="emoji-hero">${emoji}</div>`}
+          <div class="detail-art-overlay"></div>
+          <button class="detail-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="detail-body">
+          <div class="detail-title">${escH(g.title)}</div>
+          <div class="detail-chips">
+            <span class="detail-chip">${escH(plat ? plat.name : g.platform)}</span>
+            <span class="game-badge badge-${statusSlug(g.status)}" style="position:static;font-size:11px">${g.status}</span>
+            ${g.genre       ? `<span class="detail-chip">${escH(g.genre)}</span>` : ''}
+            ${g.releaseYear ? `<span class="detail-chip">${escH(g.releaseYear)}</span>` : ''}
+          </div>
+          ${g.stars > 0 ? `
+            <div class="detail-stars">
+              ${starsHtml(g.stars, 17)}
+              <span class="detail-stars-label">${STAR_LABELS[g.stars]}</span>
+            </div>` : ''}
+          ${g.notes ? `<div class="detail-desc">${escH(g.notes)}</div>` : ''}
+          <div class="detail-footer">
+            ${(g.status === 'Backlog' || g.status === 'Wishlist') ? `<button class="btn-primary" onclick="startPlaying('${g.id}')">▶ Start Playing</button>` : ''}
+            <button class="btn-ghost" onclick="openEditFromDetail('${g.id}')">✏ Edit</button>
+            <button class="btn-ghost" onclick="closeModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function openEditFromDetail(id) {
+  closeModal();
+  openEditModal(id);
+}
+function closeDetailOverlay(e) { if (e.target.classList.contains('detail-overlay')) closeModal(); }
+
+// ── Edit / Add Modal ──────────────────────────────────────────────────────────
+function openAddModal() {
+  modalMode = 'add';
+  pendingGame  = { platform:'sx', status:'Backlog', genre:'Action', stars:0, notes:'', releaseYear:'' };
+  pendingStars = 0; pendingArtUrl = ''; pendingArtOpts = []; pendingSearchResults = [];
+  renderModal();
+}
+function openEditModal(id) {
+  modalMode = 'edit'; editId = id;
+  const g = games.find(g => g.id === id);
+  pendingGame  = { ...g };
+  pendingStars = g.stars || 0;
+  pendingArtUrl= artCache[g.title] || '';
+  pendingArtOpts = []; pendingSearchResults = [];
+  renderModal();
+}
+
+function renderModal() {
+  const ml = document.getElementById('modal-layer');
+  const artPreview = pendingArtUrl
+    ? `<img src="${escH(pendingArtUrl)}" onerror="this.style.display='none'">`
+    : `<span class="no-art-label">No art yet</span>`;
+
+  ml.innerHTML = `
+    <div class="modal-overlay" onclick="closeModalOverlay(event)">
+      <div class="modal">
+        <div class="modal-head">
+          <h2>${modalMode === 'add' ? 'ADD GAME' : 'EDIT GAME'}</h2>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-art-preview" id="modal-art-preview">${artPreview}</div>
+
+          <div class="form-group">
+            <label>Game title</label>
+            <input type="text" id="f-title" value="${escH(pendingGame.title||'')}" placeholder="Enter game title..." onkeydown="if(event.key==='Enter')searchRAWG()">
+            <button class="btn-secondary" id="rawg-search-btn" onclick="searchRAWG()">🔍 Search RAWG</button>
+            <div id="rawg-results"></div>
+            <div class="art-results-grid" id="art-results"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Platform</label>
+              <div class="plat-grid" id="plat-grid">
+                ${PLATFORMS.map(p => `
+                  <div class="plat-option${pendingGame.platform===p.id?' selected':''}" onclick="pickPlat('${p.id}')">
+                    <div class="dot" style="background:${p.color}"></div>
+                    <span class="name">${p.short}</span>
+                  </div>`).join('')}
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="f-status">
+                ${STATUSES.map(s => `<option${pendingGame.status===s?' selected':''}>${s}</option>`).join('')}
+              </select>
+              <div style="margin-top:10px">
+                <label>Genre</label>
+                <select id="f-genre">
+                  ${GENRES.map(g => `<option${pendingGame.genre===g?' selected':''}>${g}</option>`).join('')}
+                </select>
+              </div>
+              <div style="margin-top:10px">
+                <label>Release year</label>
+                <input type="text" id="f-year" value="${escH(pendingGame.releaseYear||'')}" placeholder="e.g. 2022" maxlength="4">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Your rating</label>
+            <div class="star-label" id="star-label">${pendingStars > 0 ? STAR_LABELS[pendingStars] : ''}</div>
+            <div class="star-picker" id="star-picker">
+              ${[1,2,3,4,5].map(n => `<button class="star-pick${n<=pendingStars?' lit':''}" onclick="pickStars(${n})" onmouseenter="hoverStar(${n})" onmouseleave="hoverStar(0)">★</button>`).join('')}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Description / Notes</label>
+            <textarea id="f-notes" placeholder="Game description or your own thoughts...">${escH(pendingGame.notes||'')}</textarea>
+          </div>
+        </div>
+        <div class="modal-foot">
+          ${modalMode === 'edit' ? `<button class="btn-danger" onclick="deleteGame('${editId}')">Delete</button>` : ''}
+          <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+          <button class="btn-primary" onclick="saveGame()">Save</button>
+        </div>
+      </div>
+    </div>`;
+
+  if (pendingArtOpts.length > 0) renderArtResults();
+}
+
+// ── RAWG search in modal ──────────────────────────────────────────────────────
+async function searchRAWG() {
+  const title = document.getElementById('f-title')?.value?.trim();
+  if (!title) { alert('Enter a game title first!'); return; }
+  const btn = document.getElementById('rawg-search-btn');
+  if (btn) { btn.textContent = 'Searching...'; btn.disabled = true; }
+  try {
+    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=6`);
+    const data = await res.json();
+    pendingSearchResults = (data.results || []).map(r => ({
+      slug:   r.slug,
+      name:   r.name,
+      year:   r.released ? r.released.slice(0,4) : '',
+      genres: (r.genres || []).map(g => g.name),
+      artUrl: r.background_image || '',
+    }));
+  } catch(e) { pendingSearchResults = []; }
+  if (btn) { btn.textContent = '🔍 Search RAWG'; btn.disabled = false; }
+  renderSearchResults();
+}
+
+function renderSearchResults() {
+  const el = document.getElementById('rawg-results');
+  if (!el) return;
+  if (pendingSearchResults.length === 0) {
+    el.innerHTML = '<span style="font-size:12px;color:var(--text3);padding:8px 0;display:block">No results found.</span>';
+    return;
+  }
+  el.innerHTML = `<div class="search-results">${pendingSearchResults.map((r, i) =>
+    `<div class="search-result-item" onclick="selectRAWGGame(${i})">
+      <div style="flex:1;min-width:0">
+        <div class="res-title">${escH(r.name)}</div>
+        <div class="res-meta">${[r.year, r.genres[0]].filter(Boolean).join(' · ')}</div>
+      </div>
+      ${r.artUrl ? `<img class="res-thumb" src="${escH(r.artUrl)}" alt="">` : ''}
+    </div>`
+  ).join('')}</div>`;
+}
+
+async function selectRAWGGame(idx) {
+  const r = pendingSearchResults[idx];
+  if (!r) return;
+
+  const titleEl = document.getElementById('f-title');
+  if (titleEl) titleEl.value = r.name;
+
+  const yearEl = document.getElementById('f-year');
+  if (yearEl) yearEl.value = r.year || '';
+
+  const genre = mapRAWGGenre(r.genres);
+  pendingGame.genre = genre;
+  const genreEl = document.getElementById('f-genre');
+  if (genreEl) genreEl.value = genre;
+
+  if (r.artUrl) selectArt(r.artUrl);
+
+  const resultsEl = document.getElementById('rawg-results');
+  if (resultsEl) resultsEl.innerHTML = '';
+  pendingSearchResults = [];
+
+  try {
+    const detail = await fetch(`https://api.rawg.io/api/games/${r.slug}?key=${RAWG_KEY}`);
+    const d = await detail.json();
+    if (d.description_raw) {
+      const notesEl = document.getElementById('f-notes');
+      if (notesEl) notesEl.value = d.description_raw.slice(0, 500);
+    }
+  } catch(e) {}
+
+  pendingArtOpts = await fetchArtOptions(r.name);
+  renderArtResults();
+}
+
+function mapRAWGGenre(rawgGenres) {
+  const MAP = { 'rpg':'RPG', 'action':'Action', 'adventure':'Adventure', 'strategy':'Strategy',
+    'platformer':'Platformer', 'shooter':'Shooter', 'sports':'Sports', 'racing':'Racing',
+    'puzzle':'Puzzle', 'horror':'Horror', 'fighting':'Fighting', 'simulation':'Simulation' };
+  for (const g of rawgGenres) {
+    const key = g.toLowerCase();
+    if (MAP[key]) return MAP[key];
+    if (key.includes('role')) return 'RPG';
+  }
+  return 'Other';
+}
+
+function renderArtResults() {
+  const el = document.getElementById('art-results');
+  if (!el) return;
+  if (pendingArtOpts.length === 0) { el.innerHTML = '<span style="font-size:12px;color:var(--text3)">No results found.</span>'; return; }
+  el.innerHTML = pendingArtOpts.map(a =>
+    `<img class="art-thumb${pendingArtUrl===a.url?' selected':''}" src="${escH(a.url)}" title="${escH(a.name)}" onclick="selectArt('${escH(a.url)}')">`
+  ).join('');
+}
+
+function selectArt(url) {
+  pendingArtUrl = url;
+  const preview = document.getElementById('modal-art-preview');
+  if (preview) preview.innerHTML = `<img src="${escH(url)}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`;
+  document.querySelectorAll('.art-thumb').forEach(el => { el.className = 'art-thumb' + (el.src === url ? ' selected' : ''); });
+}
+
+function closeModalOverlay(e) { if (e.target.classList.contains('modal-overlay')) closeModal(); }
+function closeModal()         { document.getElementById('modal-layer').innerHTML = ''; }
+
+function pickPlat(id) {
+  pendingGame.platform = id;
+  document.querySelectorAll('.plat-option').forEach(el => {
+    const n = el.querySelector('.name')?.textContent;
+    const p = PLATFORMS.find(p => p.short === n);
+    el.className = 'plat-option' + (p && p.id === id ? ' selected' : '');
+  });
+}
+function pickStars(n) {
+  pendingStars = n;
+  const label = document.getElementById('star-label');
+  if (label) label.textContent = n > 0 ? STAR_LABELS[n] : '';
+  document.querySelectorAll('.star-pick').forEach((el, i) => { el.className = 'star-pick' + (i < n ? ' lit' : ''); });
+}
+function hoverStar(n) {
+  const label = document.getElementById('star-label');
+  if (!label) return;
+  if (n > 0) {
+    label.textContent = STAR_LABELS[n];
+    document.querySelectorAll('.star-pick').forEach((el, i) => { el.className = 'star-pick' + (i < n ? ' lit' : ''); });
+  } else {
+    label.textContent = pendingStars > 0 ? STAR_LABELS[pendingStars] : '';
+    document.querySelectorAll('.star-pick').forEach((el, i) => { el.className = 'star-pick' + (i < pendingStars ? ' lit' : ''); });
+  }
+}
+
+function saveGame() {
+  const title = document.getElementById('f-title')?.value?.trim();
+  if (!title) { alert('Enter a game title!'); return; }
+  const g = {
+    id:          modalMode === 'add' ? uid() : editId,
+    title,
+    platform:    pendingGame.platform || 'sx',
+    status:      document.getElementById('f-status')?.value       || 'Backlog',
+    genre:       document.getElementById('f-genre')?.value        || 'Action',
+    releaseYear: document.getElementById('f-year')?.value?.trim() || '',
+    stars:       pendingStars,
+    notes:       document.getElementById('f-notes')?.value        || '',
+  };
+  if (pendingArtUrl) { artCache[title] = pendingArtUrl; saveArt(); }
+  if (modalMode === 'add') games.unshift(g);
+  else { const i = games.findIndex(x => x.id === editId); if (i >= 0) games[i] = g; }
+  saveGames();
+  closeModal();
+  render();
+  if (!artCache[title]) fetchArt(title);
+}
+
+function deleteGame(id) {
+  if (!confirm('Remove this game from your library?')) return;
+  games = games.filter(g => g.id !== id);
+  saveGames();
+  closeModal();
+  render();
+}
+
+// ── Main render ───────────────────────────────────────────────────────────────
+function render() {
+  const mc = document.getElementById('main-content');
+  if (!mc) return;
+  if (tab === 'library') mc.innerHTML = renderLibrary();
+  else if (tab === 'stats') mc.innerHTML = renderStats();
+  else mc.innerHTML = renderRecommend();
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+loadData();
+render();
+fetchAllMissingArt();
+</script>
+</body>
+</html>
