@@ -162,10 +162,10 @@
   .art-results-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-top: 8px; }
   .art-thumb { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; }
   .art-thumb:hover, .art-thumb.selected { border-color: var(--accent2); }
-  .search-results { margin-top: 8px; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
-  .search-result-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; transition: background .12s; }
-  .search-result-item:last-child { border-bottom: none; }
-  .search-result-item:hover { background: var(--surface3); }
+  .-results { margin-top: 8px; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
+  .-result-item { padding: 9px 13px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; transition: background .12s; }
+  .-result-item:last-child { border-bottom: none; }
+  .-result-item:hover { background: var(--surface3); }
   .res-title { font-size: 13px; color: var(--text); font-weight: 500; }
   .res-meta  { font-size: 11px; color: var(--text3); margin-top: 2px; }
   .res-thumb { width: 38px; height: 38px; object-fit: cover; border-radius: 5px; flex-shrink: 0; }
@@ -291,7 +291,7 @@ let filterStatus   = 'all';
 let filterGenre    = 'all';
 let filterRating   = 'all';
 let sortBy         = 'added';
-let searchQ        = '';
+let Q        = '';
 
 let recFilterPlatform = 'all';
 let recFilterGenre    = 'all';
@@ -305,7 +305,7 @@ let pendingGame        = {};
 let pendingStars       = 0;
 let pendingArtUrl      = '';
 let pendingArtOpts     = [];
-let pendingSearchResults = [];
+let pendingResults = [];
 
 // ── Persistence ──────────────────────────────────────────────────────────────
 function saveGames() { localStorage.setItem('lu_games', JSON.stringify(games)); }
@@ -337,7 +337,7 @@ async function fetchArt(title) {
   fetchingArt.add(title);
   render();
   try {
-    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=1&search_precise=true`);
+    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&=${encodeURIComponent(title)}&page_size=1&_precise=true`);
     const data = await res.json();
     const img  = data.results?.[0]?.background_image;
     if (img) { artCache[title] = img; saveArt(); }
@@ -402,7 +402,17 @@ function setFilter(type, val) {
   else if (type === 'sort')   sortBy       = val;
   render();
 }
-function setSearch(v) { searchQ = v; render(); }
+function setSearch(v) {
+  searchQ = v;
+  const inputBefore = document.querySelector('.search-wrap input');
+  const pos = inputBefore ? inputBefore.selectionStart : null;
+  render();
+  const inputAfter = document.querySelector('.search-wrap input');
+  if (inputAfter) {
+    inputAfter.focus();
+    if (pos !== null) inputAfter.setSelectionRange(pos, pos);
+  }
+}
 
 // ── Library render ────────────────────────────────────────────────────────────
 function renderLibrary() {
