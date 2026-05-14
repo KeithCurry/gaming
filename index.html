@@ -8,95 +8,48 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0e0f13;
-    --surface: #16181f;
-    --surface2: #1e2029;
-    --surface3: #252733;
-    --accent: #e8ff47;
-    --accent2: #5b8dee;
-    --border: #2e3040;
-    --text: #f0f2f8;
-    --text2: #8b90a8;
-    --text3: #5a5f75;
-    --warn: #fbbf24;
-    --pass: #4ade80;
-    --fail: #f87171;
-    --rp: #ff6b6b;
-    --ps: #4fa3f7;
-    --sw: #e4000f;
-    --sx: #4ade80;
+    --bg: #0e0f13; --surface: #16181f; --surface2: #1e2029; --surface3: #252733;
+    --accent: #e8ff47; --accent2: #5b8dee; --border: #2e3040;
+    --text: #f0f2f8; --text2: #8b90a8; --text3: #5a5f75;
+    --warn: #fbbf24; --pass: #4ade80; --fail: #f87171;
+    --rp: #ff6b6b; --ps: #4fa3f7; --sw: #e4000f; --sx: #4ade80;
   }
-
   html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
-
-  /* ── Layout ── */
   .app { display: flex; flex-direction: column; min-height: 100vh; }
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 28px 14px; border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; background: var(--bg); z-index: 10;
-  }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px 14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 10; }
   .topbar-left { display: flex; align-items: baseline; gap: 12px; }
   .logo { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
   .tagline { font-size: 12px; color: var(--text3); letter-spacing: 0.5px; }
   .topbar-right { display: flex; gap: 8px; }
-  .tab-btn {
-    font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700;
-    letter-spacing: 0.5px; padding: 8px 20px; border-radius: 8px; cursor: pointer;
-    transition: all .15s; background: var(--surface2); color: var(--text2); border: 1px solid var(--border);
-  }
+  .tab-btn { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; padding: 8px 20px; border-radius: 8px; cursor: pointer; transition: all .15s; background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
   .tab-btn:hover { color: var(--text); background: var(--surface3); }
   .tab-btn.active { background: var(--accent); color: #0e0f13; border-color: var(--accent); }
   .main { flex: 1; padding: 24px 28px; max-width: 1200px; margin: 0 auto; width: 100%; }
-
-  /* ── Stats row ── */
   .stats-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 24px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
   .stat-num { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; color: var(--accent); }
   .stat-lbl { font-size: 12px; color: var(--text3); margin-top: 3px; letter-spacing: 0.3px; }
-
-  /* ── Platform pills ── */
   .platform-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
-  .plat-pill {
-    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600;
-    letter-spacing: 0.5px; padding: 5px 12px; border-radius: 20px;
-    border: 1px solid var(--border); cursor: pointer; transition: all .15s; color: var(--text2); background: transparent;
-  }
+  .plat-pill { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; transition: all .15s; color: var(--text2); background: transparent; }
   .plat-pill:hover { border-color: var(--text3); color: var(--text); }
   .plat-pill.active { color: #fff; }
-  .plat-pill.all.active  { background: var(--accent2); border-color: var(--accent2); }
-  .plat-pill.rp.active   { background: var(--rp); border-color: var(--rp); }
-  .plat-pill.ps.active   { background: var(--ps); border-color: var(--ps); }
-  .plat-pill.sw.active   { background: var(--sw); border-color: var(--sw); }
-  .plat-pill.sx.active   { background: var(--sx); border-color: var(--sx); color: #0e0f13; }
-
-  /* ── Toolbar ── */
+  .plat-pill.all.active { background: var(--accent2); border-color: var(--accent2); }
+  .plat-pill.rp.active { background: var(--rp); border-color: var(--rp); }
+  .plat-pill.ps.active { background: var(--ps); border-color: var(--ps); }
+  .plat-pill.sw.active { background: var(--sw); border-color: var(--sw); }
+  .plat-pill.sx.active { background: var(--sx); border-color: var(--sx); color: #0e0f13; }
   .toolbar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
   .search-wrap { flex: 1; min-width: 180px; position: relative; }
-  .search-wrap input {
-    width: 100%; background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 9px 14px 9px 38px; color: var(--text);
-    font-size: 14px; font-family: 'DM Sans', sans-serif;
-  }
+  .search-wrap input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 14px 9px 38px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; }
   .search-wrap input::placeholder { color: var(--text3); }
   .search-wrap input:focus { outline: none; border-color: var(--accent2); }
   .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 16px; pointer-events: none; }
-  .filter-sel {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
-    padding: 9px 12px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer;
-  }
+  .filter-sel { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
   .filter-sel:focus { outline: none; }
   .filter-sel option { background: var(--surface2); }
-  .add-btn {
-    font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 14px;
-    letter-spacing: 0.5px; padding: 9px 20px; background: var(--accent);
-    color: #0e0f13; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap;
-  }
+  .add-btn { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; padding: 9px 20px; background: var(--accent); color: #0e0f13; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; }
   .add-btn:hover { opacity: .88; }
-
-  /* ── Game grid ── */
   .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
   .game-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; transition: all .18s; }
   .game-card:hover { border-color: var(--accent2); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
@@ -107,15 +60,11 @@
   .art-loading-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--border); overflow: hidden; }
   .art-loading-bar::after { content: ''; position: absolute; inset: 0; background: var(--accent2); animation: bar-slide 1.4s ease-in-out infinite; }
   @keyframes bar-slide { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-  .game-badge {
-    position: absolute; top: 8px; right: 8px; font-size: 10px;
-    font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.5px;
-    padding: 3px 8px; border-radius: 5px; z-index: 2;
-  }
-  .badge-completed      { background: rgba(74,222,128,.85); color: #052e16; }
-  .badge-playing        { background: rgba(251,191,36,.85); color: #451a03; }
-  .badge-backlog        { background: rgba(30,32,41,.9); color: #8b90a8; border: 1px solid rgba(139,144,168,.3); }
-  .badge-wishlist       { background: rgba(91,141,238,.85); color: #0f172a; }
+  .game-badge { position: absolute; top: 8px; right: 8px; font-size: 10px; font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 5px; z-index: 2; }
+  .badge-completed { background: rgba(74,222,128,.85); color: #052e16; }
+  .badge-playing { background: rgba(251,191,36,.85); color: #451a03; }
+  .badge-backlog { background: rgba(30,32,41,.9); color: #8b90a8; border: 1px solid rgba(139,144,168,.3); }
+  .badge-wishlist { background: rgba(91,141,238,.85); color: #0f172a; }
   .badge-did-not-finish { background: rgba(248,113,113,.85); color: #450a0a; }
   .plat-dot { position: absolute; top: 8px; left: 8px; width: 9px; height: 9px; border-radius: 50%; z-index: 2; }
   .dot-rp { background: var(--rp); } .dot-ps { background: var(--ps); }
@@ -124,8 +73,6 @@
   .game-title { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.3px; margin-bottom: 4px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .game-meta { display: flex; align-items: center; justify-content: space-between; }
   .game-genre { font-size: 11px; color: var(--text3); }
-
-  /* ── Detail Panel ── */
   .detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
   .detail-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; width: 100%; max-width: 540px; max-height: 92vh; overflow-y: auto; }
   .detail-art-hero { width: 100%; height: 220px; overflow: hidden; position: relative; background: var(--surface2); display: flex; align-items: center; justify-content: center; }
@@ -141,8 +88,6 @@
   .detail-stars-label { font-size: 13px; color: var(--warn); font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.5px; }
   .detail-desc { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; white-space: pre-wrap; }
   .detail-footer { display: flex; gap: 10px; flex-wrap: wrap; }
-
-  /* ── Modal (edit/add) ── */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
   .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; width: 100%; max-width: 480px; max-height: 92vh; overflow-y: auto; }
   .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 2; }
@@ -167,7 +112,7 @@
   .-result-item:last-child { border-bottom: none; }
   .-result-item:hover { background: var(--surface3); }
   .res-title { font-size: 13px; color: var(--text); font-weight: 500; }
-  .res-meta  { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .res-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
   .res-thumb { width: 38px; height: 38px; object-fit: cover; border-radius: 5px; flex-shrink: 0; }
   .star-label { font-size: 12px; color: var(--warn); font-family: 'Rajdhani', sans-serif; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; height: 16px; margin-bottom: 4px; }
   .star-picker { display: flex; gap: 6px; }
@@ -191,8 +136,6 @@
   .btn-secondary { background: var(--surface3); border: 1px solid var(--border); border-radius: 9px; padding: 8px 14px; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px; letter-spacing: 0.3px; }
   .btn-secondary:hover { color: var(--text); border-color: var(--text3); }
   .btn-secondary:disabled { opacity: .4; cursor: not-allowed; }
-
-  /* ── Recommend ── */
   .rec-wrap { max-width: 600px; margin: 0 auto; }
   .rec-hero { text-align: center; padding: 28px 0 16px; }
   .rec-hero h2 { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; }
@@ -203,7 +146,6 @@
   .rec-filter-sel option { background: var(--surface2); }
   .spin-btn { width: 100%; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 1px; padding: 15px; background: var(--accent); color: #0e0f13; border: none; border-radius: 12px; cursor: pointer; }
   .spin-btn:hover { opacity: .88; }
-  .spin-btn:disabled { opacity: .4; cursor: not-allowed; }
   .rec-result { background: var(--surface); border: 1px solid var(--accent2); border-radius: 16px; overflow: hidden; margin-top: 18px; animation: fadeSlide .3s ease; }
   @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
   .rec-result-art { height: 160px; overflow: hidden; background: var(--surface2); display: flex; align-items: center; justify-content: center; }
@@ -212,13 +154,10 @@
   .rec-result-body { padding: 18px 20px; }
   .rec-title { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 4px; color: var(--accent); }
   .rec-sub { font-size: 12px; color: var(--text3); margin-bottom: 12px; }
-  .rec-reason { font-size: 14px; color: var(--text2); line-height: 1.65; }
   .rec-tag { display: inline-block; font-size: 11px; font-family: 'Rajdhani', sans-serif; font-weight: 600; padding: 3px 9px; border-radius: 5px; margin-right: 6px; margin-bottom: 9px; background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
   .mark-played-btn { display: block; width: 100%; margin-top: 14px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.5px; padding: 10px 18px; background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 9px; cursor: pointer; }
   .mark-played-btn:hover { background: rgba(232,255,71,.08); }
   .rec-no-match { text-align: center; padding: 20px; margin-top: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; color: var(--text3); font-size: 14px; }
-
-  /* ── Stats Dashboard ── */
   .dash-section-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 1px; color: var(--text); margin-bottom: 18px; }
   .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .dash-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
@@ -228,13 +167,31 @@
   .bar-track { flex: 1; height: 7px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
   .bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
   .bar-count { font-size: 12px; color: var(--text3); width: 22px; text-align: right; flex-shrink: 0; }
-
-  /* ── Empty state ── */
+  /* Year in Review */
+  .yir-header { display: flex; align-items: center; gap: 16px; margin: 28px 0 20px; flex-wrap: wrap; }
+  .yir-title { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
+  .year-sel { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+  .year-sel:focus { outline: none; }
+  .year-sel option { background: var(--surface2); }
+  .yir-count { font-size: 13px; color: var(--text3); }
+  .yir-section-title { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text2); margin: 16px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .yir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-bottom: 8px; }
+  .yir-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .yir-art { height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--surface3); }
+  .yir-art img { width: 100%; height: 100%; object-fit: cover; }
+  .yir-art-emoji { font-size: 28px; }
+  .yir-info { padding: 6px 8px 8px; }
+  .yir-game-title { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+  .yir-stars { font-size: 10px; color: var(--warn); margin-top: 2px; }
+  .yir-plat { font-size: 10px; color: var(--text3); }
+  .yir-empty { font-size: 13px; color: var(--text3); padding: 16px 0; }
+  /* loading */
+  .loading-state { text-align: center; padding: 80px 20px; color: var(--text3); }
+  .loading-spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   .empty-state { text-align: center; padding: 80px 20px; color: var(--text3); }
   .empty-state .e-icon { font-size: 48px; margin-bottom: 14px; }
   .empty-state p { font-size: 15px; }
-
-  /* ── Responsive ── */
   @media (max-width: 700px) {
     .topbar { padding: 14px 16px; }
     .main { padding: 18px 16px; }
@@ -247,7 +204,6 @@
 </style>
 </head>
 <body>
-
 <div class="app" id="app">
   <div class="topbar">
     <div class="topbar-left">
@@ -256,101 +212,86 @@
     </div>
     <div class="topbar-right">
       <button class="tab-btn active" id="tab-library" onclick="switchTab('library')">Library</button>
-      <button class="tab-btn" id="tab-stats"   onclick="switchTab('stats')">Stats</button>
-      <button class="tab-btn" id="tab-rec"     onclick="switchTab('rec')">Recommend</button>
+      <button class="tab-btn" id="tab-stats" onclick="switchTab('stats')">Stats</button>
+      <button class="tab-btn" id="tab-rec" onclick="switchTab('rec')">Recommend</button>
     </div>
   </div>
   <div class="main" id="main-content"></div>
 </div>
-
 <div id="modal-layer"></div>
 
 <script>
-// ── Config ───────────────────────────────────────────────────────────────────
-const RAWG_KEY = 'eb0f0c121ec349c6b57e2daca6b0c177';
+// ── Supabase config ───────────────────────────────────────────────────────────
+const SB_URL = 'https://mevgnbkxcecocrlvkutw.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ldmduYmt4Y2Vjb2NybHZrdXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDE0MzAsImV4cCI6MjA5NDMxNzQzMH0.xkajYqr8dIlmhYxgsjcP_SvT0m4oU81auEImdHPiWoE';
 
-const PLATFORMS = [
-  { id: 'rp', name: 'Retroid Pocket 5', short: 'RP5',      color: '#ff6b6b' },
-  { id: 'ps', name: 'PlayStation 5',    short: 'PS5',      color: '#4fa3f7' },
-  { id: 'sw', name: 'Nintendo Switch',  short: 'Switch',   color: '#e4000f' },
-  { id: 'sx', name: 'Xbox Series X',    short: 'Series X', color: '#4ade80' },
-];
-const STATUSES    = ['Playing', 'Completed', 'Did Not Finish', 'Backlog', 'Wishlist'];
-const STAR_LABELS = { 1:'Terrible', 2:'Alright', 3:'Good', 4:'Great', 5:'Amazing' };
-const GENRES      = ['Action','RPG','Adventure','Strategy','Platformer','Shooter','Sports','Racing','Puzzle','Horror','Fighting','Simulation','Other'];
-const GENRE_EMOJI = { Action:'⚔️', RPG:'🧙', Adventure:'🏰', Strategy:'♟️', Platformer:'🎮', Shooter:'🔫', Sports:'⚽', Racing:'🏎️', Puzzle:'🧩', Horror:'💀', Fighting:'🥊', Simulation:'🌿', Other:'🎮' };
-
-// ── State ────────────────────────────────────────────────────────────────────
-let games = [];
-let artCache   = {};
-let fetchingArt = new Set();
-
-let tab            = 'library';
-let filterPlatform = 'all';
-let filterStatus   = 'all';
-let filterGenre    = 'all';
-let filterRating   = 'all';
-let sortBy         = 'added';
-let searchQ        = '';
-
-let recFilterPlatform = 'all';
-let recFilterGenre    = 'all';
-let recFilterSource   = 'both';
-let recResult         = null;
-let recNoMatch        = false;
-
-let modalMode          = null;
-let editId             = null;
-let pendingGame        = {};
-let pendingStars       = 0;
-let pendingArtUrl      = '';
-let pendingArtOpts     = [];
-let pendingResults = [];
-
-// ── Persistence ──────────────────────────────────────────────────────────────
-function saveGames() { localStorage.setItem('lu_games', JSON.stringify(games)); }
-function saveArt()   { localStorage.setItem('lu_art',   JSON.stringify(artCache)); }
-
-function loadData() {
-  try { const g = localStorage.getItem('lu_games'); if (g) games = JSON.parse(g); } catch(e){}
-  try { const a = localStorage.getItem('lu_art');   if (a) artCache = JSON.parse(a); } catch(e){}
-
-  if (games.length === 0) {
-    games = [
-      { id:'g1', title:'Elden Ring',                   platform:'sx', genre:'RPG',        status:'Completed',      stars:5, releaseYear:'2022', notes:'Absolute masterpiece. 150+ hours.' },
-      { id:'g2', title:'Zelda: Tears of the Kingdom',  platform:'sw', genre:'Adventure',  status:'Playing',        stars:5, releaseYear:'2023', notes:'Still going...' },
-      { id:'g3', title:'God of War Ragnarök',          platform:'ps', genre:'Action',     status:'Completed',      stars:4, releaseYear:'2022', notes:'' },
-      { id:'g4', title:'Hades',                        platform:'sx', genre:'Action',     status:'Completed',      stars:5, releaseYear:'2020', notes:'Perfect roguelite' },
-      { id:'g5', title:"Baldur's Gate 3",              platform:'ps', genre:'RPG',        status:'Backlog',        stars:0, releaseYear:'2023', notes:'' },
-      { id:'g6', title:'Super Mario Odyssey',          platform:'sw', genre:'Platformer', status:'Completed',      stars:4, releaseYear:'2017', notes:'' },
-      { id:'g7', title:'Starfield',                    platform:'sx', genre:'RPG',        status:'Did Not Finish', stars:2, releaseYear:'2023', notes:'Lost interest after 20 hours.' },
-      { id:'g8', title:'Sonic Mania',                  platform:'rp', genre:'Platformer', status:'Completed',      stars:4, releaseYear:'2017', notes:'Great on RP5' },
-      { id:'g9', title:'Hollow Knight',                platform:'rp', genre:'Adventure',  status:'Playing',        stars:4, releaseYear:'2017', notes:'Challenging but beautiful' },
-    ];
-    saveGames();
-  }
+async function sbFetch(path, opts={}) {
+  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+    ...opts,
+    headers: {
+      'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json', 'Prefer': opts.prefer || '',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error(await res.text());
+  const t = await res.text(); return t ? JSON.parse(t) : null;
 }
 
-// ── RAWG ─────────────────────────────────────────────────────────────────────
+async function dbLoad()         { return await sbFetch('games?order=added.desc') || []; }
+async function dbInsert(row)    { await sbFetch('games', { method:'POST', prefer:'return=minimal', body: JSON.stringify(row) }); }
+async function dbUpdate(id, f)  { await sbFetch(`games?id=eq.${id}`, { method:'PATCH', prefer:'return=minimal', body: JSON.stringify(f) }); }
+async function dbDelete(id)     { await sbFetch(`games?id=eq.${id}`, { method:'DELETE' }); }
+
+// ── App config ────────────────────────────────────────────────────────────────
+const RAWG_KEY = 'eb0f0c121ec349c6b57e2daca6b0c177';
+const PLATFORMS = [
+  { id:'rp', name:'Retroid Pocket 5', short:'RP5',      color:'#ff6b6b' },
+  { id:'ps', name:'PlayStation 5',    short:'PS5',      color:'#4fa3f7' },
+  { id:'sw', name:'Nintendo Switch',  short:'Switch',   color:'#e4000f' },
+  { id:'sx', name:'Xbox Series X',    short:'Series X', color:'#4ade80' },
+];
+const STATUSES    = ['Playing','Completed','Did Not Finish','Backlog','Wishlist'];
+const STAR_LABELS = { 1:'Terrible', 2:'Alright', 3:'Good', 4:'Great', 5:'Amazing' };
+const GENRES      = ['Action','RPG','Adventure','Strategy','Platformer','Shooter','Sports','Racing','Puzzle','Horror','Fighting','Simulation','Other'];
+const GENRE_EMOJI = { Action:'⚔️',RPG:'🧙',Adventure:'🏰',Strategy:'♟️',Platformer:'🎮',Shooter:'🔫',Sports:'⚽',Racing:'🏎️',Puzzle:'🧩',Horror:'💀',Fighting:'🥊',Simulation:'🌿',Other:'🎮' };
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let games = [], artCache = {}, fetchingArt = new Set();
+let tab = 'library';
+let filterPlatform = 'all', filterStatus = 'all', filterGenre = 'all', filterRating = 'all', sortBy = 'added', searchQ = '';
+let recFilterPlatform = 'all', recFilterGenre = 'all', recFilterSource = 'both', recResult = null, recNoMatch = false;
+let modalMode = null, editId = null, pendingGame = {}, pendingStars = 0, pendingArtUrl = '', pendingArtOpts = [], pendingResults = [];
+let yirYear = String(new Date().getFullYear());
+let loading = true;
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  try { const a = localStorage.getItem('lu_art'); if (a) artCache = JSON.parse(a); } catch(e) {}
+  loading = true; render();
+  try { games = await dbLoad(); } catch(e) { console.error(e); games = []; }
+  loading = false; render();
+  fetchAllMissingArt();
+}
+
+// ── RAWG ──────────────────────────────────────────────────────────────────────
 async function fetchArt(title) {
   if (artCache[title] || fetchingArt.has(title)) return;
-  fetchingArt.add(title);
-  render();
+  fetchingArt.add(title); render();
   try {
-    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=1&search_precise=true`);
+    const res = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=1`);
     const data = await res.json();
-    const img  = data.results?.[0]?.background_image;
-    if (img) { artCache[title] = img; saveArt(); }
+    const img = data.results?.[0]?.background_image;
+    if (img) { artCache[title] = img; localStorage.setItem('lu_art', JSON.stringify(artCache)); }
   } catch(e) {}
-  fetchingArt.delete(title);
-  render();
+  fetchingArt.delete(title); render();
 }
 
 async function fetchArtOptions(title) {
   try {
-    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=8`);
+    const res = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=8`);
     const data = await res.json();
-    return (data.results || []).filter(g => g.background_image).map(g => ({ name: g.name, url: g.background_image }));
+    return (data.results||[]).filter(g=>g.background_image).map(g=>({name:g.name, url:g.background_image}));
   } catch(e) { return []; }
 }
 
@@ -359,347 +300,335 @@ async function fetchAllMissingArt() {
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function uid()         { return Math.random().toString(36).slice(2, 10); }
-function escH(s)       { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-function platShort(id) { return PLATFORMS.find(p => p.id === id)?.short || id; }
-function platName(id)  { return PLATFORMS.find(p => p.id === id)?.name  || id; }
-function artBg(p)      { return { rp:'#1a0f0f', ps:'#0a0e1a', sw:'#1a0a0a', sx:'#0a1a0a' }[p] || '#141418'; }
-function starsHtml(n, size=11) {
-  return [1,2,3,4,5].map(i => `<span style="color:${i<=n?'#fbbf24':'#2e3040'};font-size:${size}px">★</span>`).join('');
-}
+function uid()         { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function escH(s)       { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function platShort(id) { return PLATFORMS.find(p=>p.id===id)?.short||id; }
+function platName(id)  { return PLATFORMS.find(p=>p.id===id)?.name||id; }
+function artBg(p)      { return {rp:'#1a0f0f',ps:'#0a0e1a',sw:'#1a0a0a',sx:'#0a1a0a'}[p]||'#141418'; }
+function starsHtml(n,size=11) { return [1,2,3,4,5].map(i=>`<span style="color:${i<=n?'#fbbf24':'#2e3040'};font-size:${size}px">★</span>`).join(''); }
 function statusSlug(s) { return s.toLowerCase().replace(/\s+/g,'-'); }
 
 function filteredGames() {
-  let result = games.filter(g => {
-    if (filterPlatform !== 'all' && g.platform !== filterPlatform) return false;
-    if (filterStatus   !== 'all' && g.status   !== filterStatus)   return false;
-    if (filterGenre    !== 'all' && g.genre     !== filterGenre)   return false;
-    if (filterRating   !== 'all' && g.stars     !== parseInt(filterRating)) return false;
+  let r = games.filter(g => {
+    if (filterPlatform!=='all' && g.platform!==filterPlatform) return false;
+    if (filterStatus!=='all'   && g.status!==filterStatus)     return false;
+    if (filterGenre!=='all'    && g.genre!==filterGenre)       return false;
+    if (filterRating!=='all'   && g.stars!==parseInt(filterRating)) return false;
     if (searchQ && !g.title.toLowerCase().includes(searchQ.toLowerCase())) return false;
     return true;
   });
-  if (sortBy === 'name')   result = [...result].sort((a,b) => a.title.localeCompare(b.title));
-  if (sortBy === 'rating') result = [...result].sort((a,b) => b.stars - a.stars || a.title.localeCompare(b.title));
-  if (sortBy === 'year')   result = [...result].sort((a,b) => (b.releaseYear||'0').localeCompare(a.releaseYear||'0'));
-  return result;
+  if (sortBy==='name')   r = [...r].sort((a,b)=>a.title.localeCompare(b.title));
+  if (sortBy==='rating') r = [...r].sort((a,b)=>b.stars-a.stars||a.title.localeCompare(b.title));
+  if (sortBy==='year')   r = [...r].sort((a,b)=>(b.release_year||'0').localeCompare(a.release_year||'0'));
+  return r;
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
 function switchTab(t) {
   tab = t;
   ['library','stats','rec'].forEach(id => {
-    const el = document.getElementById('tab-' + id);
-    if (el) el.className = 'tab-btn' + (t === id ? ' active' : '');
+    const el = document.getElementById('tab-'+id);
+    if (el) el.className = 'tab-btn'+(t===id?' active':'');
   });
   render();
 }
 
 function setFilter(type, val) {
-  if (type === 'platform') filterPlatform = val;
-  else if (type === 'status') filterStatus = val;
-  else if (type === 'genre')  filterGenre  = val;
-  else if (type === 'rating') filterRating = val;
-  else if (type === 'sort')   sortBy       = val;
+  if (type==='platform') filterPlatform=val;
+  else if (type==='status') filterStatus=val;
+  else if (type==='genre')  filterGenre=val;
+  else if (type==='rating') filterRating=val;
+  else if (type==='sort')   sortBy=val;
   render();
 }
+
 function setSearch(v) {
   searchQ = v;
-  const inputBefore = document.querySelector('.search-wrap input');
-  const pos = inputBefore ? inputBefore.selectionStart : null;
+  const pos = document.querySelector('.search-wrap input')?.selectionStart ?? null;
   render();
-  const inputAfter = document.querySelector('.search-wrap input');
-  if (inputAfter) {
-    inputAfter.focus();
-    if (pos !== null) inputAfter.setSelectionRange(pos, pos);
-  }
+  const inp = document.querySelector('.search-wrap input');
+  if (inp) { inp.focus(); if (pos!==null) inp.setSelectionRange(pos,pos); }
 }
 
-// ── Library render ────────────────────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────────
+function render() {
+  const mc = document.getElementById('main-content');
+  if (loading) { mc.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div><p>Loading your library…</p></div>`; return; }
+  if (tab==='library') mc.innerHTML = renderLibrary();
+  else if (tab==='stats') mc.innerHTML = renderStats();
+  else mc.innerHTML = renderRecommend();
+}
+
 function renderLibrary() {
-  const fg        = filteredGames();
-  const total     = games.length;
-  const completed = games.filter(g => g.status === 'Completed').length;
-  const playing   = games.filter(g => g.status === 'Playing').length;
-  const rated     = games.filter(g => g.stars > 0);
-  const avg       = rated.length ? Math.round(rated.reduce((a,g) => a + g.stars, 0) / rated.length * 10) / 10 : 0;
+  const fg = filteredGames();
+  const total = games.length, completed = games.filter(g=>g.status==='Completed').length;
+  const playing = games.filter(g=>g.status==='Playing').length;
+  const rated = games.filter(g=>g.stars>0);
+  const avg = rated.length ? Math.round(rated.reduce((a,g)=>a+g.stars,0)/rated.length*10)/10 : 0;
 
-  const statsHtml = `
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
-      <div class="stat-card"><div class="stat-num">${completed}</div><div class="stat-lbl">Completed</div></div>
-      <div class="stat-card"><div class="stat-num">${playing}</div><div class="stat-lbl">In progress</div></div>
-      <div class="stat-card"><div class="stat-num">${avg || '—'}</div><div class="stat-lbl">Avg rating</div></div>
-    </div>`;
+  const statsHtml = `<div class="stats-row">
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
+    <div class="stat-card"><div class="stat-num">${completed}</div><div class="stat-lbl">Completed</div></div>
+    <div class="stat-card"><div class="stat-num">${playing}</div><div class="stat-lbl">In progress</div></div>
+    <div class="stat-card"><div class="stat-num">${avg||'—'}</div><div class="stat-lbl">Avg rating</div></div>
+  </div>`;
 
-  const pillsHtml = `
-    <div class="platform-pills">
-      <span class="plat-pill all${filterPlatform==='all'?' active':''}" onclick="setFilter('platform','all')">All</span>
-      ${PLATFORMS.map(p => `<span class="plat-pill ${p.id}${filterPlatform===p.id?' active':''}" onclick="setFilter('platform','${p.id}')">${p.short}</span>`).join('')}
-    </div>`;
+  const pillsHtml = `<div class="platform-pills">
+    <span class="plat-pill all${filterPlatform==='all'?' active':''}" onclick="setFilter('platform','all')">All</span>
+    ${PLATFORMS.map(p=>`<span class="plat-pill ${p.id}${filterPlatform===p.id?' active':''}" onclick="setFilter('platform','${p.id}')">${p.short}</span>`).join('')}
+  </div>`;
 
-  const toolbarHtml = `
-    <div class="toolbar">
-      <div class="search-wrap">
-        <span class="search-icon">⌕</span>
-        <input type="text" placeholder="Search your library..." value="${escH(searchQ)}" oninput="setSearch(this.value)">
-      </div>
-      <select class="filter-sel" onchange="setFilter('status',this.value)">
-        <option value="all"${filterStatus==='all'?' selected':''}>All statuses</option>
-        ${STATUSES.map(s => `<option value="${s}"${filterStatus===s?' selected':''}>${s}</option>`).join('')}
-      </select>
-      <select class="filter-sel" onchange="setFilter('genre',this.value)">
-        <option value="all"${filterGenre==='all'?' selected':''}>All genres</option>
-        ${GENRES.map(g => `<option value="${g}"${filterGenre===g?' selected':''}>${g}</option>`).join('')}
-      </select>
-      <select class="filter-sel" onchange="setFilter('rating',this.value)">
-        <option value="all"${filterRating==='all'?' selected':''}>All ratings</option>
-        ${[1,2,3,4,5].map(n => `<option value="${n}"${filterRating==n?' selected':''}>★ ${n} — ${STAR_LABELS[n]}</option>`).join('')}
-      </select>
-      <select class="filter-sel" onchange="setFilter('sort',this.value)">
-        <option value="added"${sortBy==='added'?' selected':''}>Recently added</option>
-        <option value="name"${sortBy==='name'?' selected':''}>Name A–Z</option>
-        <option value="rating"${sortBy==='rating'?' selected':''}>Highest rated</option>
-        <option value="year"${sortBy==='year'?' selected':''}>Newest release</option>
-      </select>
-      <button class="add-btn" onclick="openAddModal()">+ Add game</button>
-    </div>`;
+  const toolbarHtml = `<div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" placeholder="Search your library..." value="${escH(searchQ)}" oninput="setSearch(this.value)">
+    </div>
+    <select class="filter-sel" onchange="setFilter('status',this.value)">
+      <option value="all"${filterStatus==='all'?' selected':''}>All statuses</option>
+      ${STATUSES.map(s=>`<option value="${s}"${filterStatus===s?' selected':''}>${s}</option>`).join('')}
+    </select>
+    <select class="filter-sel" onchange="setFilter('genre',this.value)">
+      <option value="all"${filterGenre==='all'?' selected':''}>All genres</option>
+      ${GENRES.map(g=>`<option value="${g}"${filterGenre===g?' selected':''}>${g}</option>`).join('')}
+    </select>
+    <select class="filter-sel" onchange="setFilter('rating',this.value)">
+      <option value="all"${filterRating==='all'?' selected':''}>All ratings</option>
+      ${[1,2,3,4,5].map(n=>`<option value="${n}"${filterRating==n?' selected':''}>★ ${n} — ${STAR_LABELS[n]}</option>`).join('')}
+    </select>
+    <select class="filter-sel" onchange="setFilter('sort',this.value)">
+      <option value="added"${sortBy==='added'?' selected':''}>Recently added</option>
+      <option value="name"${sortBy==='name'?' selected':''}>Name A–Z</option>
+      <option value="rating"${sortBy==='rating'?' selected':''}>Highest rated</option>
+      <option value="year"${sortBy==='year'?' selected':''}>Newest release</option>
+    </select>
+    <button class="add-btn" onclick="openAddModal()">+ Add game</button>
+  </div>`;
 
-  let gridHtml = '';
-  if (fg.length === 0) {
-    gridHtml = `<div class="empty-state"><div class="e-icon">🎮</div><p>No games match your filters</p></div>`;
-  } else {
-    gridHtml = `<div class="game-grid">${fg.map(g => {
-      const art      = artCache[g.title];
-      const fetching = fetchingArt.has(g.title);
-      const emoji    = GENRE_EMOJI[g.genre] || '🎮';
-      return `
-        <div class="game-card" onclick="openDetailPanel('${g.id}')">
+  let gridHtml = fg.length===0
+    ? `<div class="empty-state"><div class="e-icon">🎮</div><p>No games match your filters</p></div>`
+    : `<div class="game-grid">${fg.map(g => {
+        const art = artCache[g.title], fetching = fetchingArt.has(g.title), emoji = GENRE_EMOJI[g.genre]||'🎮';
+        return `<div class="game-card" onclick="openDetailPanel('${g.id}')">
           <div class="game-art" style="background:${artBg(g.platform)}">
             <span class="plat-dot dot-${g.platform}"></span>
-            ${art ? `<img src="${escH(art)}" alt="${escH(g.title)}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">` : ''}
+            ${art?`<img src="${escH(art)}" alt="${escH(g.title)}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:''}
             <div class="game-art-emoji" style="${art?'display:none':''}">${emoji}</div>
-            ${fetching ? `<div class="art-loading-bar"></div>` : ''}
+            ${fetching?`<div class="art-loading-bar"></div>`:''}
             <span class="game-badge badge-${statusSlug(g.status)}">${g.status}</span>
           </div>
           <div class="game-info">
             <div class="game-title">${escH(g.title)}</div>
             <div class="game-meta">
-              <span class="game-genre">${[g.genre, g.releaseYear].filter(Boolean).join(' · ')}</span>
-              <span>${g.stars > 0 ? starsHtml(g.stars) : ''}</span>
+              <span class="game-genre">${[g.genre,g.release_year].filter(Boolean).join(' · ')}</span>
+              <span>${g.stars>0?starsHtml(g.stars):''}</span>
             </div>
           </div>
         </div>`;
-    }).join('')}</div>`;
-  }
+      }).join('')}</div>`;
 
   return statsHtml + pillsHtml + toolbarHtml + gridHtml;
 }
 
-// ── Stats Dashboard ───────────────────────────────────────────────────────────
+// ── Stats ─────────────────────────────────────────────────────────────────────
 function renderStats() {
-  if (games.length === 0) {
-    return `<div class="empty-state"><div class="e-icon">📊</div><p>Add some games to see your stats!</p></div>`;
-  }
+  if (!games.length) return `<div class="empty-state"><div class="e-icon">📊</div><p>Add some games to see your stats!</p></div>`;
 
-  const total     = games.length;
-  const completed = games.filter(g => g.status === 'Completed').length;
-  const dnf       = games.filter(g => g.status === 'Did Not Finish').length;
-  const playing   = games.filter(g => g.status === 'Playing').length;
-  const backlog   = games.filter(g => g.status === 'Backlog').length;
-  const wishlist  = games.filter(g => g.status === 'Wishlist').length;
-  const rated     = games.filter(g => g.stars > 0);
-  const avg       = rated.length ? (rated.reduce((a,g) => a + g.stars, 0) / rated.length).toFixed(1) : 0;
-  const compRate  = total > 0 ? Math.round(completed / total * 100) : 0;
+  const total = games.length;
+  const completed = games.filter(g=>g.status==='Completed').length;
+  const dnf = games.filter(g=>g.status==='Did Not Finish').length;
+  const playing = games.filter(g=>g.status==='Playing').length;
+  const backlog = games.filter(g=>g.status==='Backlog').length;
+  const wishlist = games.filter(g=>g.status==='Wishlist').length;
+  const rated = games.filter(g=>g.stars>0);
+  const avg = rated.length?(rated.reduce((a,g)=>a+g.stars,0)/rated.length).toFixed(1):0;
+  const compRate = total>0?Math.round(completed/total*100):0;
 
   const statuses = [
-    { label:'Completed',      count: completed, color:'#4ade80' },
-    { label:'Playing',        count: playing,   color:'#fbbf24' },
-    { label:'Backlog',        count: backlog,   color:'#8b90a8' },
-    { label:'Wishlist',       count: wishlist,  color:'#5b8dee' },
-    { label:'Did Not Finish', count: dnf,       color:'#f87171' },
+    {label:'Completed',count:completed,color:'#4ade80'},
+    {label:'Playing',count:playing,color:'#fbbf24'},
+    {label:'Backlog',count:backlog,color:'#8b90a8'},
+    {label:'Wishlist',count:wishlist,color:'#5b8dee'},
+    {label:'Did Not Finish',count:dnf,color:'#f87171'},
   ];
 
   const genreCounts = {};
-  games.forEach(g => { genreCounts[g.genre] = (genreCounts[g.genre]||0)+1; });
+  games.forEach(g=>{genreCounts[g.genre]=(genreCounts[g.genre]||0)+1;});
   const topGenres = Object.entries(genreCounts).sort((a,b)=>b[1]-a[1]).slice(0,7);
-  const maxGenre  = Math.max(...topGenres.map(([,c])=>c), 1);
+  const maxGenre = Math.max(...topGenres.map(([,c])=>c),1);
 
   const platCounts = {};
-  PLATFORMS.forEach(p => { platCounts[p.id] = games.filter(g => g.platform===p.id).length; });
+  PLATFORMS.forEach(p=>{platCounts[p.id]=games.filter(g=>g.platform===p.id).length;});
 
   const ratingCounts = {1:0,2:0,3:0,4:0,5:0};
-  rated.forEach(g => { ratingCounts[g.stars]++; });
-  const maxRating = Math.max(...Object.values(ratingCounts), 1);
+  rated.forEach(g=>{ratingCounts[g.stars]++;});
+  const maxRating = Math.max(...Object.values(ratingCounts),1);
 
-  function barRow(label, count, max, color) {
-    const pct = max > 0 ? Math.round(count/max*100) : 0;
-    return `<div class="bar-row">
-      <div class="bar-label">${escH(label)}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
-      <div class="bar-count">${count}</div>
-    </div>`;
+  function barRow(label,count,max,color) {
+    const pct = max>0?Math.round(count/max*100):0;
+    return `<div class="bar-row"><div class="bar-label">${escH(label)}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div><div class="bar-count">${count}</div></div>`;
   }
 
-  return `
-    <div style="max-width:900px">
-      <div class="stats-row" style="margin-bottom:20px">
-        <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
-        <div class="stat-card"><div class="stat-num">${compRate}%</div><div class="stat-lbl">Completion rate</div></div>
-        <div class="stat-card"><div class="stat-num">${backlog+wishlist}</div><div class="stat-lbl">Backlog size</div></div>
-        <div class="stat-card"><div class="stat-num">${avg||'—'}</div><div class="stat-lbl">Avg rating</div></div>
-      </div>
-      <div class="dash-grid">
-        <div class="dash-card">
-          <h3>Status breakdown</h3>
-          ${statuses.map(s => barRow(s.label, s.count, total, s.color)).join('')}
+  // Year in Review
+  const completedGames = games.filter(g=>g.status==='Completed' && g.year_completed);
+  const years = [...new Set(completedGames.map(g=>g.year_completed))].sort((a,b)=>b-a);
+  const currentYearGames = completedGames.filter(g=>g.year_completed===yirYear);
+  const byPlatform = {};
+  PLATFORMS.forEach(p=>{
+    const pg = currentYearGames.filter(g=>g.platform===p.id);
+    if (pg.length) byPlatform[p.id] = pg;
+  });
+  const otherPlatformIds = new Set(currentYearGames.map(g=>g.platform).filter(id=>!PLATFORMS.find(p=>p.id===id)));
+  if (otherPlatformIds.size) byPlatform['other'] = currentYearGames.filter(g=>otherPlatformIds.has(g.platform));
+
+  const yirSections = Object.entries(byPlatform).map(([platId, platGames]) => {
+    const platLabel = platId==='other' ? 'Other' : (PLATFORMS.find(p=>p.id===platId)?.name||platId);
+    const cards = platGames.map(g => {
+      const art = artCache[g.title], emoji = GENRE_EMOJI[g.genre]||'🎮';
+      return `<div class="yir-card">
+        <div class="yir-art" style="background:${artBg(g.platform)}">
+          ${art?`<img src="${escH(art)}" alt="">`:`<div class="yir-art-emoji">${emoji}</div>`}
         </div>
-        <div class="dash-card">
-          <h3>By platform</h3>
-          ${PLATFORMS.map(p => barRow(p.name, platCounts[p.id]||0, total, p.color)).join('')}
+        <div class="yir-info">
+          <div class="yir-game-title">${escH(g.title)}</div>
+          ${g.stars>0?`<div class="yir-stars">${'★'.repeat(g.stars)}</div>`:''}
+          <div class="yir-plat">${escH(platShort(g.platform))}</div>
         </div>
-        <div class="dash-card">
-          <h3>Top genres</h3>
-          ${topGenres.length ? topGenres.map(([name,count]) => barRow(name, count, maxGenre, '#5b8dee')).join('') : '<span style="font-size:13px;color:var(--text3)">No data yet</span>'}
-        </div>
-        <div class="dash-card">
-          <h3>Rating distribution</h3>
-          ${[5,4,3,2,1].map(n => barRow(`★${n} ${STAR_LABELS[n]}`, ratingCounts[n], maxRating, '#fbbf24')).join('')}
-        </div>
-      </div>
-    </div>`;
+      </div>`;
+    }).join('');
+    return `<div class="yir-section-title">${escH(platLabel)} · ${platGames.length} game${platGames.length!==1?'s':''}</div><div class="yir-grid">${cards}</div>`;
+  }).join('');
+
+  const yirContent = currentYearGames.length===0
+    ? `<div class="yir-empty">No completed games logged for ${yirYear} yet. Mark games as Completed and set their year to see them here!</div>`
+    : yirSections;
+
+  const yearOptions = years.length
+    ? years.map(y=>`<option value="${y}"${y===yirYear?' selected':''}>${y}</option>`).join('')
+    : `<option value="${yirYear}">${yirYear}</option>`;
+
+  return `<div style="max-width:900px">
+    <div class="stats-row" style="margin-bottom:20px">
+      <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
+      <div class="stat-card"><div class="stat-num">${compRate}%</div><div class="stat-lbl">Completion rate</div></div>
+      <div class="stat-card"><div class="stat-num">${backlog+wishlist}</div><div class="stat-lbl">Backlog size</div></div>
+      <div class="stat-card"><div class="stat-num">${avg||'—'}</div><div class="stat-lbl">Avg rating</div></div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-card"><h3>Status breakdown</h3>${statuses.map(s=>barRow(s.label,s.count,total,s.color)).join('')}</div>
+      <div class="dash-card"><h3>By platform</h3>${PLATFORMS.map(p=>barRow(p.name,platCounts[p.id]||0,total,p.color)).join('')}</div>
+      <div class="dash-card"><h3>Top genres</h3>${topGenres.length?topGenres.map(([n,c])=>barRow(n,c,maxGenre,'#5b8dee')).join(''):'<span style="font-size:13px;color:var(--text3)">No data yet</span>'}</div>
+      <div class="dash-card"><h3>Rating distribution</h3>${[5,4,3,2,1].map(n=>barRow(`★${n} ${STAR_LABELS[n]}`,ratingCounts[n],maxRating,'#fbbf24')).join('')}</div>
+    </div>
+    <div class="yir-header">
+      <div class="yir-title">⭐ YEAR IN REVIEW</div>
+      <select class="year-sel" onchange="setYirYear(this.value)">${yearOptions}</select>
+      <span class="yir-count">${currentYearGames.length} game${currentYearGames.length!==1?'s':''} completed</span>
+    </div>
+    ${yirContent}
+  </div>`;
 }
 
-// ── Recommend render ──────────────────────────────────────────────────────────
+function setYirYear(y) { yirYear = y; render(); }
+
+// ── Recommend ─────────────────────────────────────────────────────────────────
 function renderRecommend() {
-  const anyInPool = games.some(g => g.status === 'Backlog' || g.status === 'Wishlist');
-  if (!anyInPool) {
-    return `<div class="empty-state"><div class="e-icon">🎮</div><p>Add some games to your backlog first!</p></div>`;
-  }
+  const anyInPool = games.some(g=>g.status==='Backlog'||g.status==='Wishlist');
+  if (!anyInPool) return `<div class="empty-state"><div class="e-icon">🎮</div><p>Add some games to your backlog first!</p></div>`;
 
   let resultHtml = '';
   if (recNoMatch) {
     resultHtml = `<div class="rec-no-match">No games match those filters. Try loosening them!</div>`;
   } else if (recResult) {
-    const art   = artCache[recResult.title];
-    const emoji = GENRE_EMOJI[recResult.genre] || '🎮';
-    resultHtml = `
-      <div class="rec-result">
-        <div class="rec-result-art">
-          ${art ? `<img src="${escH(art)}" alt="">` : `<div class="emoji-fallback">${emoji}</div>`}
-        </div>
-        <div class="rec-result-body">
-          <div class="rec-title">${escH(recResult.title)}</div>
-          <div class="rec-sub">${escH(platName(recResult.platform))}${recResult.genre ? ' · ' + recResult.genre : ''}${recResult.releaseYear ? ' · ' + recResult.releaseYear : ''}${recResult.stars > 0 ? ' · ' + recResult.stars + '/5 ★' : ''}</div>
-          ${(recResult.tags || []).map(t => `<span class="rec-tag">${escH(t)}</span>`).join('')}
-          <div class="rec-reason">${escH(recResult.reason)}</div>
-          <button class="mark-played-btn" onclick="startPlaying('${recResult.id}')">▶ Start playing this</button>
-        </div>
-      </div>`;
+    const art = artCache[recResult.title], emoji = GENRE_EMOJI[recResult.genre]||'🎮';
+    resultHtml = `<div class="rec-result">
+      <div class="rec-result-art">${art?`<img src="${escH(art)}" alt="">`:`<div class="emoji-fallback">${emoji}</div>`}</div>
+      <div class="rec-result-body">
+        <div class="rec-title">${escH(recResult.title)}</div>
+        <div class="rec-sub">${escH(platName(recResult.platform))}${recResult.genre?' · '+recResult.genre:''}${recResult.release_year?' · '+recResult.release_year:''}${recResult.stars>0?' · '+recResult.stars+'/5 ★':''}</div>
+        ${(recResult.tags||[]).map(t=>`<span class="rec-tag">${escH(t)}</span>`).join('')}
+        ${recResult.notes?`<div style="font-size:14px;color:var(--text2);line-height:1.65">${escH(recResult.notes)}</div>`:''}
+        <button class="mark-played-btn" onclick="startPlaying('${recResult.id}')">▶ Start playing this</button>
+      </div>
+    </div>`;
   }
 
-  return `
-    <div class="rec-wrap">
-      <div class="rec-hero">
-        <h2>WHAT'S NEXT?</h2>
-        <p>Filter your backlog, then let me pick something for you.</p>
-      </div>
-      <div class="rec-filters">
-        <select class="rec-filter-sel" onchange="recFilter('platform',this.value)">
-          <option value="all"${recFilterPlatform==='all'?' selected':''}>Any platform</option>
-          ${PLATFORMS.map(p => `<option value="${p.id}"${recFilterPlatform===p.id?' selected':''}>${p.name}</option>`).join('')}
-        </select>
-        <select class="rec-filter-sel" onchange="recFilter('genre',this.value)">
-          <option value="all"${recFilterGenre==='all'?' selected':''}>Any genre</option>
-          ${GENRES.map(g => `<option value="${g}"${recFilterGenre===g?' selected':''}>${g}</option>`).join('')}
-        </select>
-        <select class="rec-filter-sel" onchange="recFilter('source',this.value)">
-          <option value="both"${recFilterSource==='both'?' selected':''}>Backlog + Wishlist</option>
-          <option value="backlog"${recFilterSource==='backlog'?' selected':''}>Backlog only</option>
-          <option value="wishlist"${recFilterSource==='wishlist'?' selected':''}>Wishlist only</option>
-        </select>
-      </div>
-      <button class="spin-btn" onclick="getRecommendation()">🎲 PICK SOMETHING FOR ME</button>
-      ${resultHtml}
-    </div>`;
+  return `<div class="rec-wrap">
+    <div class="rec-hero"><h2>WHAT'S NEXT?</h2><p>Filter your backlog, then let me pick something for you.</p></div>
+    <div class="rec-filters">
+      <select class="rec-filter-sel" onchange="recFilter('platform',this.value)">
+        <option value="all"${recFilterPlatform==='all'?' selected':''}>Any platform</option>
+        ${PLATFORMS.map(p=>`<option value="${p.id}"${recFilterPlatform===p.id?' selected':''}>${p.name}</option>`).join('')}
+      </select>
+      <select class="rec-filter-sel" onchange="recFilter('genre',this.value)">
+        <option value="all"${recFilterGenre==='all'?' selected':''}>Any genre</option>
+        ${GENRES.map(g=>`<option value="${g}"${recFilterGenre===g?' selected':''}>${g}</option>`).join('')}
+      </select>
+      <select class="rec-filter-sel" onchange="recFilter('source',this.value)">
+        <option value="both"${recFilterSource==='both'?' selected':''}>Backlog + Wishlist</option>
+        <option value="backlog"${recFilterSource==='backlog'?' selected':''}>Backlog only</option>
+        <option value="wishlist"${recFilterSource==='wishlist'?' selected':''}>Wishlist only</option>
+      </select>
+    </div>
+    <button class="spin-btn" onclick="getRecommendation()">🎲 PICK SOMETHING FOR ME</button>
+    ${resultHtml}
+  </div>`;
 }
 
-// ── Recommendation logic ──────────────────────────────────────────────────────
-function recFilter(type, val) {
-  if (type === 'platform') recFilterPlatform = val;
-  else if (type === 'genre') recFilterGenre  = val;
-  else recFilterSource = val;
-  recResult  = null;
-  recNoMatch = false;
-  render();
+function recFilter(type,val) {
+  if (type==='platform') recFilterPlatform=val;
+  else if (type==='genre') recFilterGenre=val;
+  else recFilterSource=val;
+  recResult=null; recNoMatch=false; render();
 }
 
 function getRecommendation() {
   let pool = games.filter(g => {
-    if (recFilterSource === 'backlog')  return g.status === 'Backlog';
-    if (recFilterSource === 'wishlist') return g.status === 'Wishlist';
-    return g.status === 'Backlog' || g.status === 'Wishlist';
+    if (recFilterSource==='backlog')  return g.status==='Backlog';
+    if (recFilterSource==='wishlist') return g.status==='Wishlist';
+    return g.status==='Backlog'||g.status==='Wishlist';
   });
-  if (recFilterPlatform !== 'all') pool = pool.filter(g => g.platform === recFilterPlatform);
-  if (recFilterGenre    !== 'all') pool = pool.filter(g => g.genre    === recFilterGenre);
-
-  if (pool.length === 0) { recResult = null; recNoMatch = true; render(); return; }
-  recNoMatch = false;
-
-  const pick = pool[Math.floor(Math.random() * pool.length)];
-  const filters = [
-    recFilterPlatform !== 'all' ? platName(recFilterPlatform) : null,
-    recFilterGenre    !== 'all' ? recFilterGenre : null,
-  ].filter(Boolean);
-
-  recResult = {
-    ...pick,
-    reason: `Picked from ${pool.length} game${pool.length>1?'s':''} in your backlog${filters.length ? ' filtered by ' + filters.join(' + ') : ''}.${pick.notes ? ' Your note: "' + pick.notes + '"' : ''}`,
-    tags: [pick.genre, platShort(pick.platform), pick.releaseYear || null].filter(Boolean),
-  };
+  if (recFilterPlatform!=='all') pool=pool.filter(g=>g.platform===recFilterPlatform);
+  if (recFilterGenre!=='all')    pool=pool.filter(g=>g.genre===recFilterGenre);
+  if (!pool.length) { recResult=null; recNoMatch=true; render(); return; }
+  recNoMatch=false;
+  const pick = pool[Math.floor(Math.random()*pool.length)];
+  recResult = { ...pick, tags:[pick.genre,platShort(pick.platform),pick.release_year||null].filter(Boolean) };
   render();
 }
 
-function startPlaying(id) {
-  const g = games.find(g => g.id === id);
-  if (g) { g.status = 'Playing'; saveGames(); }
-  recResult = null; recNoMatch = false;
-  closeModal();
-  render();
+async function startPlaying(id) {
+  const g = games.find(g=>g.id===id);
+  if (g) { g.status='Playing'; try { await dbUpdate(id,{status:'Playing'}); } catch(e){} }
+  recResult=null; recNoMatch=false; closeModal(); render();
 }
 
 // ── Detail Panel ──────────────────────────────────────────────────────────────
 function openDetailPanel(id) {
-  const g = games.find(g => g.id === id);
+  const g = games.find(g=>g.id===id);
   if (!g) return;
-  const art   = artCache[g.title];
-  const emoji = GENRE_EMOJI[g.genre] || '🎮';
-  const plat  = PLATFORMS.find(p => p.id === g.platform);
-  const ml    = document.getElementById('modal-layer');
-
-  ml.innerHTML = `
+  const art = artCache[g.title], emoji = GENRE_EMOJI[g.genre]||'🎮';
+  const plat = PLATFORMS.find(p=>p.id===g.platform);
+  document.getElementById('modal-layer').innerHTML = `
     <div class="detail-overlay" onclick="closeDetailOverlay(event)">
       <div class="detail-modal">
         <div class="detail-art-hero" style="background:${artBg(g.platform)}">
-          ${art ? `<img src="${escH(art)}" alt="${escH(g.title)}">` : `<div class="emoji-hero">${emoji}</div>`}
+          ${art?`<img src="${escH(art)}" alt="${escH(g.title)}">`:`<div class="emoji-hero">${emoji}</div>`}
           <div class="detail-art-overlay"></div>
           <button class="detail-close" onclick="closeModal()">✕</button>
         </div>
         <div class="detail-body">
           <div class="detail-title">${escH(g.title)}</div>
           <div class="detail-chips">
-            <span class="detail-chip">${escH(plat ? plat.name : g.platform)}</span>
+            <span class="detail-chip">${escH(plat?plat.name:g.platform)}</span>
             <span class="game-badge badge-${statusSlug(g.status)}" style="position:static;font-size:11px">${g.status}</span>
-            ${g.genre       ? `<span class="detail-chip">${escH(g.genre)}</span>` : ''}
-            ${g.releaseYear ? `<span class="detail-chip">${escH(g.releaseYear)}</span>` : ''}
+            ${g.genre?`<span class="detail-chip">${escH(g.genre)}</span>`:''}
+            ${g.release_year?`<span class="detail-chip">${escH(g.release_year)}</span>`:''}
+            ${g.year_completed?`<span class="detail-chip" style="color:var(--accent)">✓ Completed ${escH(g.year_completed)}</span>`:''}
           </div>
-          ${g.stars > 0 ? `
-            <div class="detail-stars">
-              ${starsHtml(g.stars, 17)}
-              <span class="detail-stars-label">${STAR_LABELS[g.stars]}</span>
-            </div>` : ''}
-          ${g.notes ? `<div class="detail-desc">${escH(g.notes)}</div>` : ''}
+          ${g.stars>0?`<div class="detail-stars">${starsHtml(g.stars,17)}<span class="detail-stars-label">${STAR_LABELS[g.stars]}</span></div>`:''}
+          ${g.notes?`<div class="detail-desc">${escH(g.notes)}</div>`:''}
           <div class="detail-footer">
-            ${(g.status === 'Backlog' || g.status === 'Wishlist') ? `<button class="btn-primary" onclick="startPlaying('${g.id}')">▶ Start Playing</button>` : ''}
+            ${(g.status==='Backlog'||g.status==='Wishlist')?`<button class="btn-primary" onclick="startPlaying('${g.id}')">▶ Start Playing</button>`:''}
             <button class="btn-ghost" onclick="openEditFromDetail('${g.id}')">✏ Edit</button>
             <button class="btn-ghost" onclick="closeModal()">Close</button>
           </div>
@@ -708,279 +637,229 @@ function openDetailPanel(id) {
     </div>`;
 }
 
-function openEditFromDetail(id) {
-  closeModal();
-  openEditModal(id);
-}
 function closeDetailOverlay(e) { if (e.target.classList.contains('detail-overlay')) closeModal(); }
+function openEditFromDetail(id) { closeModal(); openEditModal(id); }
 
-// ── Edit / Add Modal ──────────────────────────────────────────────────────────
+// ── Add / Edit Modal ──────────────────────────────────────────────────────────
 function openAddModal() {
-  modalMode = 'add';
-  pendingGame  = { platform:'sx', status:'Backlog', genre:'Action', stars:0, notes:'', releaseYear:'' };
-  pendingStars = 0; pendingArtUrl = ''; pendingArtOpts = []; pendingSearchResults = [];
+  modalMode='add'; editId=null;
+  pendingGame={platform:'ps',genre:'Action',status:'Backlog',stars:0,year_completed:''};
+  pendingStars=0; pendingArtUrl=''; pendingArtOpts=[]; pendingResults=[];
   renderModal();
 }
+
 function openEditModal(id) {
-  modalMode = 'edit'; editId = id;
-  const g = games.find(g => g.id === id);
-  pendingGame  = { ...g };
-  pendingStars = g.stars || 0;
-  pendingArtUrl= artCache[g.title] || '';
-  pendingArtOpts = []; pendingSearchResults = [];
+  const g = games.find(g=>g.id===id);
+  if (!g) return;
+  modalMode='edit'; editId=id;
+  pendingGame={...g};
+  pendingStars=g.stars||0;
+  pendingArtUrl=artCache[g.title]||'';
+  pendingArtOpts=[]; pendingResults=[];
   renderModal();
 }
 
 function renderModal() {
-  const ml = document.getElementById('modal-layer');
-  const artPreview = pendingArtUrl
-    ? `<img src="${escH(pendingArtUrl)}" onerror="this.style.display='none'">`
-    : `<span class="no-art-label">No art yet</span>`;
-
-  ml.innerHTML = `
+  const isEdit = modalMode==='edit';
+  const g = pendingGame;
+  document.getElementById('modal-layer').innerHTML = `
     <div class="modal-overlay" onclick="closeModalOverlay(event)">
       <div class="modal">
         <div class="modal-head">
-          <h2>${modalMode === 'add' ? 'ADD GAME' : 'EDIT GAME'}</h2>
+          <h2>${isEdit?'Edit game':'Add game'}</h2>
           <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
         <div class="modal-body">
-          <div class="modal-art-preview" id="modal-art-preview">${artPreview}</div>
-
+          <div class="modal-art-preview">
+            ${pendingArtUrl?`<img src="${escH(pendingArtUrl)}" alt="">`:`<span class="no-art-label">No cover art yet</span>`}
+          </div>
           <div class="form-group">
             <label>Game title</label>
-            <input type="text" id="f-title" value="${escH(pendingGame.title||'')}" placeholder="Enter game title..." onkeydown="if(event.key==='Enter')searchRAWG()">
-            <button class="btn-secondary" id="rawg-search-btn" onclick="searchRAWG()">🔍 Search RAWG</button>
-            <div id="rawg-results"></div>
-            <div class="art-results-grid" id="art-results"></div>
+            <input type="text" value="${escH(g.title||'')}" placeholder="Search or enter title..." id="modal-title-input"
+              oninput="pendingGame.title=this.value;updateArtPreview();debouncedSearch(this.value)">
+            <div id="search-results-container"></div>
           </div>
-
+          <div id="art-options-container"></div>
+          <div class="form-group">
+            <label>Platform</label>
+            <div class="plat-grid">
+              ${PLATFORMS.map(p=>`<div class="plat-option${g.platform===p.id?' selected':''}" onclick="selectPlat('${p.id}')">
+                <span class="dot" style="background:${p.color}"></span>
+                <span class="name">${p.name}</span>
+              </div>`).join('')}
+            </div>
+          </div>
           <div class="form-row">
             <div class="form-group">
-              <label>Platform</label>
-              <div class="plat-grid" id="plat-grid">
-                ${PLATFORMS.map(p => `
-                  <div class="plat-option${pendingGame.platform===p.id?' selected':''}" onclick="pickPlat('${p.id}')">
-                    <div class="dot" style="background:${p.color}"></div>
-                    <span class="name">${p.short}</span>
-                  </div>`).join('')}
-              </div>
+              <label>Genre</label>
+              <select onchange="pendingGame.genre=this.value">
+                ${GENRES.map(gen=>`<option value="${gen}"${g.genre===gen?' selected':''}>${gen}</option>`).join('')}
+              </select>
             </div>
             <div class="form-group">
               <label>Status</label>
-              <select id="f-status">
-                ${STATUSES.map(s => `<option${pendingGame.status===s?' selected':''}>${s}</option>`).join('')}
+              <select onchange="handleStatusChange(this.value)">
+                ${STATUSES.map(s=>`<option value="${s}"${g.status===s?' selected':''}>${s}</option>`).join('')}
               </select>
-              <div style="margin-top:10px">
-                <label>Genre</label>
-                <select id="f-genre">
-                  ${GENRES.map(g => `<option${pendingGame.genre===g?' selected':''}>${g}</option>`).join('')}
-                </select>
-              </div>
-              <div style="margin-top:10px">
-                <label>Release year</label>
-                <input type="text" id="f-year" value="${escH(pendingGame.releaseYear||'')}" placeholder="e.g. 2022" maxlength="4">
-              </div>
             </div>
           </div>
-
+          <div class="form-row">
+            <div class="form-group">
+              <label>Release Year</label>
+              <input type="text" value="${escH(g.release_year||'')}" placeholder="e.g. 2024" oninput="pendingGame.release_year=this.value" maxlength="4">
+            </div>
+            <div class="form-group">
+              <label>Year Completed</label>
+              <input type="text" id="year-completed-input" value="${escH(g.year_completed||'')}" placeholder="e.g. 2024" oninput="pendingGame.year_completed=this.value" maxlength="4" ${g.status==='Completed'?'':'style="opacity:0.5"'}>
+            </div>
+          </div>
           <div class="form-group">
             <label>Your rating</label>
-            <div class="star-label" id="star-label">${pendingStars > 0 ? STAR_LABELS[pendingStars] : ''}</div>
-            <div class="star-picker" id="star-picker">
-              ${[1,2,3,4,5].map(n => `<button class="star-pick${n<=pendingStars?' lit':''}" onclick="pickStars(${n})" onmouseenter="hoverStar(${n})" onmouseleave="hoverStar(0)">★</button>`).join('')}
+            <div class="star-label" id="star-label-text">${pendingStars?STAR_LABELS[pendingStars]:''}</div>
+            <div class="star-picker">
+              ${[1,2,3,4,5].map(n=>`<button class="star-pick${pendingStars>=n?' lit':''}" onclick="setStars(${n})">★</button>`).join('')}
             </div>
           </div>
-
           <div class="form-group">
-            <label>Description / Notes</label>
-            <textarea id="f-notes" placeholder="Game description or your own thoughts...">${escH(pendingGame.notes||'')}</textarea>
+            <label>Notes</label>
+            <textarea placeholder="Any thoughts, tips, reminders..." oninput="pendingGame.notes=this.value">${escH(g.notes||'')}</textarea>
           </div>
+          <button class="btn-secondary" onclick="fetchAndShowArtOptions()">🎨 Search for cover art</button>
         </div>
         <div class="modal-foot">
-          ${modalMode === 'edit' ? `<button class="btn-danger" onclick="deleteGame('${editId}')">Delete</button>` : ''}
+          ${isEdit?`<button class="btn-danger" onclick="deleteGame('${editId}')">Delete</button>`:''}
           <button class="btn-ghost" onclick="closeModal()">Cancel</button>
           <button class="btn-primary" onclick="saveGame()">Save</button>
         </div>
       </div>
     </div>`;
-
-  if (pendingArtOpts.length > 0) renderArtResults();
 }
 
-// ── RAWG search in modal ──────────────────────────────────────────────────────
-async function searchRAWG() {
-  const title = document.getElementById('f-title')?.value?.trim();
-  if (!title) { alert('Enter a game title first!'); return; }
-  const btn = document.getElementById('rawg-search-btn');
-  if (btn) { btn.textContent = 'Searching...'; btn.disabled = true; }
-  try {
-    const res  = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=6`);
-    const data = await res.json();
-    pendingSearchResults = (data.results || []).map(r => ({
-      slug:   r.slug,
-      name:   r.name,
-      year:   r.released ? r.released.slice(0,4) : '',
-      genres: (r.genres || []).map(g => g.name),
-      artUrl: r.background_image || '',
-    }));
-  } catch(e) { pendingSearchResults = []; }
-  if (btn) { btn.textContent = '🔍 Search RAWG'; btn.disabled = false; }
-  renderSearchResults();
-}
-
-function renderSearchResults() {
-  const el = document.getElementById('rawg-results');
-  if (!el) return;
-  if (pendingSearchResults.length === 0) {
-    el.innerHTML = '<span style="font-size:12px;color:var(--text3);padding:8px 0;display:block">No results found.</span>';
-    return;
+function handleStatusChange(val) {
+  pendingGame.status = val;
+  if (val==='Completed' && !pendingGame.year_completed) {
+    pendingGame.year_completed = String(new Date().getFullYear());
   }
-  el.innerHTML = `<div class="search-results">${pendingSearchResults.map((r, i) =>
-    `<div class="search-result-item" onclick="selectRAWGGame(${i})">
-      <div style="flex:1;min-width:0">
-        <div class="res-title">${escH(r.name)}</div>
-        <div class="res-meta">${[r.year, r.genres[0]].filter(Boolean).join(' · ')}</div>
-      </div>
-      ${r.artUrl ? `<img class="res-thumb" src="${escH(r.artUrl)}" alt="">` : ''}
-    </div>`
-  ).join('')}</div>`;
-}
-
-async function selectRAWGGame(idx) {
-  const r = pendingSearchResults[idx];
-  if (!r) return;
-
-  const titleEl = document.getElementById('f-title');
-  if (titleEl) titleEl.value = r.name;
-
-  const yearEl = document.getElementById('f-year');
-  if (yearEl) yearEl.value = r.year || '';
-
-  const genre = mapRAWGGenre(r.genres);
-  pendingGame.genre = genre;
-  const genreEl = document.getElementById('f-genre');
-  if (genreEl) genreEl.value = genre;
-
-  if (r.artUrl) selectArt(r.artUrl);
-
-  const resultsEl = document.getElementById('rawg-results');
-  if (resultsEl) resultsEl.innerHTML = '';
-  pendingSearchResults = [];
-
-  try {
-    const detail = await fetch(`https://api.rawg.io/api/games/${r.slug}?key=${RAWG_KEY}`);
-    const d = await detail.json();
-    if (d.description_raw) {
-      const notesEl = document.getElementById('f-notes');
-      if (notesEl) notesEl.value = d.description_raw.slice(0, 500);
-    }
-  } catch(e) {}
-
-  pendingArtOpts = await fetchArtOptions(r.name);
-  renderArtResults();
-}
-
-function mapRAWGGenre(rawgGenres) {
-  const MAP = { 'rpg':'RPG', 'action':'Action', 'adventure':'Adventure', 'strategy':'Strategy',
-    'platformer':'Platformer', 'shooter':'Shooter', 'sports':'Sports', 'racing':'Racing',
-    'puzzle':'Puzzle', 'horror':'Horror', 'fighting':'Fighting', 'simulation':'Simulation' };
-  for (const g of rawgGenres) {
-    const key = g.toLowerCase();
-    if (MAP[key]) return MAP[key];
-    if (key.includes('role')) return 'RPG';
+  const inp = document.getElementById('year-completed-input');
+  if (inp) {
+    inp.value = pendingGame.year_completed||'';
+    inp.style.opacity = val==='Completed'?'1':'0.5';
   }
-  return 'Other';
 }
 
-function renderArtResults() {
-  const el = document.getElementById('art-results');
-  if (!el) return;
-  if (pendingArtOpts.length === 0) { el.innerHTML = '<span style="font-size:12px;color:var(--text3)">No results found.</span>'; return; }
-  el.innerHTML = pendingArtOpts.map(a =>
-    `<img class="art-thumb${pendingArtUrl===a.url?' selected':''}" src="${escH(a.url)}" title="${escH(a.name)}" onclick="selectArt('${escH(a.url)}')">`
-  ).join('');
-}
-
-function selectArt(url) {
-  pendingArtUrl = url;
-  const preview = document.getElementById('modal-art-preview');
-  if (preview) preview.innerHTML = `<img src="${escH(url)}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`;
-  document.querySelectorAll('.art-thumb').forEach(el => { el.className = 'art-thumb' + (el.src === url ? ' selected' : ''); });
-}
-
-function closeModalOverlay(e) { if (e.target.classList.contains('modal-overlay')) closeModal(); }
-function closeModal()         { document.getElementById('modal-layer').innerHTML = ''; }
-
-function pickPlat(id) {
-  pendingGame.platform = id;
+function selectPlat(id) {
+  pendingGame.platform=id;
   document.querySelectorAll('.plat-option').forEach(el => {
-    const n = el.querySelector('.name')?.textContent;
-    const p = PLATFORMS.find(p => p.short === n);
-    el.className = 'plat-option' + (p && p.id === id ? ' selected' : '');
+    el.classList.toggle('selected', el.onclick.toString().includes(`'${id}'`));
   });
 }
-function pickStars(n) {
-  pendingStars = n;
-  const label = document.getElementById('star-label');
-  if (label) label.textContent = n > 0 ? STAR_LABELS[n] : '';
-  document.querySelectorAll('.star-pick').forEach((el, i) => { el.className = 'star-pick' + (i < n ? ' lit' : ''); });
-}
-function hoverStar(n) {
-  const label = document.getElementById('star-label');
-  if (!label) return;
-  if (n > 0) {
-    label.textContent = STAR_LABELS[n];
-    document.querySelectorAll('.star-pick').forEach((el, i) => { el.className = 'star-pick' + (i < n ? ' lit' : ''); });
-  } else {
-    label.textContent = pendingStars > 0 ? STAR_LABELS[pendingStars] : '';
-    document.querySelectorAll('.star-pick').forEach((el, i) => { el.className = 'star-pick' + (i < pendingStars ? ' lit' : ''); });
-  }
+
+function setStars(n) {
+  pendingStars=n; pendingGame.stars=n;
+  document.querySelectorAll('.star-pick').forEach((s,i)=>s.classList.toggle('lit',i<n));
+  const lbl = document.getElementById('star-label-text');
+  if (lbl) lbl.textContent = STAR_LABELS[n]||'';
 }
 
-function saveGame() {
-  const title = document.getElementById('f-title')?.value?.trim();
-  if (!title) { alert('Enter a game title!'); return; }
-  const g = {
-    id:          modalMode === 'add' ? uid() : editId,
-    title,
-    platform:    pendingGame.platform || 'sx',
-    status:      document.getElementById('f-status')?.value       || 'Backlog',
-    genre:       document.getElementById('f-genre')?.value        || 'Action',
-    releaseYear: document.getElementById('f-year')?.value?.trim() || '',
-    stars:       pendingStars,
-    notes:       document.getElementById('f-notes')?.value        || '',
+function updateArtPreview() {
+  const cached = artCache[pendingGame.title];
+  if (cached && cached!==pendingArtUrl) { pendingArtUrl=cached; const p=document.querySelector('.modal-art-preview'); if(p) p.innerHTML=`<img src="${escH(cached)}" alt="">`; }
+}
+
+let searchTimeout = null;
+function debouncedSearch(v) {
+  clearTimeout(searchTimeout);
+  if (!v||v.length<2) { const c=document.getElementById('search-results-container'); if(c) c.innerHTML=''; return; }
+  searchTimeout = setTimeout(()=>doSearch(v), 500);
+}
+
+async function doSearch(q) {
+  const c = document.getElementById('search-results-container');
+  if (!c) return;
+  c.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:8px 0">Searching RAWG…</div>';
+  try {
+    const res = await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(q)}&page_size=5`);
+    const data = await res.json();
+    const results = (data.results||[]);
+    if (!results.length) { c.innerHTML='<div style="font-size:12px;color:var(--text3);padding:8px 0">No results found</div>'; return; }
+    c.innerHTML = `<div class="-results">${results.map(r=>`
+      <div class="-result-item" onclick="selectSearchResult('${escH(r.name)}','${escH(r.background_image||'')}','${r.released?r.released.slice(0,4):''}')">
+        ${r.background_image?`<img class="res-thumb" src="${r.background_image}" onerror="this.style.display='none'">`:''}
+        <div><div class="res-title">${escH(r.name)}</div><div class="res-meta">${r.released?r.released.slice(0,4):''}</div></div>
+      </div>`).join('')}</div>`;
+  } catch(e) { c.innerHTML=''; }
+}
+
+function selectSearchResult(title, artUrl, year) {
+  pendingGame.title=title;
+  if (year) pendingGame.release_year=year;
+  if (artUrl) { artCache[title]=artUrl; localStorage.setItem('lu_art',JSON.stringify(artCache)); pendingArtUrl=artUrl; }
+  const inp = document.getElementById('modal-title-input');
+  if (inp) inp.value=title;
+  const prev = document.querySelector('.modal-art-preview');
+  if (prev && artUrl) prev.innerHTML=`<img src="${escH(artUrl)}" alt="">`;
+  const c = document.getElementById('search-results-container');
+  if (c) c.innerHTML=`<div style="font-size:12px;color:var(--accent);padding:4px 0">✓ Selected: ${escH(title)}</div>`;
+}
+
+async function fetchAndShowArtOptions() {
+  if (!pendingGame.title) return;
+  const c = document.getElementById('art-options-container');
+  if (c) c.innerHTML='<div style="font-size:12px;color:var(--text3);padding:8px 0">Searching for art…</div>';
+  pendingArtOpts = await fetchArtOptions(pendingGame.title);
+  if (!pendingArtOpts.length) { if(c) c.innerHTML='<div style="font-size:12px;color:var(--text3);padding:8px 0">No art found.</div>'; return; }
+  if (c) c.innerHTML=`<div class="form-group"><label>Pick cover art</label><div class="art-results-grid">${pendingArtOpts.map((o,i)=>`<img class="art-thumb${pendingArtUrl===o.url?' selected':''}" src="${escH(o.url)}" onclick="pickArt(${i})" title="${escH(o.name)}">`).join('')}</div></div>`;
+}
+
+function pickArt(i) {
+  const o = pendingArtOpts[i]; if (!o) return;
+  pendingArtUrl=o.url;
+  artCache[pendingGame.title]=o.url;
+  localStorage.setItem('lu_art',JSON.stringify(artCache));
+  const prev = document.querySelector('.modal-art-preview');
+  if (prev) prev.innerHTML=`<img src="${escH(o.url)}" alt="">`;
+  document.querySelectorAll('.art-thumb').forEach((el,idx)=>el.classList.toggle('selected',idx===i));
+}
+
+async function saveGame() {
+  if (!pendingGame.title?.trim()) { alert('Please enter a game title.'); return; }
+  const row = {
+    title: pendingGame.title.trim(),
+    platform: pendingGame.platform||'ps',
+    genre: pendingGame.genre||'Action',
+    status: pendingGame.status||'Backlog',
+    stars: pendingGame.stars||0,
+    release_year: pendingGame.release_year||'',
+    notes: pendingGame.notes||'',
+    art_url: pendingArtUrl||'',
+    year_completed: pendingGame.year_completed||'',
+    added: pendingGame.added||new Date().toISOString()
   };
-  if (pendingArtUrl) { artCache[title] = pendingArtUrl; saveArt(); }
-  if (modalMode === 'add') games.unshift(g);
-  else { const i = games.findIndex(x => x.id === editId); if (i >= 0) games[i] = g; }
-  saveGames();
-  closeModal();
-  render();
-  if (!artCache[title]) fetchArt(title);
+
+  if (modalMode==='edit' && editId) {
+    const idx = games.findIndex(g=>g.id===editId);
+    if (idx>-1) games[idx]={...games[idx],...row};
+    try { await dbUpdate(editId, row); } catch(e) { console.error(e); }
+  } else {
+    row.id = uid();
+    games.unshift(row);
+    try { await dbInsert(row); } catch(e) { console.error(e); }
+  }
+  if (pendingArtUrl && row.title) { artCache[row.title]=pendingArtUrl; localStorage.setItem('lu_art',JSON.stringify(artCache)); }
+  closeModal(); render();
 }
 
-function deleteGame(id) {
-  if (!confirm('Remove this game from your library?')) return;
-  games = games.filter(g => g.id !== id);
-  saveGames();
-  closeModal();
-  render();
+async function deleteGame(id) {
+  if (!confirm('Delete this game?')) return;
+  games = games.filter(g=>g.id!==id);
+  try { await dbDelete(id); } catch(e) { console.error(e); }
+  closeModal(); render();
 }
 
-// ── Main render ───────────────────────────────────────────────────────────────
-function render() {
-  const mc = document.getElementById('main-content');
-  if (!mc) return;
-  if (tab === 'library') mc.innerHTML = renderLibrary();
-  else if (tab === 'stats') mc.innerHTML = renderStats();
-  else mc.innerHTML = renderRecommend();
-}
+function closeModal() { document.getElementById('modal-layer').innerHTML=''; }
+function closeModalOverlay(e) { if (e.target.classList.contains('modal-overlay')) closeModal(); }
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
-loadData();
-render();
-fetchAllMissingArt();
+init();
 </script>
 </body>
 </html>
