@@ -51,6 +51,22 @@
   .tab-btn.active { background: var(--accent); color: #0e0f13; border-color: var(--accent); }
   .main { flex: 1; padding: 24px 28px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
+  /* ── Sync indicator ── */
+  .sync-bar {
+    position: fixed; bottom: 16px; right: 16px; z-index: 200;
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.5px; padding: 7px 14px; border-radius: 8px;
+    display: flex; align-items: center; gap: 7px;
+    transition: opacity .4s;
+  }
+  .sync-bar.syncing  { background: var(--surface2); border: 1px solid var(--accent2); color: var(--accent2); opacity: 1; }
+  .sync-bar.saved    { background: var(--surface2); border: 1px solid var(--pass);    color: var(--pass);    opacity: 1; }
+  .sync-bar.error    { background: var(--surface2); border: 1px solid var(--fail);    color: var(--fail);    opacity: 1; }
+  .sync-bar.hidden   { opacity: 0; pointer-events: none; }
+  .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .sync-dot.spinning { animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   /* ── Stats row ── */
   .stats-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 24px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
@@ -225,7 +241,6 @@
   .rec-filter-sel option { background: var(--surface2); }
   .spin-btn { width: 100%; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 1px; padding: 15px; background: var(--accent); color: #0e0f13; border: none; border-radius: 12px; cursor: pointer; }
   .spin-btn:hover { opacity: .88; }
-  .spin-btn:disabled { opacity: .4; cursor: not-allowed; }
   .rec-result { background: var(--surface); border: 1px solid var(--accent2); border-radius: 16px; overflow: hidden; margin-top: 18px; animation: fadeSlide .3s ease; }
   @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
   .rec-result-art { height: 160px; overflow: hidden; background: var(--surface2); display: flex; align-items: center; justify-content: center; }
@@ -258,7 +273,7 @@
   .yir-count { font-size: 13px; color: var(--text3); }
   .yir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 8px; }
   .yir-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .yir-art { height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--surface3); position: relative; }
+  .yir-art { height: 80px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--surface3); }
   .yir-art img { width: 100%; height: 100%; object-fit: cover; }
   .yir-art-emoji { font-size: 28px; }
   .yir-info { padding: 7px 9px 9px; }
@@ -266,6 +281,12 @@
   .yir-stars { font-size: 10px; color: var(--warn); margin-top: 2px; }
   .yir-replay-tag { font-size: 9px; color: var(--replay); font-family: 'Rajdhani', sans-serif; font-weight: 700; margin-top: 2px; }
   .yir-empty { font-size: 14px; color: var(--text3); padding: 20px 0; }
+
+  /* ── Loading overlay ── */
+  .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 300; gap: 16px; }
+  .loading-overlay .logo-big { font-family: 'Rajdhani', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: 4px; color: var(--accent); }
+  .loading-bar-wrap { width: 160px; height: 3px; background: var(--surface3); border-radius: 2px; overflow: hidden; }
+  .loading-bar-fill { height: 100%; background: var(--accent2); animation: bar-slide 1.4s ease-in-out infinite; }
 
   /* ── Empty state ── */
   .empty-state { text-align: center; padding: 80px 20px; color: var(--text3); }
@@ -285,6 +306,11 @@
 </head>
 <body>
 
+<div class="loading-overlay" id="loading-overlay">
+  <div class="logo-big">LEVELUP</div>
+  <div class="loading-bar-wrap"><div class="loading-bar-fill"></div></div>
+</div>
+
 <div class="app" id="app">
   <div class="topbar">
     <div class="topbar-left">
@@ -301,9 +327,17 @@
 </div>
 
 <div id="modal-layer"></div>
+<div class="sync-bar hidden" id="sync-bar"><div class="sync-dot" id="sync-dot"></div><span id="sync-msg"></span></div>
 
 <script>
-const RAWG_KEY = 'eb0f0c121ec349c6b57e2daca6b0c177';
+// ── GitHub config ─────────────────────────────────────────────────────────────
+const GH_TOKEN  = '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';
+const GH_OWNER  = 'KeithCurry';
+const GH_REPO   = 'gaming';
+const GH_FILE   = 'games.json';
+const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+
+const RAWG_KEY  = 'eb0f0c121ec349c6b57e2daca6b0c177';
 
 const PLATFORMS = [
   { id: 'rp', name: 'Retroid Pocket 5', short: 'RP5',      color: '#ff6b6b' },
@@ -316,10 +350,12 @@ const STAR_LABELS = { 1:'Terrible', 2:'Alright', 3:'Good', 4:'Great', 5:'Amazing
 const GENRES      = ['Action','RPG','Adventure','Strategy','Platformer','Shooter','Sports','Racing','Puzzle','Horror','Fighting','Simulation','Other'];
 const GENRE_EMOJI = { Action:'⚔️', RPG:'🧙', Adventure:'🏰', Strategy:'♟️', Platformer:'🎮', Shooter:'🔫', Sports:'⚽', Racing:'🏎️', Puzzle:'🧩', Horror:'💀', Fighting:'🥊', Simulation:'🌿', Other:'🎮' };
 
-// ── State ────────────────────────────────────────────────────────────────────
-let games = [];
-let artCache    = {};
+// ── State ─────────────────────────────────────────────────────────────────────
+let games      = [];
+let ghFileSha  = '';   // GitHub needs this to update a file
+let artCache   = {};
 let fetchingArt = new Set();
+let saveTimeout = null;
 
 let tab            = 'library';
 let filterPlatform = 'all';
@@ -344,40 +380,100 @@ let pendingArtUrl        = '';
 let pendingArtOpts       = [];
 let pendingSearchResults = [];
 
-// ── Persistence ──────────────────────────────────────────────────────────────
-function saveGames() { localStorage.setItem('lu_games', JSON.stringify(games)); }
-function saveArt()   { localStorage.setItem('lu_art',   JSON.stringify(artCache)); }
-
-function loadData() {
-  try { const g = localStorage.getItem('lu_games'); if (g) games = JSON.parse(g); } catch(e){}
-  try { const a = localStorage.getItem('lu_art');   if (a) artCache = JSON.parse(a); } catch(e){}
-
-  if (games.length === 0) {
-    games = [
-      { id:'g1', title:'Elden Ring',                  platform:'sx', genre:'RPG',        status:'Completed', stars:5, releaseYear:'2022', notes:'Absolute masterpiece.', yearCompleted:'2022', isReplay:false, timesBeaten:1 },
-      { id:'g2', title:'Zelda: Tears of the Kingdom', platform:'sw', genre:'Adventure',  status:'Playing',   stars:5, releaseYear:'2023', notes:'Still going...', yearCompleted:'', isReplay:false, timesBeaten:0 },
-      { id:'g3', title:'God of War Ragnarök',         platform:'ps', genre:'Action',     status:'Completed', stars:4, releaseYear:'2022', notes:'', yearCompleted:'2023', isReplay:false, timesBeaten:1 },
-      { id:'g4', title:'Hades',                       platform:'sx', genre:'Action',     status:'Completed', stars:5, releaseYear:'2020', notes:'Perfect roguelite', yearCompleted:'2021', isReplay:false, timesBeaten:1 },
-      { id:'g5', title:"Baldur's Gate 3",             platform:'ps', genre:'RPG',        status:'Backlog',   stars:0, releaseYear:'2023', notes:'', yearCompleted:'', isReplay:false, timesBeaten:0 },
-      { id:'g6', title:'Super Mario Odyssey',         platform:'sw', genre:'Platformer', status:'Completed', stars:4, releaseYear:'2017', notes:'', yearCompleted:'2020', isReplay:false, timesBeaten:1 },
-      { id:'g7', title:'Starfield',                   platform:'sx', genre:'RPG',        status:'Did Not Finish', stars:2, releaseYear:'2023', notes:'Lost interest.', yearCompleted:'', isReplay:false, timesBeaten:0 },
-      { id:'g8', title:'Sonic Mania',                 platform:'rp', genre:'Platformer', status:'Completed', stars:4, releaseYear:'2017', notes:'Great on RP5', yearCompleted:'2024', isReplay:false, timesBeaten:1 },
-      { id:'g9', title:'Hollow Knight',               platform:'rp', genre:'Adventure',  status:'Playing',   stars:4, releaseYear:'2017', notes:'Challenging but beautiful', yearCompleted:'', isReplay:false, timesBeaten:0 },
-    ];
-    saveGames();
-  }
-
-  // Migrate existing games that don't have the new fields
-  let needsSave = false;
-  games.forEach(g => {
-    if (g.yearCompleted  === undefined) { g.yearCompleted  = (g.status === 'Completed') ? '' : ''; needsSave = true; }
-    if (g.isReplay       === undefined) { g.isReplay       = false; needsSave = true; }
-    if (g.timesBeaten    === undefined) { g.timesBeaten    = (g.status === 'Completed') ? 1 : 0; needsSave = true; }
-  });
-  if (needsSave) saveGames();
+// ── Sync indicator ────────────────────────────────────────────────────────────
+function showSync(state, msg) {
+  const bar  = document.getElementById('sync-bar');
+  const dot  = document.getElementById('sync-dot');
+  const text = document.getElementById('sync-msg');
+  if (!bar) return;
+  bar.className = `sync-bar ${state}`;
+  dot.className = `sync-dot${state === 'syncing' ? ' spinning' : ''}`;
+  text.textContent = msg;
+  if (state === 'saved') setTimeout(() => { bar.className = 'sync-bar hidden'; }, 2500);
 }
 
-// ── RAWG ─────────────────────────────────────────────────────────────────────
+// ── GitHub read/write ─────────────────────────────────────────────────────────
+async function ghLoad() {
+  try {
+    const res  = await fetch(GH_API + '?ref=main', {
+      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    const data = await res.json();
+    ghFileSha  = data.sha;
+    const decoded = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    return decoded;
+  } catch(e) {
+    console.error('Failed to load from GitHub:', e);
+    return null;
+  }
+}
+
+async function ghSave(gamesData) {
+  showSync('syncing', 'Saving...');
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(gamesData, null, 2))));
+    const body    = { message: 'Update games library', content, sha: ghFileSha };
+    const res     = await fetch(GH_API, {
+      method:  'PUT',
+      headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body)
+    });
+    const data = await res.json();
+    ghFileSha  = data.content.sha;
+    // Also update localStorage as fast local cache
+    localStorage.setItem('lu_games', JSON.stringify(gamesData));
+    showSync('saved', 'Saved ✓');
+  } catch(e) {
+    console.error('GitHub save failed:', e);
+    showSync('error', 'Save failed — check connection');
+  }
+}
+
+// Debounce saves so rapid edits don't fire multiple API calls
+function saveGames() {
+  localStorage.setItem('lu_games', JSON.stringify(games));
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => ghSave(games), 800);
+}
+
+function saveArt() { localStorage.setItem('lu_art', JSON.stringify(artCache)); }
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+async function loadData() {
+  // Show locally cached data immediately so UI isn't blank
+  try { const g = localStorage.getItem('lu_games'); if (g) games = JSON.parse(g); } catch(e) {}
+  try { const a = localStorage.getItem('lu_art');   if (a) artCache = JSON.parse(a); } catch(e) {}
+
+  if (games.length > 0) {
+    document.getElementById('loading-overlay').style.display = 'none';
+    render();
+  }
+
+  // Then fetch latest from GitHub
+  const ghGames = await ghLoad();
+
+  if (ghGames !== null) {
+    games = ghGames;
+    // Migrate any games missing new fields
+    let needsSave = false;
+    games.forEach(g => {
+      if (g.yearCompleted  === undefined) { g.yearCompleted  = ''; needsSave = true; }
+      if (g.isReplay       === undefined) { g.isReplay       = false; needsSave = true; }
+      if (g.timesBeaten    === undefined) { g.timesBeaten    = (g.status === 'Completed') ? 1 : 0; needsSave = true; }
+    });
+    if (needsSave) await ghSave(games);
+    localStorage.setItem('lu_games', JSON.stringify(games));
+  } else if (games.length === 0) {
+    // No local cache and GitHub failed — start with empty library
+    games = [];
+  }
+
+  document.getElementById('loading-overlay').style.display = 'none';
+  render();
+  fetchAllMissingArt();
+}
+
+// ── RAWG ──────────────────────────────────────────────────────────────────────
 async function fetchArt(title) {
   if (artCache[title] || fetchingArt.has(title)) return;
   fetchingArt.add(title);
@@ -441,11 +537,11 @@ function switchTab(t) {
 }
 
 function setFilter(type, val) {
-  if (type === 'platform') filterPlatform = val;
-  else if (type === 'status') filterStatus = val;
-  else if (type === 'genre')  filterGenre  = val;
-  else if (type === 'rating') filterRating = val;
-  else if (type === 'sort')   sortBy       = val;
+  if (type === 'platform')      filterPlatform = val;
+  else if (type === 'status')   filterStatus   = val;
+  else if (type === 'genre')    filterGenre    = val;
+  else if (type === 'rating')   filterRating   = val;
+  else if (type === 'sort')     sortBy         = val;
   render();
 }
 
@@ -528,7 +624,7 @@ function renderLibrary() {
           <div class="game-art" style="background:${artBg(g.platform)}">
             <span class="plat-dot dot-${g.platform}"></span>
             ${art ? `<img src="${escH(art)}" alt="${escH(g.title)}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">` : ''}
-            <div class="game-art-emoji" style="${art?'display:none':''}"> ${emoji}</div>
+            <div class="game-art-emoji" style="${art?'display:none':''}">${emoji}</div>
             ${fetching ? `<div class="art-loading-bar"></div>` : ''}
             <span class="game-badge badge-${statusSlug(g.status)}">${g.status}</span>
             ${showReplayBadge ? `<span class="replay-badge">↩ REPLAY</span>` : ''}
@@ -645,7 +741,6 @@ function renderStats() {
           ${[5,4,3,2,1].map(n => barRow(`★${n} ${STAR_LABELS[n]}`, ratingCounts[n], maxRating, '#fbbf24')).join('')}
         </div>
       </div>
-
       <div class="yir-header">
         <div class="yir-title">🎮 Year in Review</div>
         <select class="year-sel" onchange="setYirYear(this.value)">${yearOptions}</select>
@@ -802,15 +897,15 @@ function closeDetailOverlay(e) { if (e.target.classList.contains('detail-overlay
 
 // ── Edit / Add Modal ──────────────────────────────────────────────────────────
 function openAddModal() {
-  modalMode = 'add';
+  modalMode    = 'add';
   pendingGame  = { platform:'sx', status:'Backlog', genre:'Action', stars:0, notes:'', releaseYear:'', yearCompleted:'', isReplay:false, timesBeaten:0 };
   pendingStars = 0; pendingArtUrl = ''; pendingArtOpts = []; pendingSearchResults = [];
   renderModal();
 }
 
 function openEditModal(id) {
-  modalMode = 'edit'; editId = id;
-  const g = games.find(g => g.id == id);
+  modalMode    = 'edit'; editId = id;
+  const g      = games.find(g => g.id == id);
   pendingGame  = { ...g };
   pendingStars = g.stars || 0;
   pendingArtUrl= artCache[g.title] || '';
@@ -915,9 +1010,7 @@ function renderModal() {
 function handleStatusChange(val) {
   if (val === 'Completed') {
     const ycEl = document.getElementById('f-year-completed');
-    if (ycEl && !ycEl.value) {
-      ycEl.value = String(new Date().getFullYear());
-    }
+    if (ycEl && !ycEl.value) ycEl.value = String(new Date().getFullYear());
   }
 }
 
@@ -1014,7 +1107,7 @@ function mapRAWGGenre(rawgGenres) {
 function renderArtResults() {
   const el = document.getElementById('art-results');
   if (!el) return;
-  if (pendingArtOpts.length === 0) { el.innerHTML = '<span style="font-size:12px;color:var(--text3)">No results found.</span>'; return; }
+  if (pendingArtOpts.length === 0) { el.innerHTML = ''; return; }
   el.innerHTML = pendingArtOpts.map(a =>
     `<img class="art-thumb${pendingArtUrl===a.url?' selected':''}" src="${escH(a.url)}" title="${escH(a.name)}" onclick="selectArt('${escH(a.url)}')">`
   ).join('');
@@ -1060,12 +1153,11 @@ function saveGame() {
   const title = document.getElementById('f-title')?.value?.trim();
   if (!title) { alert('Enter a game title!'); return; }
 
-  const newStatus    = document.getElementById('f-status')?.value || 'Backlog';
-  const isReplay     = document.getElementById('f-replay')?.checked || false;
-  const manualBeaten = parseInt(document.getElementById('f-beaten')?.value || '0', 10) || 0;
+  const newStatus     = document.getElementById('f-status')?.value || 'Backlog';
+  const isReplay      = document.getElementById('f-replay')?.checked || false;
+  const manualBeaten  = parseInt(document.getElementById('f-beaten')?.value || '0', 10) || 0;
   const yearCompleted = document.getElementById('f-year-completed')?.value?.trim() || '';
 
-  // Auto-increment timesBeaten when newly set to Completed
   const oldGame      = modalMode === 'edit' ? games.find(x => x.id == editId) : null;
   const wasCompleted = oldGame?.status === 'Completed';
   const nowCompleted = newStatus === 'Completed';
@@ -1110,15 +1202,13 @@ function deleteGame(id) {
 function render() {
   const mc = document.getElementById('main-content');
   if (!mc) return;
-  if (tab === 'library') mc.innerHTML = renderLibrary();
-  else if (tab === 'stats') mc.innerHTML = renderStats();
-  else mc.innerHTML = renderRecommend();
+  if (tab === 'library')     mc.innerHTML = renderLibrary();
+  else if (tab === 'stats')  mc.innerHTML = renderStats();
+  else                       mc.innerHTML = renderRecommend();
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 loadData();
-render();
-fetchAllMissingArt();
 </script>
 </body>
 </html>
