@@ -27,7 +27,6 @@
   .tab-btn:hover{color:var(--text);background:var(--surface3);}
   .tab-btn.active{background:var(--accent);color:#0e0f13;border-color:var(--accent);}
   .main{flex:1;padding:24px 28px;max-width:1200px;margin:0 auto;width:100%;}
-  /* sync bar */
   .sync-bar{position:fixed;bottom:16px;right:16px;z-index:200;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.5px;padding:7px 14px;border-radius:8px;display:flex;align-items:center;gap:7px;transition:opacity .4s;}
   .sync-bar.syncing{background:var(--surface2);border:1px solid var(--accent2);color:var(--accent2);opacity:1;}
   .sync-bar.saved{background:var(--surface2);border:1px solid var(--pass);color:var(--pass);opacity:1;}
@@ -36,12 +35,10 @@
   .sync-dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
   .sync-dot.spin{animation:dspin .7s linear infinite;}
   @keyframes dspin{to{transform:rotate(360deg);}}
-  /* stats row */
   .stats-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px;}
   .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
   .stat-num{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;line-height:1;color:var(--accent);}
   .stat-lbl{font-size:12px;color:var(--text3);margin-top:3px;letter-spacing:.3px;}
-  /* platform pills */
   .platform-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
   .plat-pill{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);cursor:pointer;transition:all .15s;color:var(--text2);background:transparent;}
   .plat-pill:hover{border-color:var(--text3);color:var(--text);}
@@ -51,7 +48,6 @@
   .plat-pill.ps.active{background:var(--ps);border-color:var(--ps);}
   .plat-pill.sw.active{background:var(--sw);border-color:var(--sw);}
   .plat-pill.sx.active{background:var(--sx);border-color:var(--sx);color:#0e0f13;}
-  /* toolbar */
   .toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
   .search-wrap{flex:1;min-width:180px;position:relative;}
   .search-wrap input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 14px 9px 38px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;}
@@ -63,7 +59,6 @@
   .filter-sel option{background:var(--surface2);}
   .add-btn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:.5px;padding:9px 20px;background:var(--accent);color:#0e0f13;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;}
   .add-btn:hover{opacity:.88;}
-  /* game grid */
   .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
   .game-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .18s;}
   .game-card:hover{border-color:var(--accent2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4);}
@@ -85,11 +80,12 @@
   .dot-sw{background:var(--sw);} .dot-sx{background:var(--sx);}
   .game-info{padding:10px 13px 13px;}
   .game-title{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;letter-spacing:.3px;margin-bottom:4px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .game-meta{display:flex;align-items:center;justify-content:space-between;}
-  .game-genre{font-size:11px;color:var(--text3);}
+  .game-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+  .game-genre{font-size:11px;color:var(--text3);flex-shrink:0;}
+  .game-score{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:var(--warn);white-space:nowrap;}
   .replay-badge{position:absolute;bottom:8px;right:8px;font-size:9px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:4px;z-index:2;background:rgba(192,132,252,.85);color:#1a0030;}
   .beaten-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--replay);letter-spacing:.3px;margin-top:3px;}
-  /* detail panel */
+  /* detail */
   .detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
   .detail-modal{background:var(--surface);border:1px solid var(--border);border-radius:18px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;}
   .detail-art-hero{width:100%;height:220px;overflow:hidden;position:relative;background:var(--surface2);display:flex;align-items:center;justify-content:center;}
@@ -102,8 +98,7 @@
   .detail-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
   .detail-chip{font-size:11px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.5px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);color:var(--text2);background:var(--surface2);}
   .detail-chip-replay{font-size:11px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.5px;padding:4px 10px;border-radius:6px;border:1px solid var(--replay);color:var(--replay);background:rgba(192,132,252,.1);}
-  .detail-stars{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-  .detail-stars-label{font-size:13px;color:var(--warn);font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.5px;}
+  .detail-score{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--warn);margin-bottom:10px;letter-spacing:.5px;}
   .detail-beaten{font-size:13px;color:var(--replay);font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.5px;margin-bottom:10px;}
   .detail-year{font-size:12px;color:var(--accent);font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.5px;margin-bottom:12px;}
   .detail-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;white-space:pre-wrap;}
@@ -135,11 +130,6 @@
   .res-title{font-size:13px;color:var(--text);font-weight:500;}
   .res-meta{font-size:11px;color:var(--text3);margin-top:2px;}
   .res-thumb{width:38px;height:38px;object-fit:cover;border-radius:5px;flex-shrink:0;}
-  .star-label{font-size:12px;color:var(--warn);font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.8px;text-transform:uppercase;height:16px;margin-bottom:4px;}
-  .star-picker{display:flex;gap:6px;}
-  .star-pick{font-size:26px;cursor:pointer;color:var(--border);transition:color .1s;background:none;border:none;padding:0;}
-  .star-pick.lit{color:var(--warn);}
-  .star-pick:hover{color:var(--warn);}
   .plat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
   .plat-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:9px;cursor:pointer;background:var(--surface2);transition:all .15s;}
   .plat-option:hover{border-color:var(--text3);}
@@ -157,10 +147,9 @@
   .btn-secondary{background:var(--surface3);border:1px solid var(--border);border-radius:9px;padding:8px 14px;color:var(--text2);font-family:'Rajdhani',sans-serif;font-weight:600;font-size:13px;cursor:pointer;width:100%;margin-top:8px;letter-spacing:.3px;}
   .btn-secondary:hover{color:var(--text);border-color:var(--text3);}
   .btn-secondary:disabled{opacity:.4;cursor:not-allowed;}
-  /* replay row */
   .replay-row{display:flex;align-items:center;gap:10px;padding:10px 13px;background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.25);border-radius:9px;margin-bottom:15px;cursor:pointer;}
   .replay-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--replay);cursor:pointer;flex-shrink:0;}
-  .replay-row-label{font-size:13px;color:var(--replay);font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.5px;cursor:pointer;}
+  .replay-row-label{font-size:13px;color:var(--replay);font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.5px;}
   .replay-row-sub{font-size:11px;color:var(--text3);margin-top:1px;}
   /* recommend */
   .rec-wrap{max-width:600px;margin:0 auto;}
@@ -191,7 +180,7 @@
   .dash-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;}
   .dash-card h3{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:14px;}
   .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
-  .bar-label{font-size:12px;color:var(--text2);width:100px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .bar-label{font-size:12px;color:var(--text2);width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .bar-track{flex:1;height:7px;background:var(--surface3);border-radius:4px;overflow:hidden;}
   .bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
   .bar-count{font-size:12px;color:var(--text3);width:22px;text-align:right;flex-shrink:0;}
@@ -208,23 +197,21 @@
   .yir-art-emoji{font-size:28px;}
   .yir-info{padding:7px 9px 9px;}
   .yir-game-title{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
-  .yir-stars{font-size:10px;color:var(--warn);margin-top:2px;}
+  .yir-score{font-size:10px;color:var(--warn);font-family:'Rajdhani',sans-serif;font-weight:700;margin-top:2px;}
   .yir-replay-tag{font-size:9px;color:var(--replay);font-family:'Rajdhani',sans-serif;font-weight:700;margin-top:2px;}
   .yir-empty{font-size:14px;color:var(--text3);padding:20px 0;}
-  /* loading */
   .loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:300;gap:16px;}
   .loading-overlay .logo-big{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;letter-spacing:4px;color:var(--accent);}
   .loading-bar-wrap{width:160px;height:3px;background:var(--surface3);border-radius:2px;overflow:hidden;}
   .loading-bar-fill{height:100%;background:var(--accent2);animation:bar-slide 1.4s ease-in-out infinite;}
-  /* empty */
   .empty-state{text-align:center;padding:80px 20px;color:var(--text3);}
   .empty-state .e-icon{font-size:48px;margin-bottom:14px;}
   .empty-state p{font-size:15px;}
   @media(max-width:700px){
-    .topbar{padding:14px 16px;} .main{padding:18px 16px;}
+    .topbar{padding:14px 16px;}.main{padding:18px 16px;}
     .stats-row{grid-template-columns:repeat(2,1fr);}
     .game-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}
-    .form-row{grid-template-columns:1fr;} .dash-grid{grid-template-columns:1fr;}
+    .form-row{grid-template-columns:1fr;}.dash-grid{grid-template-columns:1fr;}
     .rec-filters{grid-template-columns:1fr;}
   }
 </style>
@@ -236,10 +223,7 @@
 </div>
 <div class="app">
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="logo">LEVELUP</div>
-      <div class="tagline">game library</div>
-    </div>
+    <div class="topbar-left"><div class="logo">LEVELUP</div><div class="tagline">game library</div></div>
     <div class="topbar-right">
       <button class="tab-btn active" id="tab-library" onclick="switchTab('library')">Library</button>
       <button class="tab-btn" id="tab-stats" onclick="switchTab('stats')">Stats</button>
@@ -252,170 +236,176 @@
 <div class="sync-bar hidden" id="sync-bar"><div class="sync-dot" id="sync-dot"></div><span id="sync-msg"></span></div>
 
 <script>
-// ── Supabase ──────────────────────────────────────────────────────────────────
-const SB_URL = 'https://mevgnbkxcecocrlvkutw.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ldmduYmt4Y2Vjb2NybHZrdXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDE0MzAsImV4cCI6MjA5NDMxNzQzMH0.xkajYqr8dIlmhYxgsjcP_SvT0m4oU81auEImdHPiWoE';
+const SB_URL='https://mevgnbkxcecocrlvkutw.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ldmduYmt4Y2Vjb2NybHZrdXR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NDE0MzAsImV4cCI6MjA5NDMxNzQzMH0.xkajYqr8dIlmhYxgsjcP_SvT0m4oU81auEImdHPiWoE';
 
-async function sbFetch(path, opts = {}) {
-  const res = await fetch(SB_URL + '/rest/v1/' + path, {
-    ...opts,
-    headers: {
-      'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json', 'Prefer': opts.prefer || '',
-      ...(opts.headers || {})
-    }
-  });
-  if (!res.ok) throw new Error(await res.text());
-  const t = await res.text(); return t ? JSON.parse(t) : null;
+async function sbFetch(path,opts={}){
+  const res=await fetch(SB_URL+'/rest/v1/'+path,{...opts,headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}});
+  if(!res.ok) throw new Error(await res.text());
+  const t=await res.text();return t?JSON.parse(t):null;
 }
+async function dbLoad()        {return await sbFetch('games?order=added.desc')||[];}
+async function dbInsert(row)   {await sbFetch('games',{method:'POST',prefer:'return=minimal',body:JSON.stringify(row)});}
+async function dbUpdate(id,f)  {await sbFetch(`games?id=eq.${id}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(f)});}
+async function dbDelete(id)    {await sbFetch(`games?id=eq.${id}`,{method:'DELETE'});}
 
-async function dbLoad()         { return await sbFetch('games?order=added.desc') || []; }
-async function dbInsert(row)    { await sbFetch('games', { method:'POST', prefer:'return=minimal', body:JSON.stringify(row) }); }
-async function dbUpdate(id, f)  { await sbFetch(`games?id=eq.${id}`, { method:'PATCH', prefer:'return=minimal', body:JSON.stringify(f) }); }
-async function dbDelete(id)     { await sbFetch(`games?id=eq.${id}`, { method:'DELETE' }); }
-
-// ── Config ────────────────────────────────────────────────────────────────────
-const RAWG_KEY  = 'eb0f0c121ec349c6b57e2daca6b0c177';
-const PLATFORMS = [
-  { id:'rp', name:'Retroid Pocket 5', short:'RP5',      color:'#ff6b6b' },
-  { id:'ps', name:'PlayStation 5',    short:'PS5',      color:'#4fa3f7' },
-  { id:'sw', name:'Nintendo Switch',  short:'Switch',   color:'#e4000f' },
-  { id:'sx', name:'Xbox Series X',    short:'Series X', color:'#4ade80' },
+const RAWG_KEY='eb0f0c121ec349c6b57e2daca6b0c177';
+const PLATFORMS=[
+  {id:'rp',name:'Retroid Pocket 5',short:'RP5',color:'#ff6b6b'},
+  {id:'ps',name:'PlayStation 5',short:'PS5',color:'#4fa3f7'},
+  {id:'sw',name:'Nintendo Switch',short:'Switch',color:'#e4000f'},
+  {id:'sx',name:'Xbox Series X',short:'Series X',color:'#4ade80'},
 ];
-const STATUSES    = ['Playing','Completed','Did Not Finish','Backlog','Wishlist'];
-const STAR_LABELS = {1:'Terrible',2:'Alright',3:'Good',4:'Great',5:'Amazing'};
-const GENRES      = ['Action','RPG','Adventure','Strategy','Platformer','Shooter','Sports','Racing','Puzzle','Horror','Fighting','Simulation','Other'];
-const GENRE_EMOJI = {Action:'⚔️',RPG:'🧙',Adventure:'🏰',Strategy:'♟️',Platformer:'🎮',Shooter:'🔫',Sports:'⚽',Racing:'🏎️',Puzzle:'🧩',Horror:'💀',Fighting:'🥊',Simulation:'🌿',Other:'🎮'};
+const STATUSES=['Playing','Completed','Did Not Finish','Backlog','Wishlist'];
+const GENRES=['Action','RPG','Adventure','Strategy','Platformer','Shooter','Sports','Racing','Puzzle','Horror','Fighting','Simulation','Other'];
+const GENRE_EMOJI={Action:'⚔️',RPG:'🧙',Adventure:'🏰',Strategy:'♟️',Platformer:'🎮',Shooter:'🔫',Sports:'⚽',Racing:'🏎️',Puzzle:'🧩',Horror:'💀',Fighting:'🥊',Simulation:'🌿',Other:'🎮'};
+
+// ── Rating system (1-10) ──────────────────────────────────────────────────────
+const SCORE_LABELS={10:'Masterpiece',9:'Amazing',8:'Great',7:'Good',6:'Okay',5:'Mediocre',4:'Meh...',3:'Bad',2:'Awful',1:'Gollum'};
+const SCORE_OPTIONS=[10,9,8,7,6,5,4,3,2,1];
+
+// Rating migration map: old 1-5 stars -> new 1-10 score
+// Applied once on load for any game still using the old 1-5 scale
+const SCORE_MIGRATION={
+  // title (lowercase) -> new score (for specific overrides)
+  'bioshock':10,'prey (2017)':10,'mass effect: legendary edition':10,
+  'the last of us part ii':10,'cyberpunk 2077':10,'the witcher 3 wild hunt - complete edition':10,
+  'god of war: ragnarök':10,'hades':8,'baldur\'s gate iii':8,
+  'the legend of zelda: tears of the kingdom':9,'super mario world':9,'007 first light':9,
+  'god of war: ragnarök':10,
+  // 4-star -> 7 overrides
+  'strange brigade':7,'star wars outlaws':7,'ghost of yotei':7,'overwatch':7,
+};
+
+function migrateScore(g) {
+  // If stars is already 0 or in 1-10 range that looks like old system, convert
+  if (!g.stars || g.stars === 0) return 0;
+  if (g.stars > 10) return g.stars; // already weird, leave it
+  // Check if this looks like old 1-5 scale (all old ratings were 1-5)
+  if (g.stars <= 5) {
+    const key = g.title.toLowerCase();
+    if (SCORE_MIGRATION[key]) return SCORE_MIGRATION[key];
+    // Default map
+    const map = {1:2, 2:4, 3:6, 4:8, 5:10};
+    return map[g.stars] || g.stars;
+  }
+  return g.stars; // already 6-10, fine
+}
 
 // ── State ─────────────────────────────────────────────────────────────────────
-let games = [], artCache = {}, fetchingArt = new Set();
-let tab='library', filterPlatform='all', filterStatus='all', filterGenre='all', filterRating='all', sortBy='added', searchQ='', yirYear=String(new Date().getFullYear());
-let recFilterPlatform='all', recFilterGenre='all', recFilterSource='both', recResult=null, recNoMatch=false;
-let modalMode=null, editId=null, pendingGame={}, pendingStars=0, pendingArtUrl='', pendingArtOpts=[], pendingSearchResults=[];
+let games=[],artCache={},fetchingArt=new Set();
+let tab='library',filterPlatform='all',filterStatus='all',filterGenre='all',filterRating='all',sortBy='added',searchQ='',yirYear=String(new Date().getFullYear());
+let recFilterPlatform='all',recFilterGenre='all',recFilterSource='both',recResult=null,recNoMatch=false;
+let modalMode=null,editId=null,pendingGame={},pendingScore=0,pendingArtUrl='',pendingArtOpts=[],pendingSearchResults=[];
+let migrationDone=false;
 
-// ── Sync indicator ────────────────────────────────────────────────────────────
-function showSync(state, msg) {
-  const bar=document.getElementById('sync-bar'), dot=document.getElementById('sync-dot'), text=document.getElementById('sync-msg');
-  if (!bar) return;
-  bar.className=`sync-bar ${state}`;
-  dot.className='sync-dot'+(state==='syncing'?' spin':'');
-  text.textContent=msg;
-  if (state==='saved') setTimeout(()=>{bar.className='sync-bar hidden';},2500);
+function showSync(state,msg){
+  const bar=document.getElementById('sync-bar'),dot=document.getElementById('sync-dot'),text=document.getElementById('sync-msg');
+  if(!bar)return;
+  bar.className=`sync-bar ${state}`;dot.className='sync-dot'+(state==='syncing'?' spin':'');text.textContent=msg;
+  if(state==='saved')setTimeout(()=>{bar.className='sync-bar hidden';},2500);
 }
 
-// ── Persistence ───────────────────────────────────────────────────────────────
-function saveArt() { localStorage.setItem('lu_art', JSON.stringify(artCache)); }
+function saveArt(){localStorage.setItem('lu_art',JSON.stringify(artCache));}
 
-// Map between JS camelCase and Supabase snake_case
-function toRow(g) {
-  return {
-    id: g.id, title: g.title, platform: g.platform, genre: g.genre,
-    status: g.status, stars: g.stars || 0, release_year: g.releaseYear || '',
-    notes: g.notes || '', art_url: g.artUrl || '',
-    year_completed: g.yearCompleted || '',
-    is_replay: g.isReplay || false,
-    times_beaten: g.timesBeaten || 0,
-    added: g.added || new Date().toISOString()
-  };
+function toRow(g){
+  return{id:g.id,title:g.title,platform:g.platform,genre:g.genre,status:g.status,
+    stars:g.stars||0,release_year:g.releaseYear||'',notes:g.notes||'',art_url:g.artUrl||'',
+    year_completed:g.yearCompleted||'',is_replay:g.isReplay||false,times_beaten:g.timesBeaten||0,
+    added:g.added||new Date().toISOString()};
 }
-function fromRow(r) {
-  return {
-    id: r.id, title: r.title, platform: r.platform, genre: r.genre,
-    status: r.status, stars: r.stars || 0, releaseYear: r.release_year || '',
-    notes: r.notes || '', artUrl: r.art_url || '',
-    yearCompleted: r.year_completed || '',
-    isReplay: r.is_replay || false,
-    timesBeaten: r.times_beaten || 0,
-    added: r.added || ''
-  };
+function fromRow(r){
+  return{id:r.id,title:r.title,platform:r.platform,genre:r.genre,status:r.status,
+    stars:r.stars||0,releaseYear:r.release_year||'',notes:r.notes||'',artUrl:r.art_url||'',
+    yearCompleted:r.year_completed||'',isReplay:r.is_replay||false,timesBeaten:r.times_beaten||0,
+    added:r.added||''};
 }
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
-async function loadData() {
-  try { const a=localStorage.getItem('lu_art'); if(a) artCache=JSON.parse(a); } catch(e){}
-  try {
-    const rows = await dbLoad();
-    games = rows.map(fromRow);
-    // Sync art URLs from cache into games if not already stored in DB
-    games.forEach(g => { if (!g.artUrl && artCache[g.title]) g.artUrl = artCache[g.title]; });
-  } catch(e) {
-    console.error('Failed to load from Supabase:', e);
-    games = [];
-  }
+async function loadData(){
+  try{const a=localStorage.getItem('lu_art');if(a)artCache=JSON.parse(a);}catch(e){}
+  try{
+    const rows=await dbLoad();
+    games=rows.map(fromRow);
+    games.forEach(g=>{if(!g.artUrl&&artCache[g.title])g.artUrl=artCache[g.title];});
+
+    // Migrate ratings from 1-5 to 1-10
+    const toUpdate=[];
+    games.forEach(g=>{
+      if(g.stars>0&&g.stars<=5){
+        const newScore=migrateScore(g);
+        if(newScore!==g.stars){g.stars=newScore;toUpdate.push({id:g.id,stars:newScore});}
+      }
+    });
+    if(toUpdate.length>0){
+      showSync('syncing','Updating ratings...');
+      for(const u of toUpdate){try{await dbUpdate(u.id,{stars:u.stars});}catch(e){}}
+      showSync('saved','Ratings updated ✓');
+    }
+  }catch(e){console.error('Failed to load:',e);games=[];}
   document.getElementById('loading-overlay').style.display='none';
-  render();
-  fetchAllMissingArt();
+  render();fetchAllMissingArt();
 }
 
-// ── RAWG ──────────────────────────────────────────────────────────────────────
-async function fetchArt(title) {
-  if (artCache[title] || fetchingArt.has(title)) return;
-  fetchingArt.add(title); render();
-  try {
+async function fetchArt(title){
+  if(artCache[title]||fetchingArt.has(title))return;
+  fetchingArt.add(title);render();
+  try{
     const res=await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=1&search_precise=true`);
     const data=await res.json();
     const img=data.results?.[0]?.background_image;
-    if (img) {
-      artCache[title]=img; saveArt();
-      const g=games.find(g=>g.title===title);
-      if (g && !g.artUrl) { g.artUrl=img; try { await dbUpdate(g.id,{art_url:img}); } catch(e){} }
-    }
-  } catch(e){}
-  fetchingArt.delete(title); render();
+    if(img){artCache[title]=img;saveArt();const g=games.find(g=>g.title===title);if(g&&!g.artUrl){g.artUrl=img;try{await dbUpdate(g.id,{art_url:img});}catch(e){}}}
+  }catch(e){}
+  fetchingArt.delete(title);render();
 }
-async function fetchArtOptions(title) {
-  try {
-    const res=await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=8`);
-    const data=await res.json();
-    return (data.results||[]).filter(g=>g.background_image).map(g=>({name:g.name,url:g.background_image}));
-  } catch(e){return[];}
+async function fetchArtOptions(title){
+  try{const res=await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=8`);const data=await res.json();return(data.results||[]).filter(g=>g.background_image).map(g=>({name:g.name,url:g.background_image}));}catch(e){return[];}
 }
-async function fetchAllMissingArt() {
-  for (const g of games) { if (!g.artUrl && !artCache[g.title]) await fetchArt(g.title); }
-}
+async function fetchAllMissingArt(){for(const g of games){if(!g.artUrl&&!artCache[g.title])await fetchArt(g.title);}}
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function uid()         { return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
-function escH(s)       { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-function platName(id)  { return PLATFORMS.find(p=>p.id===id)?.name||id; }
-function platShort(id) { return PLATFORMS.find(p=>p.id===id)?.short||id; }
-function artBg(p)      { return {rp:'#1a0f0f',ps:'#0a0e1a',sw:'#1a0a0a',sx:'#0a1a0a'}[p]||'#141418'; }
-function starsHtml(n,size=11) { return [1,2,3,4,5].map(i=>`<span style="color:${i<=n?'#fbbf24':'#2e3040'};font-size:${size}px">★</span>`).join(''); }
-function statusSlug(s) { return s.toLowerCase().replace(/\s+/g,'-'); }
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function platName(id){return PLATFORMS.find(p=>p.id===id)?.name||id;}
+function platShort(id){return PLATFORMS.find(p=>p.id===id)?.short||id;}
+function artBg(p){return{rp:'#1a0f0f',ps:'#0a0e1a',sw:'#1a0a0a',sx:'#0a1a0a'}[p]||'#141418';}
+function scoreLabel(n){return n>0?`${n} — ${SCORE_LABELS[n]||''}`:'';}
+function scoreColor(n){
+  if(n>=9) return'#e8ff47';
+  if(n>=7) return'#4ade80';
+  if(n>=5) return'#fbbf24';
+  if(n>=3) return'#f97316';
+  return'#f87171';
+}
+function statusSlug(s){return s.toLowerCase().replace(/\s+/g,'-');}
 
-function filteredGames() {
+function filteredGames(){
   let r=games.filter(g=>{
-    if(filterPlatform!=='all'&&g.platform!==filterPlatform) return false;
-    if(filterStatus!=='all'&&g.status!==filterStatus) return false;
-    if(filterGenre!=='all'&&g.genre!==filterGenre) return false;
-    if(filterRating!=='all'&&g.stars!==parseInt(filterRating)) return false;
-    if(searchQ&&!g.title.toLowerCase().includes(searchQ.toLowerCase())) return false;
+    if(filterPlatform!=='all'&&g.platform!==filterPlatform)return false;
+    if(filterStatus!=='all'&&g.status!==filterStatus)return false;
+    if(filterGenre!=='all'&&g.genre!==filterGenre)return false;
+    if(filterRating!=='all'&&g.stars!==parseInt(filterRating))return false;
+    if(searchQ&&!g.title.toLowerCase().includes(searchQ.toLowerCase()))return false;
     return true;
   });
-  if(sortBy==='name')   r=[...r].sort((a,b)=>a.title.localeCompare(b.title));
-  if(sortBy==='rating') r=[...r].sort((a,b)=>b.stars-a.stars||a.title.localeCompare(b.title));
-  if(sortBy==='year')   r=[...r].sort((a,b)=>(b.releaseYear||'0').localeCompare(a.releaseYear||'0'));
+  if(sortBy==='name')r=[...r].sort((a,b)=>a.title.localeCompare(b.title));
+  if(sortBy==='rating')r=[...r].sort((a,b)=>b.stars-a.stars||a.title.localeCompare(b.title));
+  if(sortBy==='year')r=[...r].sort((a,b)=>(b.releaseYear||'0').localeCompare(a.releaseYear||'0'));
   return r;
 }
 
-// ── Tab ───────────────────────────────────────────────────────────────────────
-function switchTab(t) {
+function switchTab(t){
   tab=t;
-  ['library','stats','rec'].forEach(id=>{
-    const el=document.getElementById('tab-'+id);
-    if(el) el.className='tab-btn'+(t===id?' active':'');
-  });
+  ['library','stats','rec'].forEach(id=>{const el=document.getElementById('tab-'+id);if(el)el.className='tab-btn'+(t===id?' active':'');});
   render();
 }
-function setFilter(type,val) {
-  if(type==='platform')    filterPlatform=val;
-  else if(type==='status') filterStatus=val;
-  else if(type==='genre')  filterGenre=val;
-  else if(type==='rating') filterRating=val;
-  else if(type==='sort')   sortBy=val;
+function setFilter(type,val){
+  if(type==='platform')filterPlatform=val;
+  else if(type==='status')filterStatus=val;
+  else if(type==='genre')filterGenre=val;
+  else if(type==='rating')filterRating=val;
+  else if(type==='sort')sortBy=val;
   render();
 }
-function setSearch(v) {
+function setSearch(v){
   searchQ=v;
   const before=document.querySelector('.search-wrap input');
   const pos=before?before.selectionStart:null;
@@ -425,13 +415,12 @@ function setSearch(v) {
 }
 function setYirYear(y){yirYear=y;render();}
 
-// ── Library render ────────────────────────────────────────────────────────────
-function renderLibrary() {
+function renderLibrary(){
   const fg=filteredGames();
-  const total=games.length, completed=games.filter(g=>g.status==='Completed').length;
+  const total=games.length,completed=games.filter(g=>g.status==='Completed').length;
   const playing=games.filter(g=>g.status==='Playing').length;
   const rated=games.filter(g=>g.stars>0);
-  const avg=rated.length?Math.round(rated.reduce((a,g)=>a+g.stars,0)/rated.length*10)/10:0;
+  const avg=rated.length?(rated.reduce((a,g)=>a+g.stars,0)/rated.length).toFixed(1):0;
 
   const statsHtml=`<div class="stats-row">
     <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-lbl">Total games</div></div>
@@ -446,10 +435,7 @@ function renderLibrary() {
   </div>`;
 
   const toolbarHtml=`<div class="toolbar">
-    <div class="search-wrap">
-      <span class="search-icon">⌕</span>
-      <input type="text" placeholder="Search your library..." value="${escH(searchQ)}" oninput="setSearch(this.value)">
-    </div>
+    <div class="search-wrap"><span class="search-icon">⌕</span><input type="text" placeholder="Search your library..." value="${escH(searchQ)}" oninput="setSearch(this.value)"></div>
     <select class="filter-sel" onchange="setFilter('status',this.value)">
       <option value="all"${filterStatus==='all'?' selected':''}>All statuses</option>
       ${STATUSES.map(s=>`<option value="${s}"${filterStatus===s?' selected':''}>${s}</option>`).join('')}
@@ -460,7 +446,7 @@ function renderLibrary() {
     </select>
     <select class="filter-sel" onchange="setFilter('rating',this.value)">
       <option value="all"${filterRating==='all'?' selected':''}>All ratings</option>
-      ${[1,2,3,4,5].map(n=>`<option value="${n}"${filterRating==n?' selected':''}>★ ${n} — ${STAR_LABELS[n]}</option>`).join('')}
+      ${SCORE_OPTIONS.map(n=>`<option value="${n}"${filterRating==n?' selected':''}>${n} — ${SCORE_LABELS[n]}</option>`).join('')}
     </select>
     <select class="filter-sel" onchange="setFilter('sort',this.value)">
       <option value="added"${sortBy==='added'?' selected':''}>Recently added</option>
@@ -479,7 +465,7 @@ function renderLibrary() {
       const emoji=GENRE_EMOJI[g.genre]||'🎮';
       const showReplay=g.isReplay&&(g.status==='Playing'||g.status==='Completed');
       const showBeaten=g.timesBeaten>=2;
-      return `<div class="game-card" onclick="openDetailPanel('${g.id}')">
+      return`<div class="game-card" onclick="openDetailPanel('${g.id}')">
         <div class="game-art" style="background:${artBg(g.platform)}">
           <span class="plat-dot dot-${g.platform}"></span>
           ${art?`<img src="${escH(art)}" alt="${escH(g.title)}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:'' }
@@ -491,8 +477,8 @@ function renderLibrary() {
         <div class="game-info">
           <div class="game-title">${escH(g.title)}</div>
           <div class="game-meta">
-            <span class="game-genre">${[g.genre,g.releaseYear].filter(Boolean).join(' · ')}</span>
-            <span>${g.stars>0?starsHtml(g.stars):''}</span>
+            <span class="game-genre">${g.genre}${g.releaseYear?' · '+g.releaseYear:''}</span>
+            ${g.stars>0?`<span class="game-score" style="color:${scoreColor(g.stars)}">${g.stars} — ${SCORE_LABELS[g.stars]||''}</span>`:''}
           </div>
           ${showBeaten?`<div class="beaten-badge">🏆 ${g.timesBeaten}x beaten</div>`:''}
           ${g.yearCompleted?`<div style="font-size:10px;color:var(--accent);font-family:'Rajdhani',sans-serif;font-weight:600;margin-top:2px">✓ ${g.yearCompleted}</div>`:''}
@@ -503,10 +489,9 @@ function renderLibrary() {
   return statsHtml+pillsHtml+toolbarHtml+gridHtml;
 }
 
-// ── Stats render ──────────────────────────────────────────────────────────────
-function renderStats() {
-  if(!games.length) return`<div class="empty-state"><div class="e-icon">📊</div><p>Add some games to see your stats!</p></div>`;
-  const total=games.length, completed=games.filter(g=>g.status==='Completed').length;
+function renderStats(){
+  if(!games.length)return`<div class="empty-state"><div class="e-icon">📊</div><p>Add some games to see your stats!</p></div>`;
+  const total=games.length,completed=games.filter(g=>g.status==='Completed').length;
   const dnf=games.filter(g=>g.status==='Did Not Finish').length;
   const playing=games.filter(g=>g.status==='Playing').length;
   const backlog=games.filter(g=>g.status==='Backlog').length;
@@ -515,28 +500,22 @@ function renderStats() {
   const avg=rated.length?(rated.reduce((a,g)=>a+g.stars,0)/rated.length).toFixed(1):0;
   const compRate=total?Math.round(completed/total*100):0;
   const statuses=[
-    {label:'Completed',count:completed,color:'#4ade80'},
-    {label:'Playing',count:playing,color:'#fbbf24'},
-    {label:'Backlog',count:backlog,color:'#8b90a8'},
-    {label:'Wishlist',count:wishlist,color:'#5b8dee'},
+    {label:'Completed',count:completed,color:'#4ade80'},{label:'Playing',count:playing,color:'#fbbf24'},
+    {label:'Backlog',count:backlog,color:'#8b90a8'},{label:'Wishlist',count:wishlist,color:'#5b8dee'},
     {label:'Did Not Finish',count:dnf,color:'#f87171'},
   ];
-  const genreCounts={};
-  games.forEach(g=>{genreCounts[g.genre]=(genreCounts[g.genre]||0)+1;});
+  const genreCounts={};games.forEach(g=>{genreCounts[g.genre]=(genreCounts[g.genre]||0)+1;});
   const topGenres=Object.entries(genreCounts).sort((a,b)=>b[1]-a[1]).slice(0,7);
   const maxGenre=Math.max(...topGenres.map(([,c])=>c),1);
-  const platCounts={};
-  PLATFORMS.forEach(p=>{platCounts[p.id]=games.filter(g=>g.platform===p.id).length;});
-  const ratingCounts={1:0,2:0,3:0,4:0,5:0};
-  rated.forEach(g=>{ratingCounts[g.stars]++;});
+  const platCounts={};PLATFORMS.forEach(p=>{platCounts[p.id]=games.filter(g=>g.platform===p.id).length;});
+  const ratingCounts={};SCORE_OPTIONS.forEach(n=>{ratingCounts[n]=0;});
+  rated.forEach(g=>{if(ratingCounts[g.stars]!==undefined)ratingCounts[g.stars]++;});
   const maxRating=Math.max(...Object.values(ratingCounts),1);
 
   const completedGames=games.filter(g=>g.status==='Completed'&&g.yearCompleted);
   const years=[...new Set(completedGames.map(g=>g.yearCompleted))].sort((a,b)=>b-a);
   const yirGames=completedGames.filter(g=>g.yearCompleted===yirYear);
-  const yearOptions=years.length
-    ?years.map(y=>`<option value="${y}"${y===yirYear?' selected':''}>${y}</option>`).join('')
-    :`<option value="${yirYear}">${yirYear}</option>`;
+  const yearOptions=years.length?years.map(y=>`<option value="${y}"${y===yirYear?' selected':''}>${y}</option>`).join(''):`<option value="${yirYear}">${yirYear}</option>`;
 
   function barRow(label,count,max,color){
     const pct=max>0?Math.round(count/max*100):0;
@@ -544,15 +523,14 @@ function renderStats() {
   }
 
   const yirSection=yirGames.length===0
-    ?`<div class="yir-empty">No games completed in ${yirYear} yet. Mark a game as Completed and set a Year Completed to see it here!</div>`
+    ?`<div class="yir-empty">No games completed in ${yirYear} yet!</div>`
     :`<div class="yir-grid">${yirGames.map(g=>{
-        const art=g.artUrl||artCache[g.title];
-        const emoji=GENRE_EMOJI[g.genre]||'🎮';
+        const art=g.artUrl||artCache[g.title];const emoji=GENRE_EMOJI[g.genre]||'🎮';
         return`<div class="yir-card">
           <div class="yir-art">${art?`<img src="${escH(art)}" alt="">`:`<div class="yir-art-emoji">${emoji}</div>`}</div>
           <div class="yir-info">
             <div class="yir-game-title">${escH(g.title)}</div>
-            ${g.stars>0?`<div class="yir-stars">${'★'.repeat(g.stars)}</div>`:''}
+            ${g.stars>0?`<div class="yir-score" style="color:${scoreColor(g.stars)}">${g.stars} — ${SCORE_LABELS[g.stars]||''}</div>`:''}
             ${g.isReplay?`<div class="yir-replay-tag">↩ Replay</div>`:''}
           </div>
         </div>`;
@@ -569,7 +547,7 @@ function renderStats() {
       <div class="dash-card"><h3>Status breakdown</h3>${statuses.map(s=>barRow(s.label,s.count,total,s.color)).join('')}</div>
       <div class="dash-card"><h3>By platform</h3>${PLATFORMS.map(p=>barRow(p.name,platCounts[p.id]||0,total,p.color)).join('')}</div>
       <div class="dash-card"><h3>Top genres</h3>${topGenres.length?topGenres.map(([n,c])=>barRow(n,c,maxGenre,'#5b8dee')).join(''):'<span style="font-size:13px;color:var(--text3)">No data yet</span>'}</div>
-      <div class="dash-card"><h3>Rating distribution</h3>${[5,4,3,2,1].map(n=>barRow(`★${n} ${STAR_LABELS[n]}`,ratingCounts[n],maxRating,'#fbbf24')).join('')}</div>
+      <div class="dash-card"><h3>Rating distribution</h3>${SCORE_OPTIONS.map(n=>barRow(`${n} — ${SCORE_LABELS[n]}`,ratingCounts[n]||0,maxRating,scoreColor(n))).join('')}</div>
     </div>
     <div class="yir-header">
       <div class="yir-title">🎮 Year in Review</div>
@@ -580,20 +558,18 @@ function renderStats() {
   </div>`;
 }
 
-// ── Recommend render ──────────────────────────────────────────────────────────
-function renderRecommend() {
+function renderRecommend(){
   if(!games.some(g=>g.status==='Backlog'||g.status==='Wishlist'))
     return`<div class="empty-state"><div class="e-icon">🎮</div><p>Add some games to your backlog first!</p></div>`;
   let resultHtml='';
-  if(recNoMatch) resultHtml=`<div class="rec-no-match">No games match those filters. Try loosening them!</div>`;
+  if(recNoMatch)resultHtml=`<div class="rec-no-match">No games match those filters. Try loosening them!</div>`;
   else if(recResult){
-    const art=recResult.artUrl||artCache[recResult.title];
-    const emoji=GENRE_EMOJI[recResult.genre]||'🎮';
+    const art=recResult.artUrl||artCache[recResult.title];const emoji=GENRE_EMOJI[recResult.genre]||'🎮';
     resultHtml=`<div class="rec-result">
       <div class="rec-result-art">${art?`<img src="${escH(art)}" alt="">`:`<div class="emoji-fallback">${emoji}</div>`}</div>
       <div class="rec-result-body">
         <div class="rec-title">${escH(recResult.title)}</div>
-        <div class="rec-sub">${escH(platName(recResult.platform))}${recResult.genre?' · '+recResult.genre:''}${recResult.releaseYear?' · '+recResult.releaseYear:''}${recResult.stars>0?' · '+recResult.stars+'/5 ★':''}</div>
+        <div class="rec-sub">${escH(platName(recResult.platform))}${recResult.genre?' · '+recResult.genre:''}${recResult.releaseYear?' · '+recResult.releaseYear:''}${recResult.stars>0?' · '+recResult.stars+'/10':''}</div>
         ${(recResult.tags||[]).map(t=>`<span class="rec-tag">${escH(t)}</span>`).join('')}
         <div class="rec-reason">${escH(recResult.reason)}</div>
         <button class="mark-played-btn" onclick="startPlaying('${recResult.id}')">▶ Start playing this</button>
@@ -623,24 +599,22 @@ function renderRecommend() {
 }
 
 function recFilter(type,val){
-  if(type==='platform') recFilterPlatform=val;
-  else if(type==='genre') recFilterGenre=val;
-  else recFilterSource=val;
+  if(type==='platform')recFilterPlatform=val;else if(type==='genre')recFilterGenre=val;else recFilterSource=val;
   recResult=null;recNoMatch=false;render();
 }
 function getRecommendation(){
   let pool=games.filter(g=>{
-    if(recFilterSource==='backlog') return g.status==='Backlog';
-    if(recFilterSource==='wishlist') return g.status==='Wishlist';
+    if(recFilterSource==='backlog')return g.status==='Backlog';
+    if(recFilterSource==='wishlist')return g.status==='Wishlist';
     return g.status==='Backlog'||g.status==='Wishlist';
   });
-  if(recFilterPlatform!=='all') pool=pool.filter(g=>g.platform===recFilterPlatform);
-  if(recFilterGenre!=='all') pool=pool.filter(g=>g.genre===recFilterGenre);
+  if(recFilterPlatform!=='all')pool=pool.filter(g=>g.platform===recFilterPlatform);
+  if(recFilterGenre!=='all')pool=pool.filter(g=>g.genre===recFilterGenre);
   if(!pool.length){recResult=null;recNoMatch=true;render();return;}
   recNoMatch=false;
   const pick=pool[Math.floor(Math.random()*pool.length)];
   const filters=[recFilterPlatform!=='all'?platName(recFilterPlatform):null,recFilterGenre!=='all'?recFilterGenre:null].filter(Boolean);
-  recResult={...pick,reason:`Picked from ${pool.length} game${pool.length>1?'s':''} in your backlog${filters.length?' filtered by '+filters.join(' + '):''}. ${pick.notes?'Your note: "'+pick.notes+'"':''}`,tags:[pick.genre,platShort(pick.platform),pick.releaseYear||null].filter(Boolean)};
+  recResult={...pick,reason:`Picked from ${pool.length} game${pool.length>1?'s':''} in your backlog${filters.length?' filtered by '+filters.join(' + '):''}.${pick.notes?' Your note: "'+pick.notes+'"':''}`,tags:[pick.genre,platShort(pick.platform),pick.releaseYear||null].filter(Boolean)};
   render();
 }
 async function startPlaying(id){
@@ -649,11 +623,9 @@ async function startPlaying(id){
   recResult=null;recNoMatch=false;closeModal();render();
 }
 
-// ── Detail panel ──────────────────────────────────────────────────────────────
 function openDetailPanel(id){
-  const g=games.find(g=>g.id==id); if(!g) return;
-  const art=g.artUrl||artCache[g.title];
-  const emoji=GENRE_EMOJI[g.genre]||'🎮';
+  const g=games.find(g=>g.id==id);if(!g)return;
+  const art=g.artUrl||artCache[g.title];const emoji=GENRE_EMOJI[g.genre]||'🎮';
   const plat=PLATFORMS.find(p=>p.id===g.platform);
   document.getElementById('modal-layer').innerHTML=`
     <div class="detail-overlay" onclick="closeDetailOverlay(event)">
@@ -672,7 +644,7 @@ function openDetailPanel(id){
             ${g.genre?`<span class="detail-chip">${escH(g.genre)}</span>`:''}
             ${g.releaseYear?`<span class="detail-chip">${escH(g.releaseYear)}</span>`:''}
           </div>
-          ${g.stars>0?`<div class="detail-stars">${starsHtml(g.stars,17)}<span class="detail-stars-label">${STAR_LABELS[g.stars]}</span></div>`:''}
+          ${g.stars>0?`<div class="detail-score" style="color:${scoreColor(g.stars)}">${g.stars}/10 — ${SCORE_LABELS[g.stars]||''}</div>`:''}
           ${g.timesBeaten>=1?`<div class="detail-beaten">🏆 ${g.timesBeaten}x beaten</div>`:''}
           ${g.yearCompleted?`<div class="detail-year">✓ Completed in ${escH(g.yearCompleted)}</div>`:''}
           ${g.notes?`<div class="detail-desc">${escH(g.notes)}</div>`:''}
@@ -688,20 +660,17 @@ function openDetailPanel(id){
 function openEditFromDetail(id){closeModal();openEditModal(id);}
 function closeDetailOverlay(e){if(e.target.classList.contains('detail-overlay'))closeModal();}
 
-// ── Add / Edit modal ──────────────────────────────────────────────────────────
 function openAddModal(){
   modalMode='add';
   pendingGame={platform:'sx',status:'Backlog',genre:'Action',stars:0,notes:'',releaseYear:'',yearCompleted:'',isReplay:false,timesBeaten:0};
-  pendingStars=0;pendingArtUrl='';pendingArtOpts=[];pendingSearchResults=[];
-  renderModal();
+  pendingScore=0;pendingArtUrl='';pendingArtOpts=[];pendingSearchResults=[];renderModal();
 }
 function openEditModal(id){
   modalMode='edit';editId=id;
   const g=games.find(g=>g.id==id);
-  pendingGame={...g};pendingStars=g.stars||0;
+  pendingGame={...g};pendingScore=g.stars||0;
   pendingArtUrl=g.artUrl||artCache[g.title]||'';
-  pendingArtOpts=[];pendingSearchResults=[];
-  renderModal();
+  pendingArtOpts=[];pendingSearchResults=[];renderModal();
 }
 function renderModal(){
   const ml=document.getElementById('modal-layer');
@@ -721,7 +690,7 @@ function renderModal(){
         <div class="form-row">
           <div class="form-group">
             <label>Platform</label>
-            <div class="plat-grid" id="plat-grid">
+            <div class="plat-grid">
               ${PLATFORMS.map(p=>`<div class="plat-option${pendingGame.platform===p.id?' selected':''}" onclick="pickPlat('${p.id}')"><div class="dot" style="background:${p.color}"></div><span class="name">${p.short}</span></div>`).join('')}
             </div>
           </div>
@@ -751,8 +720,10 @@ function renderModal(){
         </div>
         <div class="form-group">
           <label>Your rating</label>
-          <div class="star-label" id="star-label">${pendingStars>0?STAR_LABELS[pendingStars]:''}</div>
-          <div class="star-picker">${[1,2,3,4,5].map(n=>`<button class="star-pick${n<=pendingStars?' lit':''}" onclick="pickStars(${n})" onmouseenter="hoverStar(${n})" onmouseleave="hoverStar(0)">★</button>`).join('')}</div>
+          <select id="f-score">
+            <option value="0"${pendingScore===0?' selected':''}>— No rating —</option>
+            ${SCORE_OPTIONS.map(n=>`<option value="${n}"${pendingScore===n?' selected':''}>${n} — ${SCORE_LABELS[n]}</option>`).join('')}
+          </select>
         </div>
         <div class="form-group">
           <label>Description / Notes</label>
@@ -766,141 +737,100 @@ function renderModal(){
       </div>
     </div>
   </div>`;
-  if(pendingArtOpts.length>0) renderArtResults();
+  if(pendingArtOpts.length>0)renderArtResults();
 }
-function handleStatusChange(val){
-  if(val==='Completed'){const el=document.getElementById('f-year-completed');if(el&&!el.value)el.value=String(new Date().getFullYear());}
-}
+function handleStatusChange(val){if(val==='Completed'){const el=document.getElementById('f-year-completed');if(el&&!el.value)el.value=String(new Date().getFullYear());}}
 function toggleReplay(){const cb=document.getElementById('f-replay');if(cb)pendingGame.isReplay=cb.checked;}
 
-// ── RAWG search ───────────────────────────────────────────────────────────────
 async function searchRAWG(){
-  const title=document.getElementById('f-title')?.value?.trim();
-  if(!title){alert('Enter a game title first!');return;}
-  const btn=document.getElementById('rawg-search-btn');
-  if(btn){btn.textContent='Searching...';btn.disabled=true;}
-  try{
-    const res=await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=6`);
-    const data=await res.json();
-    pendingSearchResults=(data.results||[]).map(r=>({slug:r.slug,name:r.name,year:r.released?r.released.slice(0,4):'',genres:(r.genres||[]).map(g=>g.name),artUrl:r.background_image||''}));
-  }catch(e){pendingSearchResults=[];}
+  const title=document.getElementById('f-title')?.value?.trim();if(!title){alert('Enter a game title first!');return;}
+  const btn=document.getElementById('rawg-search-btn');if(btn){btn.textContent='Searching...';btn.disabled=true;}
+  try{const res=await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(title)}&page_size=6`);const data=await res.json();pendingSearchResults=(data.results||[]).map(r=>({slug:r.slug,name:r.name,year:r.released?r.released.slice(0,4):'',genres:(r.genres||[]).map(g=>g.name),artUrl:r.background_image||''}));}catch(e){pendingSearchResults=[];}
   if(btn){btn.textContent='🔍 Search RAWG';btn.disabled=false;}
   renderSearchResults();
 }
 function renderSearchResults(){
-  const el=document.getElementById('rawg-results'); if(!el) return;
+  const el=document.getElementById('rawg-results');if(!el)return;
   if(!pendingSearchResults.length){el.innerHTML='<span style="font-size:12px;color:var(--text3);padding:8px 0;display:block">No results found.</span>';return;}
-  el.innerHTML=`<div class="search-results">${pendingSearchResults.map((r,i)=>`
-    <div class="search-result-item" onclick="selectRAWGGame(${i})">
-      <div style="flex:1;min-width:0"><div class="res-title">${escH(r.name)}</div><div class="res-meta">${[r.year,r.genres[0]].filter(Boolean).join(' · ')}</div></div>
-      ${r.artUrl?`<img class="res-thumb" src="${escH(r.artUrl)}" alt="">`:''}
-    </div>`).join('')}</div>`;
+  el.innerHTML=`<div class="search-results">${pendingSearchResults.map((r,i)=>`<div class="search-result-item" onclick="selectRAWGGame(${i})"><div style="flex:1;min-width:0"><div class="res-title">${escH(r.name)}</div><div class="res-meta">${[r.year,r.genres[0]].filter(Boolean).join(' · ')}</div></div>${r.artUrl?`<img class="res-thumb" src="${escH(r.artUrl)}" alt="">`:''}  </div>`).join('')}</div>`;
 }
 async function selectRAWGGame(idx){
-  const r=pendingSearchResults[idx]; if(!r) return;
-  const titleEl=document.getElementById('f-title'); if(titleEl) titleEl.value=r.name;
-  const yearEl=document.getElementById('f-year'); if(yearEl) yearEl.value=r.year||'';
-  const genre=mapRAWGGenre(r.genres); pendingGame.genre=genre;
-  const genreEl=document.getElementById('f-genre'); if(genreEl) genreEl.value=genre;
-  if(r.artUrl) selectArt(r.artUrl);
-  const resultsEl=document.getElementById('rawg-results'); if(resultsEl) resultsEl.innerHTML='';
+  const r=pendingSearchResults[idx];if(!r)return;
+  const titleEl=document.getElementById('f-title');if(titleEl)titleEl.value=r.name;
+  const yearEl=document.getElementById('f-year');if(yearEl)yearEl.value=r.year||'';
+  const genre=mapRAWGGenre(r.genres);pendingGame.genre=genre;
+  const genreEl=document.getElementById('f-genre');if(genreEl)genreEl.value=genre;
+  if(r.artUrl)selectArt(r.artUrl);
+  const resultsEl=document.getElementById('rawg-results');if(resultsEl)resultsEl.innerHTML='';
   pendingSearchResults=[];
-  try{
-    const detail=await fetch(`https://api.rawg.io/api/games/${r.slug}?key=${RAWG_KEY}`);
-    const d=await detail.json();
-    if(d.description_raw){const notesEl=document.getElementById('f-notes');if(notesEl)notesEl.value=d.description_raw.slice(0,500);}
-  }catch(e){}
-  pendingArtOpts=await fetchArtOptions(r.name);
-  renderArtResults();
+  try{const detail=await fetch(`https://api.rawg.io/api/games/${r.slug}?key=${RAWG_KEY}`);const d=await detail.json();if(d.description_raw){const notesEl=document.getElementById('f-notes');if(notesEl)notesEl.value=d.description_raw.slice(0,500);}}catch(e){}
+  pendingArtOpts=await fetchArtOptions(r.name);renderArtResults();
 }
 function mapRAWGGenre(rawgGenres){
   const MAP={'rpg':'RPG','action':'Action','adventure':'Adventure','strategy':'Strategy','platformer':'Platformer','shooter':'Shooter','sports':'Sports','racing':'Racing','puzzle':'Puzzle','horror':'Horror','fighting':'Fighting','simulation':'Simulation'};
-  for(const g of rawgGenres){const k=g.toLowerCase();if(MAP[k])return MAP[k];if(k.includes('role'))return'RPG';}
-  return'Other';
+  for(const g of rawgGenres){const k=g.toLowerCase();if(MAP[k])return MAP[k];if(k.includes('role'))return'RPG';}return'Other';
 }
 function renderArtResults(){
-  const el=document.getElementById('art-results'); if(!el) return;
+  const el=document.getElementById('art-results');if(!el)return;
   if(!pendingArtOpts.length){el.innerHTML='';return;}
   el.innerHTML=pendingArtOpts.map(a=>`<img class="art-thumb${pendingArtUrl===a.url?' selected':''}" src="${escH(a.url)}" title="${escH(a.name)}" onclick="selectArt('${escH(a.url)}')">`).join('');
 }
 function selectArt(url){
   pendingArtUrl=url;
   const preview=document.getElementById('modal-art-preview');
-  if(preview) preview.innerHTML=`<img src="${escH(url)}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`;
+  if(preview)preview.innerHTML=`<img src="${escH(url)}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`;
   document.querySelectorAll('.art-thumb').forEach(el=>{el.className='art-thumb'+(el.src===url?' selected':'');});
 }
 function closeModalOverlay(e){if(e.target.classList.contains('modal-overlay'))closeModal();}
 function closeModal(){document.getElementById('modal-layer').innerHTML='';}
 function pickPlat(id){
   pendingGame.platform=id;
-  document.querySelectorAll('.plat-option').forEach(el=>{
-    const n=el.querySelector('.name')?.textContent;
-    const p=PLATFORMS.find(p=>p.short===n);
-    el.className='plat-option'+(p&&p.id===id?' selected':'');
-  });
-}
-function pickStars(n){
-  pendingStars=n;
-  const label=document.getElementById('star-label');
-  if(label) label.textContent=n>0?STAR_LABELS[n]:'';
-  document.querySelectorAll('.star-pick').forEach((el,i)=>{el.className='star-pick'+(i<n?' lit':'');});
-}
-function hoverStar(n){
-  const label=document.getElementById('star-label'); if(!label) return;
-  if(n>0){label.textContent=STAR_LABELS[n];document.querySelectorAll('.star-pick').forEach((el,i)=>{el.className='star-pick'+(i<n?' lit':'');});}
-  else{label.textContent=pendingStars>0?STAR_LABELS[pendingStars]:'';document.querySelectorAll('.star-pick').forEach((el,i)=>{el.className='star-pick'+(i<pendingStars?' lit':'');});}
+  document.querySelectorAll('.plat-option').forEach(el=>{const n=el.querySelector('.name')?.textContent;const p=PLATFORMS.find(p=>p.short===n);el.className='plat-option'+(p&&p.id===id?' selected':'');});
 }
 
 async function saveGame(){
-  const title=document.getElementById('f-title')?.value?.trim();
-  if(!title){alert('Enter a game title!');return;}
+  const title=document.getElementById('f-title')?.value?.trim();if(!title){alert('Enter a game title!');return;}
   const newStatus=document.getElementById('f-status')?.value||'Backlog';
   const isReplay=document.getElementById('f-replay')?.checked||false;
   const manualBeaten=parseInt(document.getElementById('f-beaten')?.value||'0',10)||0;
   const yearCompleted=document.getElementById('f-year-completed')?.value?.trim()||'';
+  const score=parseInt(document.getElementById('f-score')?.value||'0',10)||0;
   const oldGame=modalMode==='edit'?games.find(x=>x.id==editId):null;
-  const wasCompleted=oldGame?.status==='Completed';
-  const nowCompleted=newStatus==='Completed';
+  const wasCompleted=oldGame?.status==='Completed';const nowCompleted=newStatus==='Completed';
   let timesBeaten=manualBeaten;
   if(nowCompleted&&!wasCompleted){const old=oldGame?.timesBeaten||0;if(manualBeaten===old)timesBeaten=old+1;}
-
   const g={
-    id:modalMode==='add'?uid():editId,
-    title,platform:pendingGame.platform||'sx',
+    id:modalMode==='add'?uid():editId,title,platform:pendingGame.platform||'sx',
     status:newStatus,genre:document.getElementById('f-genre')?.value||'Action',
     releaseYear:document.getElementById('f-year')?.value?.trim()||'',
-    yearCompleted,stars:pendingStars,
-    notes:document.getElementById('f-notes')?.value||'',
-    isReplay,timesBeaten,
-    artUrl:pendingArtUrl||oldGame?.artUrl||'',
+    yearCompleted,stars:score,notes:document.getElementById('f-notes')?.value||'',
+    isReplay,timesBeaten,artUrl:pendingArtUrl||oldGame?.artUrl||'',
     added:oldGame?.added||new Date().toISOString()
   };
-
   if(pendingArtUrl){artCache[title]=pendingArtUrl;saveArt();}
   showSync('syncing','Saving...');
   try{
     if(modalMode==='add'){games.unshift(g);await dbInsert(toRow(g));}
     else{const i=games.findIndex(x=>x.id==editId);if(i>=0)games[i]=g;await dbUpdate(editId,toRow(g));}
     showSync('saved','Saved ✓');
-  }catch(e){showSync('error','Save failed — check connection');}
+  }catch(e){showSync('error','Save failed');}
   closeModal();render();
-  if(!g.artUrl&&!artCache[title]) fetchArt(title);
+  if(!g.artUrl&&!artCache[title])fetchArt(title);
 }
 
 async function deleteGame(id){
-  if(!confirm('Remove this game from your library?')) return;
+  if(!confirm('Remove this game from your library?'))return;
   games=games.filter(g=>g.id!=id);
   showSync('syncing','Deleting...');
   try{await dbDelete(id);showSync('saved','Deleted ✓');}catch(e){showSync('error','Delete failed');}
   closeModal();render();
 }
 
-// ── Main render ───────────────────────────────────────────────────────────────
 function render(){
-  const mc=document.getElementById('main-content'); if(!mc) return;
-  if(tab==='library')     mc.innerHTML=renderLibrary();
-  else if(tab==='stats')  mc.innerHTML=renderStats();
-  else                    mc.innerHTML=renderRecommend();
+  const mc=document.getElementById('main-content');if(!mc)return;
+  if(tab==='library')mc.innerHTML=renderLibrary();
+  else if(tab==='stats')mc.innerHTML=renderStats();
+  else mc.innerHTML=renderRecommend();
 }
 
 loadData();
