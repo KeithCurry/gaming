@@ -264,40 +264,11 @@ const GENRE_EMOJI={Action:'⚔️',RPG:'🧙',Adventure:'🏰',Strategy:'♟️'
 const SCORE_LABELS={10:'Masterpiece',9:'Amazing',8:'Great',7:'Good',6:'Okay',5:'Mediocre',4:'Meh...',3:'Bad',2:'Awful',1:'Gollum'};
 const SCORE_OPTIONS=[10,9,8,7,6,5,4,3,2,1];
 
-// Rating migration map: old 1-5 stars -> new 1-10 score
-// Applied once on load for any game still using the old 1-5 scale
-const SCORE_MIGRATION={
-  // title (lowercase) -> new score (for specific overrides)
-  'bioshock':10,'prey (2017)':10,'mass effect: legendary edition':10,
-  'the last of us part ii':10,'cyberpunk 2077':10,'the witcher 3 wild hunt - complete edition':10,
-  'god of war: ragnarök':10,'hades':8,'baldur\'s gate iii':8,
-  'the legend of zelda: tears of the kingdom':9,'super mario world':9,'007 first light':9,
-  'god of war: ragnarök':10,
-  // 4-star -> 7 overrides
-  'strange brigade':7,'star wars outlaws':7,'ghost of yotei':7,'overwatch':7,
-};
-
-function migrateScore(g) {
-  // If stars is already 0 or in 1-10 range that looks like old system, convert
-  if (!g.stars || g.stars === 0) return 0;
-  if (g.stars > 10) return g.stars; // already weird, leave it
-  // Check if this looks like old 1-5 scale (all old ratings were 1-5)
-  if (g.stars <= 5) {
-    const key = g.title.toLowerCase();
-    if (SCORE_MIGRATION[key]) return SCORE_MIGRATION[key];
-    // Default map
-    const map = {1:2, 2:4, 3:6, 4:8, 5:10};
-    return map[g.stars] || g.stars;
-  }
-  return g.stars; // already 6-10, fine
-}
-
 // ── State ─────────────────────────────────────────────────────────────────────
 let games=[],artCache={},fetchingArt=new Set();
 let tab='library',filterPlatform='all',filterStatus='all',filterGenre='all',filterRating='all',sortBy='added',searchQ='',yirYear=String(new Date().getFullYear());
 let recFilterPlatform='all',recFilterGenre='all',recFilterSource='both',recResult=null,recNoMatch=false;
 let modalMode=null,editId=null,pendingGame={},pendingScore=0,pendingArtUrl='',pendingArtOpts=[],pendingSearchResults=[];
-let migrationDone=false;
 
 function showSync(state,msg){
   const bar=document.getElementById('sync-bar'),dot=document.getElementById('sync-dot'),text=document.getElementById('sync-msg');
@@ -327,20 +298,6 @@ async function loadData(){
     const rows=await dbLoad();
     games=rows.map(fromRow);
     games.forEach(g=>{if(!g.artUrl&&artCache[g.title])g.artUrl=artCache[g.title];});
-
-    // Migrate ratings from 1-5 to 1-10
-    const toUpdate=[];
-    games.forEach(g=>{
-      if(g.stars>0&&g.stars<=5){
-        const newScore=migrateScore(g);
-        if(newScore!==g.stars){g.stars=newScore;toUpdate.push({id:g.id,stars:newScore});}
-      }
-    });
-    if(toUpdate.length>0){
-      showSync('syncing','Updating ratings...');
-      for(const u of toUpdate){try{await dbUpdate(u.id,{stars:u.stars});}catch(e){}}
-      showSync('saved','Ratings updated ✓');
-    }
   }catch(e){console.error('Failed to load:',e);games=[];}
   document.getElementById('loading-overlay').style.display='none';
   render();fetchAllMissingArt();
